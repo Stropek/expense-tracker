@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="com.pscurzytek.expensetracker"
+            android:name="com.pscurzytek.expensetracker.data.ExpenseContentProvider"
+            android:exported="false" />
+
     </application>
 
 </manifest>
