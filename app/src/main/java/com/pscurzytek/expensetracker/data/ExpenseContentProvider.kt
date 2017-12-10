@@ -10,7 +10,7 @@ import android.net.Uri
  */
 class ExpenseContentProvider: ContentProvider() {
     override fun onCreate(): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
     }
 
     override fun insert(uri: Uri?, values: ContentValues?): Uri {
