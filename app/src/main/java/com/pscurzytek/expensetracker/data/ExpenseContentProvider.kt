@@ -2,6 +2,7 @@ package com.pscurzytek.expensetracker.data
 
 import android.content.ContentProvider
 import android.content.ContentValues
+import android.content.UriMatcher
 import android.database.Cursor
 import android.net.Uri
 
@@ -9,6 +10,29 @@ import android.net.Uri
  * Created by p.s.curzytek on 12/10/2017.
  */
 class ExpenseContentProvider: ContentProvider() {
+
+    companion object {
+        val EXPENSE_ENTRIES = 100
+        val EXPENSE_ENTRY_WITH_ID = 101
+
+        val EXPENSE_CATEGORIES = 200
+        val EXPENSE_CATEGORY_WITH_ID = 201
+
+        val sUriMatcher = UriMatcher()
+
+        fun buildUriMatcher(): UriMatcher {
+            val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
+
+            uriMatcher.addURI(ExpenseContract.AUTHORITY, ExpenseContract.PATH_EXPENSE_ENTRIES, EXPENSE_ENTRIES)
+            uriMatcher.addURI(ExpenseContract.AUTHORITY, "${ExpenseContract.PATH_EXPENSE_ENTRIES}/#", EXPENSE_ENTRY_WITH_ID)
+
+            uriMatcher.addURI(ExpenseContract.AUTHORITY, ExpenseContract.PATH_EXPENSE_CATEGORIES, EXPENSE_CATEGORIES)
+            uriMatcher.addURI(ExpenseContract.AUTHORITY, "${ExpenseContract.PATH_EXPENSE_CATEGORIES}/#", EXPENSE_CATEGORY_WITH_ID)
+
+            return uriMatcher
+        }
+    }
+
     override fun onCreate(): Boolean {
         return false
     }
