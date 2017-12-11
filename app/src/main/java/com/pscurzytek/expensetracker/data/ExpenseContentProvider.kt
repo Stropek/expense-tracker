@@ -18,9 +18,9 @@ class ExpenseContentProvider: ContentProvider() {
         val EXPENSE_CATEGORIES = 200
         val EXPENSE_CATEGORY_WITH_ID = 201
 
-        val sUriMatcher = UriMatcher()
+        val sUriMatcher = buildUriMatcher()
 
-        fun buildUriMatcher(): UriMatcher {
+        private fun buildUriMatcher(): UriMatcher {
             val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
 
             uriMatcher.addURI(ExpenseContract.AUTHORITY, ExpenseContract.PATH_EXPENSE_ENTRIES, EXPENSE_ENTRIES)
