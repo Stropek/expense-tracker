@@ -30,7 +30,7 @@ class ExpenseContract {
     }
 
     class ExpenseCategory: BaseColumns {
-        companion object {
+        companion object: KBaseColumns() {
             val CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_EXPENSE_CATEGORIES).build()
 
             val TABLE_NAME = "categories"
