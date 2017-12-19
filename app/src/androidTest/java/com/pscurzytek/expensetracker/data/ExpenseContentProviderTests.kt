@@ -46,4 +46,24 @@ class ExpenseContentProviderTests {
             fail("Error: content provider not registered at $packageName")
         }
     }
+
+    @Test fun verify_uri_matcher_is_configured_correctly() {
+        val uriMatcher = ExpenseContentProvider.buildUriMatcher()
+
+        assertEquals("ERROR: The expense categories URI was matched incorrectly",
+                ExpenseContentProvider.EXPENSE_CATEGORIES,
+                uriMatcher.match(ExpenseContract.ExpenseCategory.CONTENT_URI))
+
+        assertEquals("ERROR: The expense category URI with ID was matched incorrectly",
+                ExpenseContentProvider.EXPENSE_CATEGORY_WITH_ID,
+                uriMatcher.match(ExpenseContract.ExpenseCategory.CONTENT_URI.buildUpon().appendPath("1").build()))
+
+        assertEquals("ERROR: The expense entries URI was matched incorrectly",
+                ExpenseContentProvider.EXPENSE_ENTRIES,
+                uriMatcher.match(ExpenseContract.ExpenseEntry.CONTENT_URI))
+
+        assertEquals("ERROR: The expense entry URI with ID was matched incorrectly",
+                ExpenseContentProvider.EXPENSE_ENTRY_WITH_ID,
+                uriMatcher.match(ExpenseContract.ExpenseEntry.CONTENT_URI.buildUpon().appendPath("1").build()))
+    }
 }

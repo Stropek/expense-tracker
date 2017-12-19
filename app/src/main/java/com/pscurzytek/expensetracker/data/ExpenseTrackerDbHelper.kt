@@ -14,19 +14,22 @@ class ExpenseTrackerDbHelper(context: Context): SQLiteOpenHelper(context, DATABA
     }
 
     override fun onCreate(sqLiteDatabase: SQLiteDatabase?) {
-        val CREATE_TABLE_EXPENSE_ENTRIES = "CREATE TABLE ${ExpenseContract.ExpenseEntry.TABLE_NAME} (" +
+        val createExpenseEntriesTable = "CREATE TABLE ${ExpenseContract.ExpenseEntry.TABLE_NAME} (" +
                 "${ExpenseContract.ExpenseEntry.ID} INTEGER PRIMARY KEY AUTOINCREMENT" +
                 ");"
 
-        val CREATE_TABLE_EXPENSE_CATEGORIES = "CREATE TABLE ${ExpenseContract.ExpenseCategory.TABLE_NAME} (" +
+        val createExpenseCategoriesTable = "CREATE TABLE ${ExpenseContract.ExpenseCategory.TABLE_NAME} (" +
                 "${ExpenseContract.ExpenseCategory.ID} INTEGER PRIMARY KEY AUTOINCREMENT" +
                 ");"
 
-        sqLiteDatabase?.execSQL(CREATE_TABLE_EXPENSE_ENTRIES)
-        sqLiteDatabase?.execSQL(CREATE_TABLE_EXPENSE_CATEGORIES)
+        sqLiteDatabase?.execSQL(createExpenseEntriesTable)
+        sqLiteDatabase?.execSQL(createExpenseCategoriesTable)
     }
 
     override fun onUpgrade(sqlLiteDatabase: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        sqlLiteDatabase?.execSQL("DROP TABLE IF EXISTS ${ExpenseContract.ExpenseEntry.TABLE_NAME}")
+        sqlLiteDatabase?.execSQL("DROP TABLE IF EXISTS ${ExpenseContract.ExpenseCategory.TABLE_NAME}")
+
+        onCreate(sqlLiteDatabase)
     }
 }
