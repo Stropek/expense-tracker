@@ -4,12 +4,14 @@ import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.UriMatcher
 import android.database.Cursor
+import android.database.SQLException
 import android.net.Uri
 
 /**
  * Created by p.s.curzytek on 12/10/2017.
  */
 class ExpenseContentProvider: ContentProvider() {
+    private var mExpenseTrackerDbHelper: ExpenseTrackerDbHelper? = null
 
     companion object {
         val EXPENSE_ENTRIES = 100
@@ -34,11 +36,24 @@ class ExpenseContentProvider: ContentProvider() {
     }
 
     override fun onCreate(): Boolean {
-        return false
+        mExpenseTrackerDbHelper = ExpenseTrackerDbHelper(context)
+        return true
     }
 
-    override fun insert(uri: Uri?, values: ContentValues?): Uri {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun insert(uri: Uri, values: ContentValues): Uri {
+        val db = mExpenseTrackerDbHelper!!.writableDatabase
+
+        when(sUriMatcher.match(uri)) {
+            EXPENSE_CATEGORIES -> {
+                val categoryId = db.insert(ExpenseContract.ExpenseCategory.TABLE_NAME, null, values)
+                if (categoryId > -1) {
+                    return uri.buildUpon().appendPath(categoryId.toString()).build()
+                } else {
+                    throw SQLException("Failed to insert a new category into: $uri")
+                }
+            }
+            else -> throw UnsupportedOperationException("Unknown operation URI: $uri")
+        }
     }
 
     override fun query(uri: Uri?, projection: Array<out String>?, selction: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor {

@@ -19,7 +19,8 @@ class ExpenseTrackerDbHelper(context: Context): SQLiteOpenHelper(context, DATABA
                 ");"
 
         val createExpenseCategoriesTable = "CREATE TABLE ${ExpenseContract.ExpenseCategory.TABLE_NAME} (" +
-                "${ExpenseContract.ExpenseCategory.ID} INTEGER PRIMARY KEY AUTOINCREMENT" +
+                "${ExpenseContract.ExpenseCategory.ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "${ExpenseContract.ExpenseCategory.COLUMN_NAME} TEXT NOT NULL" +
                 ");"
 
         sqLiteDatabase?.execSQL(createExpenseEntriesTable)
