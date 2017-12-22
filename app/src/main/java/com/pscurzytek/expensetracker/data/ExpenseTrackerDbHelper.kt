@@ -10,16 +10,16 @@ import android.database.sqlite.SQLiteOpenHelper
 class ExpenseTrackerDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, VERSION) {
     companion object {
         val DATABASE_NAME = "expenseTrackerDb.db"
-        val VERSION = 1
+        val VERSION = 3
     }
 
     override fun onCreate(sqLiteDatabase: SQLiteDatabase?) {
         val createExpenseEntriesTable = "CREATE TABLE ${ExpenseContract.ExpenseEntry.TABLE_NAME} (" +
-                "${ExpenseContract.ExpenseEntry.ID} INTEGER PRIMARY KEY AUTOINCREMENT" +
+                "${ExpenseContract.ExpenseEntry.ID} INTEGER PRIMARY KEY" +
                 ");"
 
         val createExpenseCategoriesTable = "CREATE TABLE ${ExpenseContract.ExpenseCategory.TABLE_NAME} (" +
-                "${ExpenseContract.ExpenseCategory.ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "${ExpenseContract.ExpenseCategory.ID} INTEGER PRIMARY KEY," +
                 "${ExpenseContract.ExpenseCategory.COLUMN_NAME} TEXT NOT NULL" +
                 ");"
 

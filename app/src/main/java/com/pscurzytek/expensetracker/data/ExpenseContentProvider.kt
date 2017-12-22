@@ -41,19 +41,23 @@ class ExpenseContentProvider: ContentProvider() {
     }
 
     override fun insert(uri: Uri, values: ContentValues): Uri {
+        val returnUri: Uri?
         val db = mExpenseTrackerDbHelper!!.writableDatabase
 
         when(sUriMatcher.match(uri)) {
             EXPENSE_CATEGORIES -> {
                 val categoryId = db.insert(ExpenseContract.ExpenseCategory.TABLE_NAME, null, values)
                 if (categoryId > -1) {
-                    return uri.buildUpon().appendPath(categoryId.toString()).build()
+                    returnUri = uri.buildUpon().appendPath(categoryId.toString()).build()
                 } else {
                     throw SQLException("Failed to insert a new category into: $uri")
                 }
             }
             else -> throw UnsupportedOperationException("Unknown operation URI: $uri")
         }
+
+        context.contentResolver.notifyChange(uri, null)
+        return returnUri
     }
 
     override fun query(uri: Uri?, projection: Array<out String>?, selction: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor {

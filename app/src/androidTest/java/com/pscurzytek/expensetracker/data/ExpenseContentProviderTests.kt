@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.pm.PackageManager.NameNotFoundException
+import android.database.ContentObserver
 import android.net.Uri
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -30,8 +31,8 @@ class ExpenseContentProviderTests {
         val database = dbHelper.writableDatabase
 
         // purge the database
-        database.delete(ExpenseContract.ExpenseCategory.TABLE_NAME, null, null)
-        database.delete(ExpenseContract.ExpenseEntry.TABLE_NAME, null, null)
+        val test = database.delete(ExpenseContract.ExpenseCategory.TABLE_NAME, null, null)
+        val test2 = database.delete(ExpenseContract.ExpenseEntry.TABLE_NAME, null, null)
     }
 
     @get:Rule val thrown: ExpectedException = ExpectedException.none()
@@ -82,24 +83,42 @@ class ExpenseContentProviderTests {
 
         val unknownUri = ExpenseContract.BASE_CONTENT_URI.buildUpon().appendPath("unknown").build()
 
-        setObservedUriOnContentResolver(mContext.contentResolver, unknownUri)
+        setObservedUriOnContentResolver(mContext.contentResolver, unknownUri, TestUtilities.testContentObserver)
 
         mContext.contentResolver.insert(unknownUri, ContentValues())
     }
     @Test fun insert_to_expense_categories_with_valid_parameters_should_succeed() {
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseCategory.CONTENT_URI
 
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        val contentValues = ContentValues()
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_NAME, "category_name")
+//        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION, "category_description")
+//        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_CREATED, "date_created")
+//        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_TYPE, "category_type")
+
+        val expectedUri = ExpenseContract.ExpenseCategory.CONTENT_URI.buildUpon().appendPath("1").build()
+        val actualUri = contentResolver.insert(uri, contentValues)
+
+        assertEquals("Unable to insert item through provider", expectedUri, actualUri)
+
+        contentObserver.waitForNotificationOrFail()
+        contentResolver.unregisterContentObserver(contentObserver)
     }
     @Test fun insert_to_expense_categories_with_invalid_parameters_should_throw_sql_exception() {
 
     }
 
-    private fun setObservedUriOnContentResolver(contentResolver: ContentResolver, uri: Uri?) {
+    private fun setObservedUriOnContentResolver(contentResolver: ContentResolver, uri: Uri?, contentObserver: ContentObserver) {
         contentResolver.registerContentObserver(
                 /* URI that we would like to observe changes to */
                 uri,
                 /* Whether or not to notify us if descendants of this URI change */
                 true,
                 /* The observer to register (that will receive notifyChange callbacks) */
-                TestUtilities.testContentObserver)
+                contentObserver)
     }
 }
