@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Expense Tracker</string>
 
-    <!--Main activity-->
+    <!-- Category -->
     <string name="label_categories">Categories</string>
+    <string name="label_category">Category</string>
+
+    <string name="edit_category_name">Category name...</string>
+    <string name="edit_category_description">Category description...</string>
+    <string name="edit_category_type">Type</string>
+    <string name="label_category_type_income">Income</string>
+    <string name="label_category_type_expense">Expense</string>
 </resources>

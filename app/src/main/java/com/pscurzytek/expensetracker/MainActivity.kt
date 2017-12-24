@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         val categoriesButton = findViewById<TextView>(R.id.btn_categories)
         categoriesButton.setOnClickListener {
-            val categoriesIntent = Intent(this@MainActivity, CategoriesListActivity::class.java)
+            val categoriesIntent = Intent(this@MainActivity, CategoryListActivity::class.java)
             startActivity(categoriesIntent)
         }
     }
