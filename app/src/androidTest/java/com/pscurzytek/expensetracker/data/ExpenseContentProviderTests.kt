@@ -5,6 +5,7 @@ import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.pm.PackageManager.NameNotFoundException
 import android.database.ContentObserver
+import android.database.SQLException
 import android.net.Uri
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -96,9 +97,9 @@ class ExpenseContentProviderTests {
 
         val contentValues = ContentValues()
         contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_NAME, "category_name")
-//        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION, "category_description")
-//        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_CREATED, "date_created")
-//        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_TYPE, "category_type")
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION, "category_description")
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_TYPE, "category_type")
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_CREATED, "YYYY-MM-DD HH:MM:SS.SSS")
 
         val expectedUri = ExpenseContract.ExpenseCategory.CONTENT_URI.buildUpon().appendPath("1").build()
         val actualUri = contentResolver.insert(uri, contentValues)
@@ -109,8 +110,21 @@ class ExpenseContentProviderTests {
         contentResolver.unregisterContentObserver(contentObserver)
     }
     @Test fun insert_to_expense_categories_with_invalid_parameters_should_throw_sql_exception() {
+        thrown.expect(SQLException::class.java)
 
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseCategory.CONTENT_URI
+
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        val contentValues = ContentValues()
+        contentValues.put("incorrect_column_name", "value")
+
+        mContext.contentResolver.insert(uri, contentValues)
     }
+
+    
 
     private fun setObservedUriOnContentResolver(contentResolver: ContentResolver, uri: Uri?, contentObserver: ContentObserver) {
         contentResolver.registerContentObserver(
