@@ -7,7 +7,10 @@
 
     <string name="edit_category_name">Category name...</string>
     <string name="edit_category_description">Category description...</string>
-    <string name="edit_category_type">Type</string>
-    <string name="label_category_type_income">Income</string>
-    <string name="label_category_type_expense">Expense</string>
+
+    <!-- General -->
+    <string name="label_add">Add</string>
+    <string name="label_type">Type</string>
+    <string name="label_type_income">Income</string>
+    <string name="label_type_expense">Expense</string>
 </resources>

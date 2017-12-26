@@ -31,7 +31,7 @@
         android:layout_gravity="start"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/edit_category_type" />
+        android:text="@string/label_type" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -54,7 +54,7 @@
                 android:background="@color/materialGreen"
                 android:onClick="onTypeSelected"
                 android:textColor="@color/white"
-                android:text="@string/label_category_type_income" />
+                android:text="@string/label_type_income" />
 
             <Button
                 android:id="@+id/btn_category_type_expense"
@@ -65,7 +65,7 @@
                 android:background="@color/materialRed"
                 android:onClick="onTypeSelected"
                 android:textColor="@color/white"
-                android:text="@string/label_category_type_expense" />
+                android:text="@string/label_type_expense" />
 
         </LinearLayout>
 
@@ -96,8 +96,12 @@
         </RadioGroup>
     </FrameLayout>
 
-    <!--<DatePicker-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" />-->
+    <Button android:id="@+id/btn_add_category"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/label_add"
+        android:onClick="onCategoryAdded"/>
 
 </LinearLayout>
