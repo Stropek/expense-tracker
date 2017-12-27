@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.pscurzytek.expensetracker.data.ExpenseContract
 
 /**
  * Created by p.s.curzytek on 12/26/2017.
@@ -15,8 +16,17 @@ class CategoryAdapter(context: Context): RecyclerView.Adapter<CategoryAdapter.Ca
     private var mCursor: Cursor? = null
     private var mContext = context
 
-    override fun onBindViewHolder(holder: CategoryViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+        val idIndex = mCursor!!.getColumnIndex(ExpenseContract.ExpenseCategory.ID)
+        val nameIndex = mCursor!!.getColumnIndex(ExpenseContract.ExpenseCategory.COLUMN_NAME)
 
+        mCursor?.moveToPosition(position)
+
+        val id = mCursor!!.getInt(idIndex)
+        val name = mCursor!!.getString(nameIndex)
+
+        holder.itemView.tag = id
+        holder.tvCategoryName.text = name
     }
 
     override fun getItemCount(): Int {
@@ -28,6 +38,19 @@ class CategoryAdapter(context: Context): RecyclerView.Adapter<CategoryAdapter.Ca
                 .inflate(R.layout.item_category, parent, false)
 
         return CategoryViewHolder(view)
+    }
+
+    fun swapCursor(newCursor: Cursor?): Cursor? {
+        if (mCursor == newCursor)
+            return null
+
+        val temp = mCursor
+        mCursor = newCursor
+
+        if (newCursor != null)
+            notifyDataSetChanged()
+
+        return temp
     }
 
     class CategoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

@@ -32,8 +32,8 @@ class ExpenseContentProviderTests {
         val database = dbHelper.writableDatabase
 
         // purge the database
-        val test = database.delete(ExpenseContract.ExpenseCategory.TABLE_NAME, null, null)
-        val test2 = database.delete(ExpenseContract.ExpenseEntry.TABLE_NAME, null, null)
+        database.delete(ExpenseContract.ExpenseCategory.TABLE_NAME, null, null)
+        database.delete(ExpenseContract.ExpenseEntry.TABLE_NAME, null, null)
     }
 
     @get:Rule val thrown: ExpectedException = ExpectedException.none()
@@ -144,6 +144,8 @@ class ExpenseContentProviderTests {
         assertEquals("expense_2", categories.getString(nameIndex))
         categories.moveToPosition(3)
         assertEquals("income_0", categories.getString(nameIndex))
+
+        categories.close()
     }
 
     private fun setObservedUriOnContentResolver(contentResolver: ContentResolver, uri: Uri?, contentObserver: ContentObserver) {

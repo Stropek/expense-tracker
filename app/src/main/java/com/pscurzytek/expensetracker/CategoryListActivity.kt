@@ -12,8 +12,8 @@ import android.support.v7.widget.RecyclerView
 import com.pscurzytek.expensetracker.data.loaders.CategoryLoader
 
 class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
-    var mCategoriesAdapter: CategoryAdapter? = null
-    lateinit var mCategoriesRecyclerView: RecyclerView
+    private var mCategoriesAdapter: CategoryAdapter? = null
+    private lateinit var mCategoriesRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,8 +30,14 @@ class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<
         mCategoriesRecyclerView = findViewById(R.id.rv_categories)
         mCategoriesRecyclerView.layoutManager = LinearLayoutManager(this)
         mCategoriesAdapter = CategoryAdapter(this)
+        mCategoriesRecyclerView.adapter = mCategoriesAdapter
 
         supportLoaderManager.initLoader(CATEGORY_LOADER_ID, null, this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        supportLoaderManager.restartLoader(CATEGORY_LOADER_ID, null, this)
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
@@ -39,11 +45,11 @@ class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mCategoriesAdapter!!.swapCursor(data)
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mCategoriesAdapter!!.swapCursor(null)
     }
 
     companion object {
