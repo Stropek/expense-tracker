@@ -95,14 +95,8 @@ class ExpenseContentProviderTests {
 
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
-        val contentValues = ContentValues()
-        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_NAME, "category_name")
-        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION, "category_description")
-        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_TYPE, "category_type")
-        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_CREATED, "YYYY-MM-DD HH:MM:SS.SSS")
-
         val expectedUri = ExpenseContract.ExpenseCategory.CONTENT_URI.buildUpon().appendPath("1").build()
-        val actualUri = contentResolver.insert(uri, contentValues)
+        val actualUri = insertCategory(contentResolver, uri, "name", "type", "YYYY-MM-DD", "description")
 
         assertEquals("Unable to insert item through provider", expectedUri, actualUri)
 
@@ -124,7 +118,33 @@ class ExpenseContentProviderTests {
         mContext.contentResolver.insert(uri, contentValues)
     }
 
-    
+    @Test fun query_content_uri_returns_all_categories() {
+        // given
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseCategory.CONTENT_URI
+
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        for (i in 2 downTo 0) {
+            insertCategory(contentResolver, uri, "expense_$i", "expense")
+        }
+        for (i in 0..2) {
+            insertCategory(contentResolver, uri, "income_$i", "income")
+        }
+
+        // when
+        val categories = contentResolver.query(uri, null, null, null, null)
+
+        // then
+        val nameIndex = categories.getColumnIndex(ExpenseContract.ExpenseCategory.COLUMN_NAME)
+
+        assertEquals("Unexpected number of categories", categories.count, 6)
+        categories.moveToFirst()
+        assertEquals("expense_2", categories.getString(nameIndex))
+        categories.moveToPosition(3)
+        assertEquals("income_0", categories.getString(nameIndex))
+    }
 
     private fun setObservedUriOnContentResolver(contentResolver: ContentResolver, uri: Uri?, contentObserver: ContentObserver) {
         contentResolver.registerContentObserver(
@@ -134,5 +154,14 @@ class ExpenseContentProviderTests {
                 true,
                 /* The observer to register (that will receive notifyChange callbacks) */
                 contentObserver)
+    }
+    private fun insertCategory(contentResolver: ContentResolver, uri: Uri, name: String, type: String, date: String = "", description: String? = ""): Uri {
+        val contentValues = ContentValues()
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_NAME, name)
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION, description)
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_TYPE, type)
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_CREATED, date)
+
+        return contentResolver.insert(uri, contentValues)
     }
 }

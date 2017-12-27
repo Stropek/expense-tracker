@@ -60,8 +60,25 @@ class ExpenseContentProvider: ContentProvider() {
         return returnUri
     }
 
-    override fun query(uri: Uri?, projection: Array<out String>?, selction: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor {
+        val db = mExpenseTrackerDbHelper!!.readableDatabase
+        val cursor: Cursor?
+
+        when (sUriMatcher.match(uri)) {
+            EXPENSE_CATEGORIES -> {
+                cursor = db.query(ExpenseContract.ExpenseCategory.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder)
+
+                cursor.setNotificationUri(context.contentResolver, uri)
+                return cursor
+            }
+            else -> throw UnsupportedOperationException("Unknown operation URI: $uri")
+        }
     }
 
     override fun update(uri: Uri?, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
