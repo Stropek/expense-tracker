@@ -9,6 +9,7 @@ import android.support.v4.app.LoaderManager
 import android.support.v4.content.Loader
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import com.pscurzytek.expensetracker.data.loaders.CategoryLoader
 
 class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
@@ -50,6 +51,13 @@ class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<
 
     override fun onLoaderReset(loader: Loader<Cursor>?) {
         mCategoriesAdapter!!.swapCursor(null)
+    }
+
+    fun onCategoryAdded(view: View) {
+        // TODO: pass category details to the activity
+
+        val intent = Intent(this@CategoryListActivity, CategoryDetailsActivity::class.java)
+        startActivity(intent)
     }
 
     companion object {

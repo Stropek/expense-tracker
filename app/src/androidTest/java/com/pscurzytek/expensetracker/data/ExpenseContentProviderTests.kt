@@ -126,11 +126,11 @@ class ExpenseContentProviderTests {
 
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
-        for (i in 2 downTo 0) {
-            insertCategory(contentResolver, uri, "expense_$i", "expense")
-        }
         for (i in 0..2) {
             insertCategory(contentResolver, uri, "income_$i", "income")
+        }
+        for (i in 2 downTo 0) {
+            insertCategory(contentResolver, uri, "expense_$i", "expense")
         }
 
         // when
@@ -141,9 +141,9 @@ class ExpenseContentProviderTests {
 
         assertEquals("Unexpected number of categories", categories.count, 6)
         categories.moveToFirst()
-        assertEquals("expense_2", categories.getString(nameIndex))
-        categories.moveToPosition(3)
         assertEquals("income_0", categories.getString(nameIndex))
+        categories.moveToPosition(3)
+        assertEquals("expense_2", categories.getString(nameIndex))
 
         categories.close()
     }
