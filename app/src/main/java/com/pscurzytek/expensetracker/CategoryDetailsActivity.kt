@@ -13,12 +13,18 @@ import java.util.*
 
 class CategoryDetailsActivity : AppCompatActivity() {
     private var mType = "Expense"
+    private lateinit var mNameEditText: EditText
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category_details)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        mNameEditText = findViewById<EditText>(R.id.et_category_name)
+
+        mNameEditText.setText(intent.getStringExtra("category_name").toString())
     }
 
     fun onTypeSelected(view: View) {
@@ -30,7 +36,9 @@ class CategoryDetailsActivity : AppCompatActivity() {
     }
 
     fun onCategoryAdded(view: View) {
-        val name = (findViewById<EditText>(R.id.et_category_name)).text.toString()
+        // TODO: change to save or add, depending on whether it's new category or edited one
+
+        val name = mNameEditText.text.toString()
         if (name.isEmpty()) {
             Toast.makeText(this@CategoryDetailsActivity, "Name is required", Toast.LENGTH_SHORT).show()
             return

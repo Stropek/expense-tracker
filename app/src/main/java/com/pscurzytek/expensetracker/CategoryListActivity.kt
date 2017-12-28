@@ -10,6 +10,8 @@ import android.support.v4.content.Loader
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.LinearLayout
+import android.widget.TextView
 import com.pscurzytek.expensetracker.data.loaders.CategoryLoader
 
 class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
@@ -53,10 +55,16 @@ class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<
         mCategoriesAdapter!!.swapCursor(null)
     }
 
-    fun onCategoryAdded(view: View) {
-        // TODO: pass category details to the activity
+    fun onCategoryClicked(view: View) {
+        val id = (view.parent as LinearLayout).tag
+
+        // TODO: pass category details to the activity / get details from database
+//        val details = contentResolver.query(by id)
 
         val intent = Intent(this@CategoryListActivity, CategoryDetailsActivity::class.java)
+
+        intent.putExtra("category_name", id.toString())
+
         startActivity(intent)
     }
 

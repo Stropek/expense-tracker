@@ -13,7 +13,7 @@
         android:padding="8dp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="onCategoryAdded">
+        android:onClick="onCategoryClicked">
 
         <TextView
             android:id="@+id/tv_category_name"
