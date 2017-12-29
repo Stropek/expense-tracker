@@ -39,7 +39,7 @@ class CategoryDetailsActivity : AppCompatActivity() {
         }
     }
 
-    fun onCategoryAdded(view: View) {
+    fun onCategorySave(view: View) {
         // TODO: change to save or add, depending on whether it's new category or edited one
 
         val name = mNameEditText.text.toString()

@@ -11,8 +11,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.pscurzytek.expensetracker.data.ExpenseContract
+import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 import com.pscurzytek.expensetracker.data.loaders.CategoryLoader
 
 class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
@@ -67,8 +67,9 @@ class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<
 
         val intent = Intent(this@CategoryListActivity, CategoryDetailsActivity::class.java)
 
-        intent.putExtra("category_name", id.toString())
-        intent.putExtra("category_desc", details.getString(details.getColumnIndex(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION)))
+        intent.putExtra("id", id.toString())
+        intent.putExtra("category_name", details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_NAME))
+        intent.putExtra("category_desc", details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION))
 
         startActivity(intent)
     }
