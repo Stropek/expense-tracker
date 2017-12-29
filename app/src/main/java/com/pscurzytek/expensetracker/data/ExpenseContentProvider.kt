@@ -62,7 +62,7 @@ class ExpenseContentProvider: ContentProvider() {
 
     override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor {
         val db = mExpenseTrackerDbHelper!!.readableDatabase
-        val cursor: Cursor?
+        var cursor: Cursor?
 
         when (sUriMatcher.match(uri)) {
             EXPENSE_CATEGORIES -> {
@@ -73,12 +73,24 @@ class ExpenseContentProvider: ContentProvider() {
                         null,
                         null,
                         sortOrder)
+            }
+            EXPENSE_CATEGORY_WITH_ID -> {
+                val id = uri.lastPathSegment
 
-                cursor.setNotificationUri(context.contentResolver, uri)
-                return cursor
+                cursor = db.query(ExpenseContract.ExpenseCategory.TABLE_NAME,
+                        projection,
+                        "_id=?",
+                        arrayOf(id),
+                        null,
+                        null,
+                        null)
+                cursor?.moveToFirst()
             }
             else -> throw UnsupportedOperationException("Unknown operation URI: $uri")
         }
+
+        cursor!!.setNotificationUri(context.contentResolver, uri)
+        return cursor
     }
 
     override fun update(uri: Uri?, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {

@@ -118,7 +118,7 @@ class ExpenseContentProviderTests {
         mContext.contentResolver.insert(uri, contentValues)
     }
 
-    @Test fun query_content_uri_returns_all_categories() {
+    @Test fun query_with_content_uri_returns_all_categories() {
         // given
         val contentResolver = mContext.contentResolver
         val contentObserver = TestUtilities.testContentObserver
@@ -146,6 +146,27 @@ class ExpenseContentProviderTests {
         assertEquals("expense_2", categories.getString(nameIndex))
 
         categories.close()
+    }
+    @Test fun query_with_content_by_id_uri_returns_category_with_given_id() {
+        // given
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseCategory.CONTENT_URI
+        val detailsUri = uri.buildUpon().appendPath("3").build()
+
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        for (i in 0..9) {
+            insertCategory(contentResolver, uri, "category $i", "income", description = "desc $i")
+        }
+
+        // when
+        val category = contentResolver.query(detailsUri, null, null, null, null)
+
+        // then
+        category.moveToFirst()
+        assertEquals(1, category.count)
+        assertEquals(3, category.getInt(category.getColumnIndex(ExpenseContract.ExpenseCategory.ID)))
     }
 
     private fun setObservedUriOnContentResolver(contentResolver: ContentResolver, uri: Uri?, contentObserver: ContentObserver) {

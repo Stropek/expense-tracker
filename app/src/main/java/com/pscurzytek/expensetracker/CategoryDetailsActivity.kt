@@ -14,7 +14,7 @@ import java.util.*
 class CategoryDetailsActivity : AppCompatActivity() {
     private var mType = "Expense"
     private lateinit var mNameEditText: EditText
-
+    private lateinit var mDescriptionEditText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,9 +22,13 @@ class CategoryDetailsActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        mNameEditText = findViewById<EditText>(R.id.et_category_name)
+        mNameEditText = findViewById(R.id.et_category_name)
+        mDescriptionEditText = findViewById(R.id.et_category_description)
 
-        mNameEditText.setText(intent.getStringExtra("category_name").toString())
+        if (intent.extras?.containsKey("category_name") == true)
+            mNameEditText.setText(intent.getStringExtra("category_name").toString())
+        if (intent.extras?.containsKey("category_desc") == true)
+            mDescriptionEditText.setText(intent.getStringExtra("category_desc").toString())
     }
 
     fun onTypeSelected(view: View) {
