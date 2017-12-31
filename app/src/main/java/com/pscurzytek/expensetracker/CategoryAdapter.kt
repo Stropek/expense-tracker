@@ -3,6 +3,7 @@ package com.pscurzytek.expensetracker
 import android.content.Context
 import android.database.Cursor
 import android.graphics.Color
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -34,7 +35,11 @@ class CategoryAdapter(context: Context): RecyclerView.Adapter<CategoryAdapter.Ca
 
             holder.itemView.tag = id
             holder.tvCategoryName.text = name
-            (holder.tvCategoryType.parent as LinearLayout).setBackgroundColor(if (type.toLowerCase() == "income") Color.GREEN else Color.RED)
+
+            val expenseColor = ResourcesCompat.getColor(mContext.resources, R.color.materialRed, null)
+            val incomeColor = ResourcesCompat.getColor(mContext.resources, R.color.materialGreen, null)
+            val bckgColor = if (type.toLowerCase() == "income") incomeColor else expenseColor
+            (holder.tvCategoryName.parent as LinearLayout).setBackgroundColor(bckgColor)
         }
     }
 
@@ -64,6 +69,6 @@ class CategoryAdapter(context: Context): RecyclerView.Adapter<CategoryAdapter.Ca
 
     class CategoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         var tvCategoryName: TextView = itemView.findViewById(R.id.tv_category_name)
-        var tvCategoryType: TextView = itemView.findViewById(R.id.tv_category_type)
+//        var tvCategoryType: TextView = itemView.findViewById(R.id.tv_category_type)
     }
 }
