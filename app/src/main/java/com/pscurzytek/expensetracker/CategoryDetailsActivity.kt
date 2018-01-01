@@ -12,9 +12,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class CategoryDetailsActivity : AppCompatActivity() {
-    private var mType = "Expense"
+    private var mType = CategoryTypes.EXPENSE
     private lateinit var mNameEditText: EditText
     private lateinit var mDescriptionEditText: EditText
+    private lateinit var mIncomeRadioButton: RadioButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,18 +25,25 @@ class CategoryDetailsActivity : AppCompatActivity() {
 
         mNameEditText = findViewById(R.id.et_category_name)
         mDescriptionEditText = findViewById(R.id.et_category_description)
+        mIncomeRadioButton =findViewById(R.id.rbtn_category_type_income)
 
-        if (intent.extras?.containsKey("category_name") == true)
-            mNameEditText.setText(intent.getStringExtra("category_name").toString())
-        if (intent.extras?.containsKey("category_desc") == true)
-            mDescriptionEditText.setText(intent.getStringExtra("category_desc").toString())
+        if (intent.extras?.containsKey(Constants.Category.Name) == true)
+            mNameEditText.setText(intent.getStringExtra(Constants.Category.Name).toString())
+        if (intent.extras?.containsKey(Constants.Category.Description) == true)
+            mDescriptionEditText.setText(intent.getStringExtra(Constants.Category.Description).toString())
+        if (intent.extras?.containsKey(Constants.Category.Type) == true) {
+            val type = CategoryTypes.valueOf(intent.getStringExtra(Constants.Category.Type))
+
+            if (type == CategoryTypes.INCOME)
+                mIncomeRadioButton.isChecked = true
+        }
     }
 
     fun onTypeSelected(view: View) {
         if (findViewById<RadioButton>(R.id.rbtn_category_type_income).isChecked) {
-            mType = getString(R.string.label_type_income)
+            mType = CategoryTypes.valueOf(getString(R.string.label_type_income).toUpperCase())
         } else if (findViewById<RadioButton>(R.id.rbtn_category_type_expense).isChecked) {
-            mType = getString(R.string.label_type_expense)
+            mType = CategoryTypes.valueOf(getString(R.string.label_type_expense).toUpperCase())
         }
     }
 
@@ -50,7 +58,7 @@ class CategoryDetailsActivity : AppCompatActivity() {
 
         val values = ContentValues()
         values.put(ExpenseContract.ExpenseCategory.COLUMN_NAME, name)
-        values.put(ExpenseContract.ExpenseCategory.COLUMN_TYPE, mType)
+        values.put(ExpenseContract.ExpenseCategory.COLUMN_TYPE, mType.toString())
 
         val dateFormat = SimpleDateFormat("MM-dd-yyyy", Locale.US)
         values.put(ExpenseContract.ExpenseCategory.COLUMN_CREATED, dateFormat.format(Date()))

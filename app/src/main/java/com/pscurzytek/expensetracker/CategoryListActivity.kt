@@ -95,8 +95,9 @@ class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<
         val intent = Intent(this@CategoryListActivity, CategoryDetailsActivity::class.java)
 
         intent.putExtra("id", id)
-        intent.putExtra("category_name", details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_NAME))
-        intent.putExtra("category_desc", details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION))
+        intent.putExtra(Constants.Category.Name, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_NAME))
+        intent.putExtra(Constants.Category.Description, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION))
+        intent.putExtra(Constants.Category.Type, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_TYPE))
 
         details.close()
 

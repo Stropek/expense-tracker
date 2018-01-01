@@ -9,6 +9,7 @@ import android.database.SQLException
 import android.net.Uri
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
+import com.pscurzytek.expensetracker.CategoryTypes
 
 import junit.framework.Assert.fail
 import junit.framework.Assert.assertEquals
@@ -136,10 +137,10 @@ class ExpenseContentProviderTests {
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
         for (i in 0..2) {
-            insertCategory(contentResolver, uri, "income_$i", "income")
+            insertCategory(contentResolver, uri, "income_$i", "${CategoryTypes.INCOME}")
         }
         for (i in 2 downTo 0) {
-            insertCategory(contentResolver, uri, "expense_$i", "expense")
+            insertCategory(contentResolver, uri, "expense_$i", "${CategoryTypes.EXPENSE}")
         }
 
         // when
@@ -166,7 +167,7 @@ class ExpenseContentProviderTests {
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
         for (i in 0..9) {
-            insertCategory(contentResolver, uri, "category $i", "income", description = "desc $i")
+            insertCategory(contentResolver, uri, "category $i", "${CategoryTypes.INCOME}", description = "desc $i")
         }
 
         // when
@@ -197,7 +198,7 @@ class ExpenseContentProviderTests {
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
         for (i in 0..5) {
-            insertCategory(contentResolver, uri, "category $i", "income", description = "desc $i")
+            insertCategory(contentResolver, uri, "category $i", "${CategoryTypes.INCOME}", description = "desc $i")
         }
 
         // when
