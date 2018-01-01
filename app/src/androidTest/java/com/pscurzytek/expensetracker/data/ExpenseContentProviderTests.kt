@@ -179,6 +179,35 @@ class ExpenseContentProviderTests {
         assertEquals(3, category.getInt(category.getColumnIndex(ExpenseContract.ExpenseCategory.ID)))
     }
 
+    @Test fun update_with_uknown_uri_should_throw_unsupported_operation_exception() {
+        thrown.expect(UnsupportedOperationException::class.java)
+
+        val unknownUri = ExpenseContract.BASE_CONTENT_URI.buildUpon().appendPath("unknown").build()
+
+        setObservedUriOnContentResolver(mContext.contentResolver, unknownUri, TestUtilities.testContentObserver)
+
+        mContext.contentResolver.update(unknownUri, ContentValues(), null, null)
+    }
+    @Test fun update_with_content_by_id_uri_updates_exsiting_category() {
+        // given
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseCategory.CONTENT_URI
+
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        val existingUri = insertCategory(contentResolver, uri, "category before", "${CategoryTypes.INCOME}", description = "desc")
+
+        // when
+        val updated = updateCategory(contentResolver, existingUri, "category after", "${CategoryTypes.EXPENSE}", description = "desc after")
+
+        // then
+        val updatedCategory = contentResolver.query(existingUri, null, null, null)
+        updatedCategory.moveToFirst()
+        assertEquals(1, updated)
+        assertEquals(1, updatedCategory.count)
+    }
+
     @Test fun delete_with_uknown_uri_should_throw_unsupported_operation_exception() {
         thrown.expect(UnsupportedOperationException::class.java)
 
@@ -193,7 +222,7 @@ class ExpenseContentProviderTests {
         val contentResolver = mContext.contentResolver
         val contentObserver = TestUtilities.testContentObserver
         val uri = ExpenseContract.ExpenseCategory.CONTENT_URI
-        val existingId = uri.buildUpon().appendPath("2").build()
+        val existingUri = uri.buildUpon().appendPath("2").build()
 
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
@@ -202,7 +231,7 @@ class ExpenseContentProviderTests {
         }
 
         // when
-        val deleted = contentResolver.delete(existingId, null, null)
+        val deleted = contentResolver.delete(existingUri, null, null)
 
         // then
         val categories = contentResolver.query(uri, null, null, null, null)
@@ -227,5 +256,14 @@ class ExpenseContentProviderTests {
         contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_CREATED, date)
 
         return contentResolver.insert(uri, contentValues)
+    }
+    private fun updateCategory(contentResolver: ContentResolver, uri: Uri, name: String, type: String, date: String = "", description: String? =""): Int {
+        val contentValues = ContentValues()
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_NAME, name)
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION, description)
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_TYPE, type)
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_CREATED, date)
+
+        return contentResolver.update(uri, contentValues, null, null)
     }
 }

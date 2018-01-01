@@ -10,6 +10,7 @@
 
     <!-- General -->
     <string name="label_add">Add</string>
+    <string name="label_save">Save</string>
     <string name="label_type">Type</string>
     <string name="label_type_income">Income</string>
     <string name="label_type_expense">Expense</string>

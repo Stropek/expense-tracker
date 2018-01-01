@@ -93,8 +93,18 @@ class ExpenseContentProvider: ContentProvider() {
         return cursor
     }
 
-    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun update(uri: Uri, values: ContentValues, selection: String?, selectionArgs: Array<out String>?): Int {
+        val db = mExpenseTrackerDbHelper!!.writableDatabase
+
+        when(sUriMatcher.match(uri)) {
+            EXPENSE_CATEGORY_WITH_ID -> {
+                val id = uri.lastPathSegment
+                return db.update(ExpenseContract.ExpenseCategory.TABLE_NAME, values,
+                        "${ExpenseContract.ExpenseCategory.ID}=?",
+                        arrayOf(id))
+            }
+            else -> throw UnsupportedOperationException("Unknown operation URI: $uri")
+        }
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {

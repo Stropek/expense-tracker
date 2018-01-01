@@ -48,8 +48,6 @@ class CategoryDetailsActivity : AppCompatActivity() {
     }
 
     fun onCategorySave(view: View) {
-        // TODO: change to save or add, depending on whether it's new category or edited one
-
         val name = mNameEditText.text.toString()
         if (name.isEmpty()) {
             Toast.makeText(this@CategoryDetailsActivity, "Name is required", Toast.LENGTH_SHORT).show()
@@ -68,7 +66,14 @@ class CategoryDetailsActivity : AppCompatActivity() {
             values.put(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION, description)
         }
 
-        contentResolver.insert(ExpenseContract.ExpenseCategory.CONTENT_URI, values)
+        if (intent.extras != null && intent.extras.containsKey(Constants.ID)) {
+            val id = intent.extras.getString(Constants.ID)
+            val updateUri = ExpenseContract.ExpenseCategory.CONTENT_URI
+                    .buildUpon().appendPath(id).build()
+            contentResolver.update(updateUri, values, null, null)
+        } else {
+            contentResolver.insert(ExpenseContract.ExpenseCategory.CONTENT_URI, values)
+        }
 
         // finish activity and return back to the list of categories
         finish()
