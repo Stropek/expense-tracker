@@ -9,6 +9,7 @@ import android.support.v4.app.LoaderManager
 import android.support.v4.content.Loader
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.widget.LinearLayout
 import com.pscurzytek.expensetracker.data.ExpenseContract
@@ -36,6 +37,24 @@ class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<
         mCategoriesAdapter = CategoryAdapter(this)
         mCategoriesRecyclerView.adapter = mCategoriesAdapter
 
+        ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+            override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
+                when(direction) {
+                    ItemTouchHelper.LEFT -> {
+
+                    }
+                    ItemTouchHelper.RIGHT -> {
+                        val id = viewHolder!!.itemView.tag.toString()
+                        openCategoryDetails(id)
+                    }
+                }
+            }
+        }).attachToRecyclerView(mCategoriesRecyclerView)
+
         supportLoaderManager.initLoader(CATEGORY_LOADER_ID, null, this)
     }
 
@@ -57,9 +76,12 @@ class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<
     }
 
     fun onCategoryClicked(view: View) {
-        val id = (view.parent as LinearLayout).tag
+        val id = (view.parent as LinearLayout).tag.toString()
+        openCategoryDetails(id)
+    }
 
-        val details = contentResolver.query(ExpenseContract.ExpenseCategory.CONTENT_URI.buildUpon().appendPath(id.toString()).build(),
+    private fun openCategoryDetails(id: String) {
+        val details = contentResolver.query(ExpenseContract.ExpenseCategory.CONTENT_URI.buildUpon().appendPath(id).build(),
                 null,
                 null,
                 null,
@@ -67,9 +89,11 @@ class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<
 
         val intent = Intent(this@CategoryListActivity, CategoryDetailsActivity::class.java)
 
-        intent.putExtra("id", id.toString())
+        intent.putExtra("id", id)
         intent.putExtra("category_name", details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_NAME))
         intent.putExtra("category_desc", details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION))
+
+        details.close()
 
         startActivity(intent)
     }
