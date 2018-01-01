@@ -62,7 +62,7 @@ class ExpenseContentProvider: ContentProvider() {
 
     override fun query(uri: Uri, projection: Array<out String>?, selection: String?, selectionArgs: Array<out String>?, sortOrder: String?): Cursor {
         val db = mExpenseTrackerDbHelper!!.readableDatabase
-        var cursor: Cursor?
+        val cursor: Cursor?
 
         when (sUriMatcher.match(uri)) {
             EXPENSE_CATEGORIES -> {
@@ -79,7 +79,7 @@ class ExpenseContentProvider: ContentProvider() {
 
                 cursor = db.query(ExpenseContract.ExpenseCategory.TABLE_NAME,
                         projection,
-                        "_id=?",
+                        "${ExpenseContract.ExpenseCategory.ID}=?",
                         arrayOf(id),
                         null,
                         null,
@@ -93,15 +93,25 @@ class ExpenseContentProvider: ContentProvider() {
         return cursor
     }
 
-    override fun update(uri: Uri?, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
+    override fun update(uri: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun delete(uri: Uri?, selection: String?, selectionArgs: Array<out String>?): Int {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
+        val db = mExpenseTrackerDbHelper!!.writableDatabase
+
+        when(sUriMatcher.match(uri)) {
+            EXPENSE_CATEGORY_WITH_ID -> {
+                val id = uri.lastPathSegment
+                return db.delete(ExpenseContract.ExpenseCategory.TABLE_NAME,
+                        "${ExpenseContract.ExpenseCategory.ID}=?",
+                        arrayOf(id))
+            }
+            else -> throw UnsupportedOperationException("Unknown operation URI: $uri")
+        }
     }
 
-    override fun getType(uri: Uri?): String {
+    override fun getType(uri: Uri): String {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

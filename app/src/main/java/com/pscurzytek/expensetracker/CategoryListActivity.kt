@@ -43,12 +43,17 @@ class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
+                val id = viewHolder!!.itemView.tag.toString()
+
                 when(direction) {
                     ItemTouchHelper.LEFT -> {
+                        val categoryUri = ExpenseContract.ExpenseCategory.CONTENT_URI
+                                .buildUpon().appendPath(id).build()
 
+                        contentResolver.delete(categoryUri, null, null)
+                        supportLoaderManager.restartLoader(CATEGORY_LOADER_ID, null, this@CategoryListActivity)
                     }
                     ItemTouchHelper.RIGHT -> {
-                        val id = viewHolder!!.itemView.tag.toString()
                         openCategoryDetails(id)
                     }
                 }

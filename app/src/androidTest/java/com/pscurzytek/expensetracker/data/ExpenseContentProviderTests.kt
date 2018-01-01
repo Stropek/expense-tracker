@@ -118,6 +118,15 @@ class ExpenseContentProviderTests {
         mContext.contentResolver.insert(uri, contentValues)
     }
 
+    @Test fun query_with_uknown_uri_should_throw_unsupported_operation_exception() {
+        thrown.expect(UnsupportedOperationException::class.java)
+
+        val unknownUri = ExpenseContract.BASE_CONTENT_URI.buildUpon().appendPath("unknown").build()
+
+        setObservedUriOnContentResolver(mContext.contentResolver, unknownUri, TestUtilities.testContentObserver)
+
+        mContext.contentResolver.query(unknownUri, null, null, null, null)
+    }
     @Test fun query_with_content_uri_returns_all_categories() {
         // given
         val contentResolver = mContext.contentResolver
@@ -167,6 +176,37 @@ class ExpenseContentProviderTests {
         category.moveToFirst()
         assertEquals(1, category.count)
         assertEquals(3, category.getInt(category.getColumnIndex(ExpenseContract.ExpenseCategory.ID)))
+    }
+
+    @Test fun delete_with_uknown_uri_should_throw_unsupported_operation_exception() {
+        thrown.expect(UnsupportedOperationException::class.java)
+
+        val unknownUri = ExpenseContract.BASE_CONTENT_URI.buildUpon().appendPath("unknown").build()
+
+        setObservedUriOnContentResolver(mContext.contentResolver, unknownUri, TestUtilities.testContentObserver)
+
+        mContext.contentResolver.delete(unknownUri, null, null)
+    }
+    @Test fun delete_with_existing_id_removes_category_from_the_database() {
+        // given
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseCategory.CONTENT_URI
+        val existingId = uri.buildUpon().appendPath("2").build()
+
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        for (i in 0..5) {
+            insertCategory(contentResolver, uri, "category $i", "income", description = "desc $i")
+        }
+
+        // when
+        val deleted = contentResolver.delete(existingId, null, null)
+
+        // then
+        val categories = contentResolver.query(uri, null, null, null, null)
+        assertEquals(1, deleted)
+        assertEquals(5, categories.count)
     }
 
     private fun setObservedUriOnContentResolver(contentResolver: ContentResolver, uri: Uri?, contentObserver: ContentObserver) {
