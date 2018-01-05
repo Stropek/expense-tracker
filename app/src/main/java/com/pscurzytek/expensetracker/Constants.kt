@@ -8,7 +8,7 @@ class Constants {
         val ID = "id"
     }
 
-    class Category {
+    class CategoryProperties {
         companion object {
             val Name = "category_name"
             val Description = "category_desc"

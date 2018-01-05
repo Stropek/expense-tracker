@@ -8,4 +8,6 @@
 
     <color name="materialGreen">#15b32f</color>
     <color name="materialRed">#E74C3C</color>
+
+    <color name="lightRed">#FF9999</color>
 </resources>

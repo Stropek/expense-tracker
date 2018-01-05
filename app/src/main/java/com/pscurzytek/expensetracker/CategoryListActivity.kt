@@ -11,12 +11,18 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
-import android.widget.LinearLayout
+import android.widget.FrameLayout
+import android.widget.RelativeLayout
 import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 import com.pscurzytek.expensetracker.data.loaders.CategoryLoader
+import com.pscurzytek.expensetracker.helpers.RecyclerItemTouchHelperListener
+import com.pscurzytek.expensetracker.helpers.RecyclerItemWithBackgroundTouchHelper
 
-class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<Cursor> {
+class CategoryListActivity: AppCompatActivity(),
+        LoaderManager.LoaderCallbacks<Cursor>,
+        RecyclerItemTouchHelperListener
+{
     private var mCategoriesAdapter: CategoryAdapter? = null
     private lateinit var mCategoriesRecyclerView: RecyclerView
 
@@ -37,28 +43,8 @@ class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<
         mCategoriesAdapter = CategoryAdapter(this)
         mCategoriesRecyclerView.adapter = mCategoriesAdapter
 
-        ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
-                val id = viewHolder!!.itemView.tag.toString()
-
-                when(direction) {
-                    ItemTouchHelper.LEFT -> {
-                        val categoryUri = ExpenseContract.ExpenseCategory.CONTENT_URI
-                                .buildUpon().appendPath(id).build()
-
-                        contentResolver.delete(categoryUri, null, null)
-                        supportLoaderManager.restartLoader(CATEGORY_LOADER_ID, null, this@CategoryListActivity)
-                    }
-                    ItemTouchHelper.RIGHT -> {
-                        openCategoryDetails(id)
-                    }
-                }
-            }
-        }).attachToRecyclerView(mCategoriesRecyclerView)
+        val touchHelper = RecyclerItemWithBackgroundTouchHelper(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, this@CategoryListActivity)
+        ItemTouchHelper(touchHelper).attachToRecyclerView(mCategoriesRecyclerView)
 
         supportLoaderManager.initLoader(CATEGORY_LOADER_ID, null, this)
     }
@@ -80,8 +66,31 @@ class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<
         mCategoriesAdapter!!.swapCursor(null)
     }
 
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
+        val id = viewHolder.itemView.tag.toString()
+
+        when (direction) {
+            ItemTouchHelper.LEFT -> {
+                val categoryUri = ExpenseContract.ExpenseCategory.CONTENT_URI
+                        .buildUpon().appendPath(id).build()
+
+//                        val item = contentResolver.query(categoryUri, null, null, null, null)
+//                        val deletedItem = item.getCategory()
+//                        val deletedPosition = viewHolder.adapterPosition
+
+                contentResolver.delete(categoryUri, null, null)
+                supportLoaderManager.restartLoader(CATEGORY_LOADER_ID, null, this@CategoryListActivity)
+
+//                        item.close()
+            }
+            ItemTouchHelper.RIGHT -> {
+                openCategoryDetails(id)
+            }
+        }
+    }
+
     fun onCategoryClicked(view: View) {
-        val id = (view.parent as LinearLayout).tag.toString()
+        val id = (view.parent.parent as FrameLayout).tag.toString()
         openCategoryDetails(id)
     }
 
@@ -95,9 +104,9 @@ class CategoryListActivity : AppCompatActivity(), LoaderManager.LoaderCallbacks<
         val intent = Intent(this@CategoryListActivity, CategoryDetailsActivity::class.java)
 
         intent.putExtra("id", id)
-        intent.putExtra(Constants.Category.Name, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_NAME))
-        intent.putExtra(Constants.Category.Description, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION))
-        intent.putExtra(Constants.Category.Type, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_TYPE))
+        intent.putExtra(Constants.CategoryProperties.Name, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_NAME))
+        intent.putExtra(Constants.CategoryProperties.Description, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION))
+        intent.putExtra(Constants.CategoryProperties.Type, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_TYPE))
 
         details.close()
 

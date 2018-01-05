@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.pscurzytek.expensetracker.data.ExpenseContract
 
@@ -23,6 +24,7 @@ class CategoryAdapter(context: Context): RecyclerView.Adapter<CategoryAdapter.Ca
         val cursor = mCursor
 
         if (cursor != null) {
+            // TODO: use extension methods
             val idIndex = cursor.getColumnIndex(ExpenseContract.ExpenseCategory.ID)
             val nameIndex = cursor.getColumnIndex(ExpenseContract.ExpenseCategory.COLUMN_NAME)
             val typeIndex = cursor.getColumnIndex(ExpenseContract.ExpenseCategory.COLUMN_TYPE)
@@ -67,8 +69,17 @@ class CategoryAdapter(context: Context): RecyclerView.Adapter<CategoryAdapter.Ca
         return temp
     }
 
+    fun removeItem() {
+    }
+
+    fun restoreItem() {
+
+    }
+
     class CategoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         var tvCategoryName: TextView = itemView.findViewById(R.id.tv_category_name)
+        var viewForeground: RelativeLayout = itemView.findViewById(R.id.rl_foreground)
+
 //        var tvCategoryType: TextView = itemView.findViewById(R.id.tv_category_type)
     }
 }

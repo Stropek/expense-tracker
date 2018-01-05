@@ -1,32 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout android:id="@+id/rl_background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/list_item_padding"
-        android:clickable="true"
-        android:focusable="true"
-        android:onClick="onCategoryClicked">
+        android:layout_height="match_parent"
+        android:background="@color/lightRed">
 
-        <TextView
-            android:id="@+id/tv_category_name"
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="@dimen/list_item_text_size"/>
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_action_name"/>
+    </RelativeLayout>
 
-        <!-- TODO: add icons for income / expense  -->
-    </LinearLayout>
-
-    <View
+    <RelativeLayout android:id="@+id/rl_foreground"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/colorPrimaryDark"/>
+        android:layout_height="match_parent">
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:orientation="horizontal"
+            android:padding="@dimen/list_item_padding"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="onCategoryClicked">
+
+            <TextView
+                android:id="@+id/tv_category_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/list_item_text_size"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

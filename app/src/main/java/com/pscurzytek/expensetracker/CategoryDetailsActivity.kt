@@ -27,12 +27,12 @@ class CategoryDetailsActivity : AppCompatActivity() {
         mDescriptionEditText = findViewById(R.id.et_category_description)
         mIncomeRadioButton =findViewById(R.id.rbtn_category_type_income)
 
-        if (intent.extras?.containsKey(Constants.Category.Name) == true)
-            mNameEditText.setText(intent.getStringExtra(Constants.Category.Name).toString())
-        if (intent.extras?.containsKey(Constants.Category.Description) == true)
-            mDescriptionEditText.setText(intent.getStringExtra(Constants.Category.Description).toString())
-        if (intent.extras?.containsKey(Constants.Category.Type) == true) {
-            val type = CategoryTypes.valueOf(intent.getStringExtra(Constants.Category.Type))
+        if (intent.extras?.containsKey(Constants.CategoryProperties.Name) == true)
+            mNameEditText.setText(intent.getStringExtra(Constants.CategoryProperties.Name).toString())
+        if (intent.extras?.containsKey(Constants.CategoryProperties.Description) == true)
+            mDescriptionEditText.setText(intent.getStringExtra(Constants.CategoryProperties.Description).toString())
+        if (intent.extras?.containsKey(Constants.CategoryProperties.Type) == true) {
+            val type = CategoryTypes.valueOf(intent.getStringExtra(Constants.CategoryProperties.Type))
 
             if (type == CategoryTypes.INCOME)
                 mIncomeRadioButton.isChecked = true
