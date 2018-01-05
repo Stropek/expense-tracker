@@ -33,9 +33,10 @@ class CategoryDetailsActivity : AppCompatActivity() {
             mDescriptionEditText.setText(intent.getStringExtra(Constants.CategoryProperties.Description).toString())
         if (intent.extras?.containsKey(Constants.CategoryProperties.Type) == true) {
             val type = CategoryTypes.valueOf(intent.getStringExtra(Constants.CategoryProperties.Type))
-
-            if (type == CategoryTypes.INCOME)
+            mType = type
+            if (type == CategoryTypes.INCOME) {
                 mIncomeRadioButton.isChecked = true
+            }
         }
     }
 
