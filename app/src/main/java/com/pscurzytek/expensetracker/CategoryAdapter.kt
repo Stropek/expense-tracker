@@ -15,6 +15,7 @@ import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.data.extensions.getIntByColumn
 import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 import com.pscurzytek.expensetracker.data.models.Category
+import com.pscurzytek.expensetracker.helpers.ViewHolderWithForeground
 
 /**
  * Created by p.s.curzytek on 12/26/2017.
@@ -67,10 +68,8 @@ class CategoryAdapter(context: Context): RecyclerView.Adapter<CategoryAdapter.Ca
         return temp
     }
 
-    class CategoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class CategoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), ViewHolderWithForeground {
         var tvCategoryName: TextView = itemView.findViewById(R.id.tv_category_name)
-        var viewForeground: RelativeLayout = itemView.findViewById(R.id.rl_foreground)
-
-//        var tvCategoryType: TextView = itemView.findViewById(R.id.tv_category_type)
+        override var viewForeground = itemView.findViewById<RelativeLayout>(R.id.rl_foreground)
     }
 }

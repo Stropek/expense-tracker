@@ -3,7 +3,6 @@ package com.pscurzytek.expensetracker.helpers
 import android.graphics.Canvas
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
-import com.pscurzytek.expensetracker.CategoryAdapter
 
 /**
  * Created by p.s.curzytek on 1/4/2018.
@@ -22,7 +21,7 @@ class RecyclerItemWithBackgroundTouchHelper(dragDirs: Int, swipeDirs: Int, liste
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         if (viewHolder != null) {
-            val foregroundView = (viewHolder as CategoryAdapter.CategoryViewHolder).viewForeground
+            val foregroundView = (viewHolder as ViewHolderWithForeground).viewForeground
             ItemTouchHelper.Callback.getDefaultUIUtil().onSelected(foregroundView)
         }
     }
@@ -31,8 +30,7 @@ class RecyclerItemWithBackgroundTouchHelper(dragDirs: Int, swipeDirs: Int, liste
                              viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
                              actionState: Int, isCurrentlyActive: Boolean) {
 
-        // TODO: move viewForeground to an interface and work on interfaces here
-        val foregroundView = (viewHolder as CategoryAdapter.CategoryViewHolder).viewForeground
+        val foregroundView = (viewHolder as ViewHolderWithForeground).viewForeground
 
         ItemTouchHelper.Callback.getDefaultUIUtil().onDraw(c, recyclerView, foregroundView, dX, dY,
                 actionState, isCurrentlyActive)
@@ -41,13 +39,13 @@ class RecyclerItemWithBackgroundTouchHelper(dragDirs: Int, swipeDirs: Int, liste
     override fun onChildDrawOver(c: Canvas, recyclerView: RecyclerView,
                                  viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
                                  actionState: Int, isCurrentlyActive: Boolean) {
-        val foregroundView = (viewHolder as CategoryAdapter.CategoryViewHolder).viewForeground
+        val foregroundView = (viewHolder as ViewHolderWithForeground).viewForeground
         ItemTouchHelper.Callback.getDefaultUIUtil().onDrawOver(c, recyclerView, foregroundView, dX, dY,
                 actionState, isCurrentlyActive)
     }
 
     override fun clearView(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder) {
-        val foregroundView = (viewHolder as CategoryAdapter.CategoryViewHolder).viewForeground
+        val foregroundView = (viewHolder as ViewHolderWithForeground).viewForeground
         ItemTouchHelper.Callback.getDefaultUIUtil().clearView(foregroundView)
     }
 }
