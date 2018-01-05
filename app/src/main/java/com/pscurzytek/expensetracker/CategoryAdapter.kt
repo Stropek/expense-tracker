@@ -12,6 +12,8 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.pscurzytek.expensetracker.data.ExpenseContract
+import com.pscurzytek.expensetracker.data.extensions.getIntByColumn
+import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 import com.pscurzytek.expensetracker.data.models.Category
 
 /**
@@ -25,16 +27,11 @@ class CategoryAdapter(context: Context): RecyclerView.Adapter<CategoryAdapter.Ca
         val cursor = mCursor
 
         if (cursor != null) {
-            // TODO: use extension methods
-            val idIndex = cursor.getColumnIndex(ExpenseContract.ExpenseCategory.ID)
-            val nameIndex = cursor.getColumnIndex(ExpenseContract.ExpenseCategory.COLUMN_NAME)
-            val typeIndex = cursor.getColumnIndex(ExpenseContract.ExpenseCategory.COLUMN_TYPE)
-
             cursor.moveToPosition(position)
 
-            val id = cursor.getInt(idIndex)
-            val name = cursor.getString(nameIndex)
-            val type = cursor.getString(typeIndex)
+            val id = cursor.getIntByColumn(ExpenseContract.ExpenseCategory.ID)
+            val name = cursor.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_NAME)
+            val type = cursor.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_TYPE)
 
             holder.itemView.tag = id
             holder.tvCategoryName.text = name

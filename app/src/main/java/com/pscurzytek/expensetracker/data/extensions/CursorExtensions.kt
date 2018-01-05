@@ -10,6 +10,10 @@ import com.pscurzytek.expensetracker.data.models.Category
  */
 // TODO: write unit tests
 
+fun Cursor.getIntByColumn(columnName: String): Int {
+    return this.getInt(getColumnIndex(columnName))
+}
+
 fun Cursor.getStringByColumn(columnName: String): String {
     return this.getString(getColumnIndex(columnName)) ?: ""
 }

@@ -54,7 +54,7 @@ class CategoryListActivity: AppCompatActivity(),
         mCategoriesRecyclerView.itemAnimator = DefaultItemAnimator()
         mCategoriesRecyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
 
-        val touchHelper = RecyclerItemWithBackgroundTouchHelper(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, this@CategoryListActivity)
+        val touchHelper = RecyclerItemWithBackgroundTouchHelper(0, ItemTouchHelper.LEFT, this@CategoryListActivity)
         ItemTouchHelper(touchHelper).attachToRecyclerView(mCategoriesRecyclerView)
 
         supportLoaderManager.initLoader(CATEGORY_LOADER_ID, null, this)
@@ -101,9 +101,6 @@ class CategoryListActivity: AppCompatActivity(),
                 snackbar.show()
 
                 item.close()
-            }
-            ItemTouchHelper.RIGHT -> {
-                openCategoryDetails(id)
             }
         }
     }
