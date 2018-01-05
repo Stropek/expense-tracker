@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.pscurzytek.expensetracker.data.ExpenseContract
+import com.pscurzytek.expensetracker.data.models.Category
 
 /**
  * Created by p.s.curzytek on 12/26/2017.
@@ -67,13 +68,6 @@ class CategoryAdapter(context: Context): RecyclerView.Adapter<CategoryAdapter.Ca
             notifyDataSetChanged()
 
         return temp
-    }
-
-    fun removeItem() {
-    }
-
-    fun restoreItem() {
-
     }
 
     class CategoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
