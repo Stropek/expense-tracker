@@ -15,32 +15,4 @@ class Constants {
             val Type = "category_type"
         }
     }
-
-    class ExpenseEntryTable {
-        class Columns {
-            companion object {
-                val CategoryId = "category_id"
-                val Amount = "amount"
-                val Created = "created"
-            }
-        }
-
-        companion object {
-            val Name = "expenses"
-        }
-    }
-
-    class ExpenseCategoryTable {
-        class Columns {
-            companion object {
-                val Name = "name"
-                val Description = "description"
-                val Type = "type"
-                val Created = "created"
-            }
-        }
-        companion object {
-            val Name = "categories"
-        }
-    }
 }

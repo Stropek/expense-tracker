@@ -22,11 +22,11 @@ class ExpenseContract {
         companion object: KBaseColumns() {
             val CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_EXPENSE_ENTRIES).build()
 
-            val TABLE_NAME = Constants.ExpenseEntryTable.Name
+            val TABLE_NAME = "expenses"
 
-            val COLUMN_CATEGORY_ID = Constants.ExpenseEntryTable.Columns.CategoryId
-            val COLUMN_AMOUNT = Constants.ExpenseEntryTable.Columns.Amount
-            val COLUMN_CREATED = Constants.ExpenseEntryTable.Columns.Created
+            val COLUMN_CATEGORY_ID = "category_Id"
+            val COLUMN_AMOUNT = "amount"
+            val COLUMN_CREATED = "created"
         }
     }
 
@@ -34,12 +34,12 @@ class ExpenseContract {
         companion object: KBaseColumns() {
             val CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_EXPENSE_CATEGORIES).build()
 
-            val TABLE_NAME = Constants.ExpenseCategoryTable.Name
+            val TABLE_NAME = "categories"
 
-            val COLUMN_NAME = Constants.ExpenseCategoryTable.Columns.Name
-            val COLUMN_DESCRIPTION = Constants.ExpenseCategoryTable.Columns.Description
-            val COLUMN_TYPE = Constants.ExpenseCategoryTable.Columns.Type
-            val COLUMN_CREATED = Constants.ExpenseCategoryTable.Columns.Created
+            val COLUMN_NAME = "name"
+            val COLUMN_DESCRIPTION = "description"
+            val COLUMN_TYPE = "type"
+            val COLUMN_CREATED = "created"
         }
     }
 }
