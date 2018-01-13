@@ -10,19 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CategoryListActivity"
+        <activity android:name=".activities.CategoryListActivity"
             android:label="@string/label_categories"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".CategoryDetailsActivity"
+            android:parentActivityName=".activities.MainActivity" />
+        <activity android:name=".activities.CategoryDetailsActivity"
             android:label="@string/label_category"
-            android:parentActivityName=".CategoryListActivity" />
+            android:parentActivityName=".activities.CategoryListActivity" />
 
         <provider
             android:name=".data.ExpenseContentProvider"

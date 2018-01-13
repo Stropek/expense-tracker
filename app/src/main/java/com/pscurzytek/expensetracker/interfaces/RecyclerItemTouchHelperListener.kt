@@ -1,4 +1,4 @@
-package com.pscurzytek.expensetracker.helpers
+package com.pscurzytek.expensetracker.interfaces
 
 import android.support.v7.widget.RecyclerView
 

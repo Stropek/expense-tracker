@@ -1,4 +1,4 @@
-package com.pscurzytek.expensetracker
+package com.pscurzytek.expensetracker.activities
 
 import android.content.Intent
 import android.database.Cursor
@@ -16,12 +16,14 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.GridLayout
+import com.pscurzytek.expensetracker.CategoryAdapter
+import com.pscurzytek.expensetracker.Constants
+import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.data.extensions.getCategory
 import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 import com.pscurzytek.expensetracker.data.loaders.CategoryLoader
-import com.pscurzytek.expensetracker.helpers.RecyclerItemTouchHelperListener
+import com.pscurzytek.expensetracker.interfaces.RecyclerItemTouchHelperListener
 import com.pscurzytek.expensetracker.helpers.RecyclerItemWithBackgroundTouchHelper
 
 class CategoryListActivity: AppCompatActivity(),

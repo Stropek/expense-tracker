@@ -1,4 +1,4 @@
-package com.pscurzytek.expensetracker
+package com.pscurzytek.expensetracker.activities
 
 import android.content.ContentValues
 import android.support.v7.app.AppCompatActivity
@@ -7,6 +7,9 @@ import android.view.View
 import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.Toast
+import com.pscurzytek.expensetracker.CategoryTypes
+import com.pscurzytek.expensetracker.Constants
+import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.data.ExpenseContract
 import java.text.SimpleDateFormat
 import java.util.*

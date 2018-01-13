@@ -2,7 +2,6 @@ package com.pscurzytek.expensetracker
 
 import android.content.Context
 import android.database.Cursor
-import android.graphics.Color
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -14,8 +13,7 @@ import android.widget.TextView
 import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.data.extensions.getIntByColumn
 import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
-import com.pscurzytek.expensetracker.data.models.Category
-import com.pscurzytek.expensetracker.helpers.ViewHolderWithForeground
+import com.pscurzytek.expensetracker.interfaces.ViewHolderWithForeground
 
 /**
  * Created by p.s.curzytek on 12/26/2017.

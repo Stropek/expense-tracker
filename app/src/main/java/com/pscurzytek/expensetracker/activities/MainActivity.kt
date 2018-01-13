@@ -1,9 +1,10 @@
-package com.pscurzytek.expensetracker
+package com.pscurzytek.expensetracker.activities
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import com.pscurzytek.expensetracker.R
 
 class MainActivity : AppCompatActivity() {
 

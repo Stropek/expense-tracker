@@ -3,6 +3,8 @@ package com.pscurzytek.expensetracker.helpers
 import android.graphics.Canvas
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import com.pscurzytek.expensetracker.interfaces.RecyclerItemTouchHelperListener
+import com.pscurzytek.expensetracker.interfaces.ViewHolderWithForeground
 
 /**
  * Created by p.s.curzytek on 1/4/2018.
