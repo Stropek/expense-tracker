@@ -18,4 +18,5 @@
     <!-- Navigation -->
     <string name="nav_expenses">Expenses</string>
     <string name="nav_categories">Categories</string>
+    <string name="label_menu">Expense tracker menu</string>
 </resources>

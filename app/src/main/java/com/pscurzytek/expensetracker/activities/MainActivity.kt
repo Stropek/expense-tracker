@@ -12,10 +12,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val categoriesButton = findViewById<TextView>(R.id.btn_categories)
-        categoriesButton.setOnClickListener {
-            val categoriesIntent = Intent(this@MainActivity, CategoryListActivity::class.java)
-            startActivity(categoriesIntent)
-        }
+//        val categoriesButton = findViewById<TextView>(R.id.btn_categories)
+//        categoriesButton.setOnClickListener {
+//            val categoriesIntent = Intent(this@MainActivity, CategoryListActivity::class.java)
+//            startActivity(categoriesIntent)
+//        }
     }
 }
