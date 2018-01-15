@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,35 +12,53 @@
     android:paddingStart="16dp"
     android:paddingTop="16dp">
 
-    <EditText android:id="@+id/et_category_name"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/et_category_name"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:hint="@string/edit_category_name"
-        android:maxLines="1"
         android:inputType="textCapCharacters|textAutoComplete"
-        android:paddingBottom="10dp"/>
+        android:maxLines="1"
+        android:paddingBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText android:id="@+id/et_category_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <EditText
+        android:id="@+id/et_category_description"
+        android:layout_width="0dp"
+        android:layout_height="49dp"
         android:layout_gravity="start"
+        android:layout_marginTop="8dp"
         android:hint="@string/edit_category_description"
-        android:paddingBottom="10dp"/>
+        android:paddingBottom="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_category_name"
+        app:layout_constraintStart_toStartOf="@+id/et_category_name"
+        app:layout_constraintTop_toBottomOf="@+id/et_category_name" />
 
     <TextView
+        android:id="@+id/lbl_type"
         style="@style/TextAppearance.AppCompat.Medium"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:text="@string/label_type" />
+        android:text="@string/label_type"
+        app:layout_constraintStart_toStartOf="@+id/et_category_description"
+        app:layout_constraintTop_toBottomOf="@+id/et_category_description" />
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp">
+        android:id="@+id/fl_type_select"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_category_description"
+        app:layout_constraintStart_toStartOf="@+id/et_category_description"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_type">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,8 +75,8 @@
                 android:layout_weight="1"
                 android:background="@color/materialGreen"
                 android:onClick="onTypeSelected"
-                android:textColor="@color/white"
-                android:text="@string/label_type_income" />
+                android:text="@string/label_type_income"
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btn_category_type_expense"
@@ -66,8 +86,8 @@
                 android:layout_weight="1"
                 android:background="@color/materialRed"
                 android:onClick="onTypeSelected"
-                android:textColor="@color/white"
-                android:text="@string/label_type_expense" />
+                android:text="@string/label_type_expense"
+                android:textColor="@color/white" />
 
         </LinearLayout>
 
@@ -91,19 +111,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:onClick="onTypeSelected"
                 android:checked="true"
+                android:onClick="onTypeSelected"
                 android:theme="@style/WhiteRadioButton" />
 
         </RadioGroup>
     </FrameLayout>
 
-    <Button android:id="@+id/btn_add_category"
+    <Button
+        android:id="@+id/btn_add_category"
         style="@style/TextAppearance.AppCompat.Large"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:onClick="onCategorySave"
         android:text="@string/label_save"
-        android:onClick="onCategorySave"/>
+        app:layout_constraintEnd_toEndOf="@+id/fl_type_select"
+        app:layout_constraintStart_toStartOf="@+id/fl_type_select"
+        app:layout_constraintTop_toBottomOf="@+id/fl_type_select" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
