@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_action_name" />
+            android:src="@drawable/ic_bin" />
     </RelativeLayout>
 
     <RelativeLayout android:id="@+id/rl_foreground"
