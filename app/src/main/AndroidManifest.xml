@@ -18,13 +18,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activities.CategoryListActivity"
-            android:label="@string/label_categories"
-            android:parentActivityName=".activities.MainActivity" />
-
         <activity android:name=".activities.CategoryDetailsActivity"
             android:label="@string/label_category"
-            android:parentActivityName=".activities.CategoryListActivity" />
+            android:parentActivityName=".activities.MainActivity" />
 
         <provider
             android:name=".data.ExpenseContentProvider"

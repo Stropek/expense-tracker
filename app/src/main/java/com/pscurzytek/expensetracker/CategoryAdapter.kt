@@ -18,7 +18,7 @@ import com.pscurzytek.expensetracker.interfaces.ViewHolderWithForeground
 /**
  * Created by p.s.curzytek on 12/26/2017.
  */
-class CategoryAdapter(context: Context): RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
+class CategoryAdapter(context: Context?): RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
     private var mCursor: Cursor? = null
     private var mContext = context
 
@@ -35,8 +35,8 @@ class CategoryAdapter(context: Context): RecyclerView.Adapter<CategoryAdapter.Ca
             holder.itemView.tag = id
             holder.tvCategoryName.text = name
 
-            val expenseColor = ResourcesCompat.getColor(mContext.resources, R.color.materialRed, null)
-            val incomeColor = ResourcesCompat.getColor(mContext.resources, R.color.materialGreen, null)
+            val expenseColor = ResourcesCompat.getColor(mContext!!.resources, R.color.materialRed, null)
+            val incomeColor = ResourcesCompat.getColor(mContext!!.resources, R.color.materialGreen, null)
             val bckgColor = if (type.toLowerCase() == "income") incomeColor else expenseColor
             (holder.tvCategoryName.parent as LinearLayout).setBackgroundColor(bckgColor)
         }
