@@ -18,6 +18,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import com.pscurzytek.expensetracker.CategoryAdapter
 
 import com.pscurzytek.expensetracker.R
@@ -32,9 +33,10 @@ class CategoryListFragment : Fragment(),
         LoaderManager.LoaderCallbacks<Cursor>,
         RecyclerItemTouchHelperListener {
 
+    private lateinit var mMainLayout: FrameLayout
+    private lateinit var mEmptyImageView: ImageView
     private lateinit var mCategoriesAdapter: CategoryAdapter
     private lateinit var mCategoriesRecyclerView: RecyclerView
-    private lateinit var mMainLayout: FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +54,7 @@ class CategoryListFragment : Fragment(),
         }
 
         mMainLayout = view.findViewById(R.id.lt_main)
+        mEmptyImageView = view.findViewById(R.id.iv_empty)
 
         mCategoriesRecyclerView = view.findViewById(R.id.rv_categories)
         mCategoriesRecyclerView.adapter = mCategoriesAdapter
@@ -78,6 +81,8 @@ class CategoryListFragment : Fragment(),
 
     override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
         mCategoriesAdapter.swapCursor(data)
+
+        toggleView(data)
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>?) {
@@ -109,6 +114,16 @@ class CategoryListFragment : Fragment(),
 
                 item.close()
             }
+        }
+    }
+
+    private fun toggleView(data: Cursor?) {
+        if (data?.count == 0) {
+            mEmptyImageView.visibility = View.VISIBLE
+            mCategoriesRecyclerView.visibility = View.GONE
+        } else {
+            mEmptyImageView.visibility = View.GONE
+            mCategoriesRecyclerView.visibility = View.VISIBLE
         }
     }
 

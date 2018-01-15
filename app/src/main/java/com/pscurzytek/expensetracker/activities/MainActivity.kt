@@ -38,12 +38,6 @@ class MainActivity : AppCompatActivity() {
         mDrawer = findViewById(R.id.drawer_layout)
         mNavigation = findViewById(R.id.nav_view)
 
-//        val categoriesButton = findViewById<TextView>(R.id.btn_categories)
-//        categoriesButton.setOnClickListener {
-//            val categoriesIntent = Intent(this@MainActivity, CategoryListActivity::class.java)
-//            startActivity(categoriesIntent)
-//        }
-
         setUpNavigationView()
     }
 
@@ -61,7 +55,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_categories -> {
                     CURRENT_TAG = TAG_CATEGORIES
-                    Toast.makeText(this@MainActivity, "Categories", Toast.LENGTH_LONG).show()
                 }
                 else -> throw UnsupportedOperationException("Unknown item selected: ${item.itemId}")
             }
