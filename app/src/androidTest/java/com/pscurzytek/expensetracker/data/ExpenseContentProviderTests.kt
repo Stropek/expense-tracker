@@ -272,7 +272,25 @@ class ExpenseContentProviderTests {
         expenses.close()
     }
     @Test fun query_with_expense_content_by_id_uri_returns_expense_with_given_id() {
-        // TODO:
+        // given
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseEntry.CONTENT_URI
+        val detailsUri = uri.buildUpon().appendPath("3").build()
+
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        for (i in 0..9) {
+            insertExpense(contentResolver, uri, "expense $i", CategoryTypes.EXPENSE, "general", i * 100)
+        }
+
+        // when
+        val expense = contentResolver.query(detailsUri, null, null, null, null)
+
+        // then
+        expense.moveToFirst()
+        assertEquals(1, expense.count)
+        assertEquals(3, expense.getInt(expense.getColumnIndex(ExpenseContract.ExpenseEntry.ID)))
     }
 
     @Test fun update_with_uknown_uri_should_throw_unsupported_operation_exception() {

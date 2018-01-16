@@ -103,6 +103,18 @@ class ExpenseContentProvider: ContentProvider() {
                         null,
                         sortOrder)
             }
+            EXPENSE_ENTRY_WITH_ID -> {
+                val id = uri.lastPathSegment
+
+                cursor = db.query(ExpenseContract.ExpenseEntry.TABLE_NAME,
+                        projection,
+                        "${ExpenseContract.ExpenseEntry.ID}=?",
+                        arrayOf(id),
+                        null,
+                        null,
+                        null)
+                cursor?.moveToFirst()
+            }
             else -> throw UnsupportedOperationException("Unknown operation URI: $uri")
         }
 
