@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
         mNavigation = findViewById(R.id.nav_view)
 
         setUpNavigationView()
+        loadHomeFragment()
     }
 
     fun onCategoryClicked(view: View) {
