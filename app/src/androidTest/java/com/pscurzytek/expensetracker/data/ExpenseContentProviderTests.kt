@@ -19,6 +19,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
+import java.time.temporal.TemporalAmount
 
 /**
  * Created by p.s.curzytek on 12/10/2017.
@@ -153,19 +154,19 @@ class ExpenseContentProviderTests {
         mContext.contentResolver.insert(uri, contentValues)
     }
     @Test fun insert_to_expenses_with_valid_parameters_should_succeed() {
-//        val contentResolver = mContext.contentResolver
-//        val contentObserver = TestUtilities.testContentObserver
-//        val uri = ExpenseContract.ExpenseEntry.CONTENT_URI
-//
-//        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
-//
-//        val expectedUri = ExpenseContract.ExpenseEntry.CONTENT_URI.buildUpon().appendPath("1").build()
-//        val actualUri = insertExpense(contentResolver, uri, "name", "category", "YYYY-MM-DD")
-//
-//        assertEquals("Unable to insert item through provider", expectedUri, actualUri)
-//
-//        contentObserver.waitForNotificationOrFail()
-//        contentResolver.unregisterContentObserver(contentObserver)
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseEntry.CONTENT_URI
+
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        val expectedUri = ExpenseContract.ExpenseEntry.CONTENT_URI.buildUpon().appendPath("1").build()
+        val actualUri = insertExpense(contentResolver, uri, "name", CategoryTypes.EXPENSE, "general", 1000, "YYYY-MM-DD")
+
+        assertEquals("Unable to insert item through provider", expectedUri, actualUri)
+
+        contentObserver.waitForNotificationOrFail()
+        contentResolver.unregisterContentObserver(contentObserver)
     }
     @Test fun insert_to_expenses_with_invalid_parameters_should_throw_sql_exception() {
         thrown.expect(SQLException::class.java)
@@ -333,9 +334,15 @@ class ExpenseContentProviderTests {
 
         return contentResolver.insert(uri, contentValues)
     }
-    private fun insertExpense(contentResolver: ContentResolver?, uri: Uri?, s: String, s1: String, s2: String): Uri? {
-        // TODO:
-        return null
+    private fun insertExpense(contentResolver: ContentResolver, uri: Uri, name: String, type: CategoryTypes, category: String, amount: Int, date: String = ""): Uri {
+        val contentValues = ContentValues()
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_NAME, name)
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_TYPE, type.name)
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY, category)
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT, amount)
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, date)
+
+        return contentResolver.insert(uri, contentValues)
     }
 
     private fun updateCategory(contentResolver: ContentResolver, uri: Uri, name: String, type: String, date: String = "", description: String? =""): Int {

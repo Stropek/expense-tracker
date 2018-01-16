@@ -24,7 +24,9 @@ class ExpenseContract {
 
             val TABLE_NAME = "expenses"
 
-            val COLUMN_CATEGORY_ID = "category_Id"
+            val COLUMN_NAME = "name"
+            val COLUMN_TYPE = "type"
+            val COLUMN_CATEGORY = "category"
             val COLUMN_AMOUNT = "amount"
             val COLUMN_CREATED = "created"
         }
