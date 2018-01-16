@@ -53,6 +53,14 @@ class ExpenseContentProvider: ContentProvider() {
                     throw SQLException("Failed to insert a new category into: $uri")
                 }
             }
+            EXPENSE_ENTRIES -> {
+                val expenseId = db.insert(ExpenseContract.ExpenseEntry.TABLE_NAME, null, values)
+                if (expenseId > -1) {
+                    returnUri = uri.buildUpon().appendPath(expenseId.toString()).build()
+                } else {
+                    throw SQLException("Failed to insert a new expense entry into: $uri")
+                }
+            }
             else -> throw UnsupportedOperationException("Unknown operation URI: $uri")
         }
 

@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper
 class ExpenseTrackerDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, VERSION) {
     companion object {
         val DATABASE_NAME = "expenseTrackerDb.db"
-        val VERSION = 5
+        val VERSION = 6
     }
 
     override fun onCreate(sqLiteDatabase: SQLiteDatabase?) {
@@ -23,8 +23,8 @@ class ExpenseTrackerDbHelper(context: Context): SQLiteOpenHelper(context, DATABA
                 "${ExpenseContract.ExpenseCategory.COLUMN_NAME} TEXT NOT NULL," +
                 "${ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION} TEXT NULL," +
                 "${ExpenseContract.ExpenseCategory.COLUMN_TYPE} TEXT NOT NULL," +
-                "${ExpenseContract.ExpenseCategory.COLUMN_CREATED} TEXT NOT NULL" +
-                ");"
+                "${ExpenseContract.ExpenseCategory.COLUMN_CREATED} TEXT NOT NULL," +
+                "UNIQUE (${ExpenseContract.ExpenseCategory.COLUMN_NAME}, ${ExpenseContract.ExpenseCategory.COLUMN_TYPE}) ON CONFLICT FAIL);"
 
         sqLiteDatabase?.execSQL(createExpenseEntriesTable)
         sqLiteDatabase?.execSQL(createExpenseCategoriesTable)

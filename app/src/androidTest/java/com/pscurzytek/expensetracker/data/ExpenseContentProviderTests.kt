@@ -68,7 +68,7 @@ class ExpenseContentProviderTests {
                 ExpenseContentProvider.EXPENSE_ENTRY_WITH_ID,
                 uriMatcher.match(ExpenseContract.ExpenseEntry.CONTENT_URI.buildUpon().appendPath("1").build()))
     }
-    @Test fun uri_matcher_expense_categories_uris_are_configured_correctly() {
+    @Test fun uri_matcher_categories_uris_are_configured_correctly() {
         val uriMatcher = ExpenseContentProvider.buildUriMatcher()
 
         assertEquals("ERROR: The expense categories URI was matched incorrectly",
@@ -80,7 +80,7 @@ class ExpenseContentProviderTests {
                 uriMatcher.match(ExpenseContract.ExpenseCategory.CONTENT_URI.buildUpon().appendPath("1").build()))
     }
 
-    @Test fun insert_to_uknown_uri_should_throw_unsupported_operation_exception() {
+    @Test fun insert_uknown_uri_should_throw_unsupported_operation_exception() {
         thrown.expect(UnsupportedOperationException::class.java)
 
         val unknownUri = ExpenseContract.BASE_CONTENT_URI.buildUpon().appendPath("unknown").build()
@@ -89,7 +89,7 @@ class ExpenseContentProviderTests {
 
         mContext.contentResolver.insert(unknownUri, ContentValues())
     }
-    @Test fun insert_to_expense_categories_with_valid_parameters_should_succeed() {
+    @Test fun insert_to_categories_with_valid_parameters_should_succeed() {
         val contentResolver = mContext.contentResolver
         val contentObserver = TestUtilities.testContentObserver
         val uri = ExpenseContract.ExpenseCategory.CONTENT_URI
@@ -104,7 +104,41 @@ class ExpenseContentProviderTests {
         contentObserver.waitForNotificationOrFail()
         contentResolver.unregisterContentObserver(contentObserver)
     }
-    @Test fun insert_to_expense_categories_with_invalid_parameters_should_throw_sql_exception() {
+    @Test fun insert_to_categories_multiple_with_valid_parameters_should_succeed() {
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseCategory.CONTENT_URI
+
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        val expectedUri_1 = ExpenseContract.ExpenseCategory.CONTENT_URI.buildUpon().appendPath("1").build()
+        val expectedUri_2 = ExpenseContract.ExpenseCategory.CONTENT_URI.buildUpon().appendPath("2").build()
+        val expectedUri_3 = ExpenseContract.ExpenseCategory.CONTENT_URI.buildUpon().appendPath("3").build()
+
+        val actualUri_1 = insertCategory(contentResolver, uri, "name", "type", "YYYY-MM-DD", "description")
+        val actualUri_2 = insertCategory(contentResolver, uri, "name", "otherType", "YYYY-MM-DD", "description")
+        val actualUri_3 = insertCategory(contentResolver, uri, "otherName", "type", "YYYY-MM-DD", "description")
+
+        assertEquals("Unable to insert item through provider", expectedUri_1, actualUri_1)
+        assertEquals("Unable to insert item through provider", expectedUri_2, actualUri_2)
+        assertEquals("Unable to insert item through provider", expectedUri_3, actualUri_3)
+
+        contentObserver.waitForNotificationOrFail()
+        contentResolver.unregisterContentObserver(contentObserver)
+    }
+    @Test fun insert_to_categories_duplicate_name_and_type_should_throw_sql_exception() {
+        thrown.expect(SQLException::class.java)
+
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseCategory.CONTENT_URI
+
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        insertCategory(contentResolver, uri, "name", "type", "2000-10-10", "description one")
+        insertCategory(contentResolver, uri, "name", "type", "1900-10-10", "description two")
+    }
+    @Test fun insert_to_categories_with_invalid_parameters_should_throw_sql_exception() {
         thrown.expect(SQLException::class.java)
 
         val contentResolver = mContext.contentResolver
@@ -119,10 +153,33 @@ class ExpenseContentProviderTests {
         mContext.contentResolver.insert(uri, contentValues)
     }
     @Test fun insert_to_expenses_with_valid_parameters_should_succeed() {
-
+//        val contentResolver = mContext.contentResolver
+//        val contentObserver = TestUtilities.testContentObserver
+//        val uri = ExpenseContract.ExpenseEntry.CONTENT_URI
+//
+//        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+//
+//        val expectedUri = ExpenseContract.ExpenseEntry.CONTENT_URI.buildUpon().appendPath("1").build()
+//        val actualUri = insertExpense(contentResolver, uri, "name", "category", "YYYY-MM-DD")
+//
+//        assertEquals("Unable to insert item through provider", expectedUri, actualUri)
+//
+//        contentObserver.waitForNotificationOrFail()
+//        contentResolver.unregisterContentObserver(contentObserver)
     }
     @Test fun insert_to_expenses_with_invalid_parameters_should_throw_sql_exception() {
+        thrown.expect(SQLException::class.java)
 
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseEntry.CONTENT_URI
+
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        val contentValues = ContentValues()
+        contentValues.put("incorrect_column_name", "value")
+
+        mContext.contentResolver.insert(uri, contentValues)
     }
 
     @Test fun query_with_uknown_uri_should_throw_unsupported_operation_exception() {
@@ -266,6 +323,7 @@ class ExpenseContentProviderTests {
                 /* The observer to register (that will receive notifyChange callbacks) */
                 contentObserver)
     }
+
     private fun insertCategory(contentResolver: ContentResolver, uri: Uri, name: String, type: String, date: String = "", description: String? = ""): Uri {
         val contentValues = ContentValues()
         contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_NAME, name)
@@ -275,6 +333,11 @@ class ExpenseContentProviderTests {
 
         return contentResolver.insert(uri, contentValues)
     }
+    private fun insertExpense(contentResolver: ContentResolver?, uri: Uri?, s: String, s1: String, s2: String): Uri? {
+        // TODO:
+        return null
+    }
+
     private fun updateCategory(contentResolver: ContentResolver, uri: Uri, name: String, type: String, date: String = "", description: String? =""): Int {
         val contentValues = ContentValues()
         contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_NAME, name)
