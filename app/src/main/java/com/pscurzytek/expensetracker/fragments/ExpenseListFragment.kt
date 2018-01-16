@@ -29,7 +29,7 @@ import com.pscurzytek.expensetracker.data.loaders.CategoryLoader
 import com.pscurzytek.expensetracker.helpers.RecyclerItemWithBackgroundTouchHelper
 import com.pscurzytek.expensetracker.interfaces.RecyclerItemTouchHelperListener
 
-class CategoryListFragment : Fragment(),
+class ExpenseListFragment : Fragment(),
         LoaderManager.LoaderCallbacks<Cursor>,
         RecyclerItemTouchHelperListener {
 
@@ -62,7 +62,7 @@ class CategoryListFragment : Fragment(),
         mCategoriesRecyclerView.itemAnimator = DefaultItemAnimator()
         mCategoriesRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
-        val touchHelper = RecyclerItemWithBackgroundTouchHelper(0, ItemTouchHelper.LEFT, this@CategoryListFragment)
+        val touchHelper = RecyclerItemWithBackgroundTouchHelper(0, ItemTouchHelper.LEFT, this@ExpenseListFragment)
         ItemTouchHelper(touchHelper).attachToRecyclerView(mCategoriesRecyclerView)
 
         loaderManager.initLoader(CATEGORY_LOADER_ID, null, this)
@@ -102,12 +102,12 @@ class CategoryListFragment : Fragment(),
                 val deletedItem = item.getCategory()
 
                 context!!.contentResolver.delete(categoryUri, null, null)
-                loaderManager.restartLoader(CATEGORY_LOADER_ID, null, this@CategoryListFragment)
+                loaderManager.restartLoader(CATEGORY_LOADER_ID, null, this@ExpenseListFragment)
 
                 val snackbar = Snackbar.make(mMainLayout, deletedItem.name + " removed from cart!", Snackbar.LENGTH_LONG)
                 snackbar.setAction("UNDO", {
                     context!!.contentResolver.insert(ExpenseContract.ExpenseCategory.CONTENT_URI, deletedItem.getContentValues())
-                    loaderManager.restartLoader(CATEGORY_LOADER_ID, null, this@CategoryListFragment)
+                    loaderManager.restartLoader(CATEGORY_LOADER_ID, null, this@ExpenseListFragment)
                 })
                 snackbar.setActionTextColor(Color.YELLOW)
                 snackbar.show()

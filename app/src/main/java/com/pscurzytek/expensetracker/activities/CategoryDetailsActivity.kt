@@ -28,7 +28,7 @@ class CategoryDetailsActivity : AppCompatActivity() {
 
         mNameEditText = findViewById(R.id.et_category_name)
         mDescriptionEditText = findViewById(R.id.et_category_description)
-        mIncomeRadioButton =findViewById(R.id.rbtn_category_type_income)
+        mIncomeRadioButton = findViewById(R.id.rbtn_category_type_income)
 
         if (intent.extras?.containsKey(Constants.CategoryProperties.Name) == true)
             mNameEditText.setText(intent.getStringExtra(Constants.CategoryProperties.Name).toString())

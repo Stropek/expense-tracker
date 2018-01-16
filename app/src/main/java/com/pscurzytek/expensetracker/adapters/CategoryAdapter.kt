@@ -1,4 +1,4 @@
-package com.pscurzytek.expensetracker
+package com.pscurzytek.expensetracker.adapters
 
 import android.content.Context
 import android.database.Cursor
@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.data.extensions.getIntByColumn
 import com.pscurzytek.expensetracker.data.extensions.getStringByColumn

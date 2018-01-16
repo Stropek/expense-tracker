@@ -118,6 +118,12 @@ class ExpenseContentProviderTests {
 
         mContext.contentResolver.insert(uri, contentValues)
     }
+    @Test fun insert_to_expenses_with_valid_parameters_should_succeed() {
+
+    }
+    @Test fun insert_to_expenses_with_invalid_parameters_should_throw_sql_exception() {
+
+    }
 
     @Test fun query_with_uknown_uri_should_throw_unsupported_operation_exception() {
         thrown.expect(UnsupportedOperationException::class.java)
@@ -128,7 +134,7 @@ class ExpenseContentProviderTests {
 
         mContext.contentResolver.query(unknownUri, null, null, null, null)
     }
-    @Test fun query_with_content_uri_returns_all_categories() {
+    @Test fun query_with_categories_content_uri_returns_all_categories() {
         // given
         val contentResolver = mContext.contentResolver
         val contentObserver = TestUtilities.testContentObserver
@@ -157,7 +163,7 @@ class ExpenseContentProviderTests {
 
         categories.close()
     }
-    @Test fun query_with_content_by_id_uri_returns_category_with_given_id() {
+    @Test fun query_with_category_content_by_id_uri_returns_category_with_given_id() {
         // given
         val contentResolver = mContext.contentResolver
         val contentObserver = TestUtilities.testContentObserver
@@ -178,6 +184,12 @@ class ExpenseContentProviderTests {
         assertEquals(1, category.count)
         assertEquals(3, category.getInt(category.getColumnIndex(ExpenseContract.ExpenseCategory.ID)))
     }
+    @Test fun query_with_expenses_content_uri_returns_all_categories() {
+
+    }
+    @Test fun query_with_expense_content_by_id_uri_returns_category_with_given_id() {
+
+    }
 
     @Test fun update_with_uknown_uri_should_throw_unsupported_operation_exception() {
         thrown.expect(UnsupportedOperationException::class.java)
@@ -188,7 +200,7 @@ class ExpenseContentProviderTests {
 
         mContext.contentResolver.update(unknownUri, ContentValues(), null, null)
     }
-    @Test fun update_with_content_by_id_uri_updates_exsiting_category() {
+    @Test fun update_with_category_content_by_id_uri_updates_exsiting_category() {
         // given
         val contentResolver = mContext.contentResolver
         val contentObserver = TestUtilities.testContentObserver
@@ -206,6 +218,9 @@ class ExpenseContentProviderTests {
         updatedCategory.moveToFirst()
         assertEquals(1, updated)
         assertEquals(1, updatedCategory.count)
+    }
+    @Test fun update_with_expense_content_by_id_uri_updates_exsiting_category() {
+
     }
 
     @Test fun delete_with_uknown_uri_should_throw_unsupported_operation_exception() {
@@ -237,6 +252,9 @@ class ExpenseContentProviderTests {
         val categories = contentResolver.query(uri, null, null, null, null)
         assertEquals(1, deleted)
         assertEquals(5, categories.count)
+    }
+    @Test fun delete_with_existing_id_removes_expense_from_the_database() {
+
     }
 
     private fun setObservedUriOnContentResolver(contentResolver: ContentResolver, uri: Uri?, contentObserver: ContentObserver) {
