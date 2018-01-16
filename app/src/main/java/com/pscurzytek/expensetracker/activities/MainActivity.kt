@@ -48,6 +48,11 @@ class MainActivity : AppCompatActivity() {
         openCategoryDetails(id)
     }
 
+    fun onExpenseClicked(view: View) {
+        val id = (view.parent.parent as FrameLayout).tag.toString()
+        // TODO:
+    }
+
     private fun setUpNavigationView() {
         mNavigation.setNavigationItemSelectedListener { item ->
             CURRENT_TAG = when(item.itemId) {

@@ -25,7 +25,7 @@
 
     <!-- List fragments -->
     <style name="ListFragments_RecyclerView">
-
+        <!--TODO: -->
     </style>
 
     <style name="ListFragments_ImageView">

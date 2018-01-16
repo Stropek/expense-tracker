@@ -23,9 +23,11 @@ import com.pscurzytek.expensetracker.adapters.CategoryAdapter
 
 import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.activities.CategoryDetailsActivity
+import com.pscurzytek.expensetracker.adapters.ExpenseAdapter
 import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.data.extensions.getCategory
 import com.pscurzytek.expensetracker.data.loaders.CategoryLoader
+import com.pscurzytek.expensetracker.data.loaders.ExpenseLoader
 import com.pscurzytek.expensetracker.helpers.RecyclerItemWithBackgroundTouchHelper
 import com.pscurzytek.expensetracker.interfaces.RecyclerItemTouchHelperListener
 
@@ -35,32 +37,32 @@ class ExpenseListFragment : Fragment(),
 
     private lateinit var mMainLayout: FrameLayout
     private lateinit var mEmptyImageView: ImageView
-//    private lateinit var mCategoriesAdapter: CategoryAdapter
-//    private lateinit var mCategoriesRecyclerView: RecyclerView
+    private lateinit var mExpenseAdapter: ExpenseAdapter
+    private lateinit var mExpenseRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        mCategoriesAdapter = CategoryAdapter(context)
+        mExpenseAdapter = ExpenseAdapter(context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_expense_list, container, false)
 
-        val addCategoryButton = view.findViewById<FloatingActionButton>(R.id.btn_add_expense)
-        addCategoryButton.setOnClickListener {
-            val categoryIntent = Intent(context, CategoryDetailsActivity::class.java)
-            startActivity(categoryIntent)
+        val addExpenseButton = view.findViewById<FloatingActionButton>(R.id.btn_add_expense)
+        addExpenseButton.setOnClickListener {
+//            val categoryIntent = Intent(context, ExpenseDetailsActivity::class.java)
+//            startActivity(categoryIntent)
         }
 
         mMainLayout = view.findViewById(R.id.lt_main)
         mEmptyImageView = view.findViewById(R.id.iv_empty)
 
-//        mCategoriesRecyclerView = view.findViewById(R.id.rv_categories)
-//        mCategoriesRecyclerView.adapter = mCategoriesAdapter
-//        mCategoriesRecyclerView.layoutManager = LinearLayoutManager(context)
-//        mCategoriesRecyclerView.itemAnimator = DefaultItemAnimator()
-//        mCategoriesRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        mExpenseRecyclerView = view.findViewById(R.id.rv_expenses)
+        mExpenseRecyclerView.adapter = mExpenseAdapter
+        mExpenseRecyclerView.layoutManager = LinearLayoutManager(context)
+        mExpenseRecyclerView.itemAnimator = DefaultItemAnimator()
+        mExpenseRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
 //        val touchHelper = RecyclerItemWithBackgroundTouchHelper(0, ItemTouchHelper.LEFT, this@ExpenseListFragment)
 //        ItemTouchHelper(touchHelper).attachToRecyclerView(mCategoriesRecyclerView)
@@ -76,17 +78,17 @@ class ExpenseListFragment : Fragment(),
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
-        return CategoryLoader(context!!)
+        return ExpenseLoader(context!!)
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
-//        mCategoriesAdapter.swapCursor(data)
+        mExpenseAdapter.swapCursor(data)
 
         toggleView(data)
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>?) {
-//        mCategoriesAdapter.swapCursor(null)
+        mExpenseAdapter.swapCursor(null)
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
@@ -118,13 +120,13 @@ class ExpenseListFragment : Fragment(),
     }
 
     private fun toggleView(data: Cursor?) {
-//        if (data?.count == 0) {
-//            mEmptyImageView.visibility = View.VISIBLE
-//            mCategoriesRecyclerView.visibility = View.GONE
-//        } else {
-//            mEmptyImageView.visibility = View.GONE
-//            mCategoriesRecyclerView.visibility = View.VISIBLE
-//        }
+        if (data?.count == 0) {
+            mEmptyImageView.visibility = View.VISIBLE
+            mExpenseRecyclerView.visibility = View.GONE
+        } else {
+            mEmptyImageView.visibility = View.GONE
+            mExpenseRecyclerView.visibility = View.VISIBLE
+        }
     }
 
     companion object {

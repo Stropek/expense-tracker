@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout android:id="@+id/rl_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lightRed">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_bin"
+            android:alpha="0.5"
+            android:layout_marginEnd="20dp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout android:id="@+id/rl_foreground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:orientation="horizontal"
+            android:padding="@dimen/list_item_padding"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="onExpenseClicked">
+
+            <TextView
+                android:id="@+id/tv_expense_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/list_item_text_size"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>
