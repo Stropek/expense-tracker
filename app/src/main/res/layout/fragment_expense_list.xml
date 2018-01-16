@@ -18,7 +18,7 @@
         android:scaleX="3.0"
         android:scaleY="3.0"
         android:alpha="0.5"
-        android:src="@drawable/ic_categories"
+        android:src="@drawable/ic_currencies"
         android:visibility="gone" />
 
     <android.support.design.widget.FloatingActionButton

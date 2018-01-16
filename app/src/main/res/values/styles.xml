@@ -22,4 +22,18 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
+    <!-- List fragments -->
+    <style name="ListFragments_RecyclerView">
+
+    </style>
+
+    <style name="ListFragments_ImageView">
+
+    </style>
+
+    <style name="ListFragments_FloatingActionButton">
+
+    </style>
+
 </resources>

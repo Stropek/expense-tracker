@@ -35,19 +35,19 @@ class ExpenseListFragment : Fragment(),
 
     private lateinit var mMainLayout: FrameLayout
     private lateinit var mEmptyImageView: ImageView
-    private lateinit var mCategoriesAdapter: CategoryAdapter
-    private lateinit var mCategoriesRecyclerView: RecyclerView
+//    private lateinit var mCategoriesAdapter: CategoryAdapter
+//    private lateinit var mCategoriesRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mCategoriesAdapter = CategoryAdapter(context)
+//        mCategoriesAdapter = CategoryAdapter(context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val view = inflater.inflate(R.layout.fragment_category_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_expense_list, container, false)
 
-        val addCategoryButton = view.findViewById<FloatingActionButton>(R.id.btn_add_category)
+        val addCategoryButton = view.findViewById<FloatingActionButton>(R.id.btn_add_expense)
         addCategoryButton.setOnClickListener {
             val categoryIntent = Intent(context, CategoryDetailsActivity::class.java)
             startActivity(categoryIntent)
@@ -56,23 +56,23 @@ class ExpenseListFragment : Fragment(),
         mMainLayout = view.findViewById(R.id.lt_main)
         mEmptyImageView = view.findViewById(R.id.iv_empty)
 
-        mCategoriesRecyclerView = view.findViewById(R.id.rv_categories)
-        mCategoriesRecyclerView.adapter = mCategoriesAdapter
-        mCategoriesRecyclerView.layoutManager = LinearLayoutManager(context)
-        mCategoriesRecyclerView.itemAnimator = DefaultItemAnimator()
-        mCategoriesRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+//        mCategoriesRecyclerView = view.findViewById(R.id.rv_categories)
+//        mCategoriesRecyclerView.adapter = mCategoriesAdapter
+//        mCategoriesRecyclerView.layoutManager = LinearLayoutManager(context)
+//        mCategoriesRecyclerView.itemAnimator = DefaultItemAnimator()
+//        mCategoriesRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
-        val touchHelper = RecyclerItemWithBackgroundTouchHelper(0, ItemTouchHelper.LEFT, this@ExpenseListFragment)
-        ItemTouchHelper(touchHelper).attachToRecyclerView(mCategoriesRecyclerView)
+//        val touchHelper = RecyclerItemWithBackgroundTouchHelper(0, ItemTouchHelper.LEFT, this@ExpenseListFragment)
+//        ItemTouchHelper(touchHelper).attachToRecyclerView(mCategoriesRecyclerView)
 
-        loaderManager.initLoader(CATEGORY_LOADER_ID, null, this)
+        loaderManager.initLoader(EXPENSE_LOADER_ID, null, this)
 
         return view
     }
 
     override fun onResume() {
         super.onResume()
-        loaderManager.restartLoader(CATEGORY_LOADER_ID, null, this)
+        loaderManager.restartLoader(EXPENSE_LOADER_ID, null, this)
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
@@ -80,13 +80,13 @@ class ExpenseListFragment : Fragment(),
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
-        mCategoriesAdapter.swapCursor(data)
+//        mCategoriesAdapter.swapCursor(data)
 
         toggleView(data)
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>?) {
-        mCategoriesAdapter.swapCursor(null)
+//        mCategoriesAdapter.swapCursor(null)
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
@@ -94,40 +94,40 @@ class ExpenseListFragment : Fragment(),
 
         when (direction) {
             ItemTouchHelper.LEFT -> {
-                val categoryUri = ExpenseContract.ExpenseCategory.CONTENT_URI
-                        .buildUpon().appendPath(id).build()
-
-                val item = context!!.contentResolver.query(categoryUri, null, null, null, null)
-                item.moveToFirst()
-                val deletedItem = item.getCategory()
-
-                context!!.contentResolver.delete(categoryUri, null, null)
-                loaderManager.restartLoader(CATEGORY_LOADER_ID, null, this@ExpenseListFragment)
-
-                val snackbar = Snackbar.make(mMainLayout, deletedItem.name + " removed from cart!", Snackbar.LENGTH_LONG)
-                snackbar.setAction("UNDO", {
-                    context!!.contentResolver.insert(ExpenseContract.ExpenseCategory.CONTENT_URI, deletedItem.getContentValues())
-                    loaderManager.restartLoader(CATEGORY_LOADER_ID, null, this@ExpenseListFragment)
-                })
-                snackbar.setActionTextColor(Color.YELLOW)
-                snackbar.show()
-
-                item.close()
+//                val categoryUri = ExpenseContract.ExpenseCategory.CONTENT_URI
+//                        .buildUpon().appendPath(id).build()
+//
+//                val item = context!!.contentResolver.query(categoryUri, null, null, null, null)
+//                item.moveToFirst()
+//                val deletedItem = item.getCategory()
+//
+//                context!!.contentResolver.delete(categoryUri, null, null)
+//                loaderManager.restartLoader(EXPENSE_LOADER_ID, null, this@ExpenseListFragment)
+//
+//                val snackbar = Snackbar.make(mMainLayout, deletedItem.name + " removed from cart!", Snackbar.LENGTH_LONG)
+//                snackbar.setAction("UNDO", {
+//                    context!!.contentResolver.insert(ExpenseContract.ExpenseCategory.CONTENT_URI, deletedItem.getContentValues())
+//                    loaderManager.restartLoader(EXPENSE_LOADER_ID, null, this@ExpenseListFragment)
+//                })
+//                snackbar.setActionTextColor(Color.YELLOW)
+//                snackbar.show()
+//
+//                item.close()
             }
         }
     }
 
     private fun toggleView(data: Cursor?) {
-        if (data?.count == 0) {
-            mEmptyImageView.visibility = View.VISIBLE
-            mCategoriesRecyclerView.visibility = View.GONE
-        } else {
-            mEmptyImageView.visibility = View.GONE
-            mCategoriesRecyclerView.visibility = View.VISIBLE
-        }
+//        if (data?.count == 0) {
+//            mEmptyImageView.visibility = View.VISIBLE
+//            mCategoriesRecyclerView.visibility = View.GONE
+//        } else {
+//            mEmptyImageView.visibility = View.GONE
+//            mCategoriesRecyclerView.visibility = View.VISIBLE
+//        }
     }
 
     companion object {
-        private val CATEGORY_LOADER_ID = 1
+        private val EXPENSE_LOADER_ID = 1
     }
 }

@@ -17,6 +17,7 @@ import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 import com.pscurzytek.expensetracker.fragments.CategoryListFragment
+import com.pscurzytek.expensetracker.fragments.ExpenseListFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mHandler: Handler
@@ -48,14 +49,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpNavigationView() {
         mNavigation.setNavigationItemSelectedListener { item ->
-            when(item.itemId) {
-                R.id.nav_expenses -> {
-                    CURRENT_TAG = TAG_EXPENSES
-                    Toast.makeText(this@MainActivity, "Expenses", Toast.LENGTH_LONG).show()
-                }
-                R.id.nav_categories -> {
-                    CURRENT_TAG = TAG_CATEGORIES
-                }
+            CURRENT_TAG = when(item.itemId) {
+                R.id.nav_expenses -> TAG_EXPENSES
+                R.id.nav_categories -> TAG_CATEGORIES
                 else -> throw UnsupportedOperationException("Unknown item selected: ${item.itemId}")
             }
 
@@ -88,10 +84,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun getHomeFragment(): Fragment {
         return when(CURRENT_TAG) {
-            TAG_EXPENSES -> {
-                Toast.makeText(this@MainActivity, "getHomeFragment: $TAG_EXPENSES", Toast.LENGTH_LONG).show()
-                Fragment()
-            }
+            TAG_EXPENSES -> ExpenseListFragment()
             TAG_CATEGORIES -> CategoryListFragment()
             else -> throw UnsupportedOperationException("Unsupported fragment: $CURRENT_TAG")
         }
