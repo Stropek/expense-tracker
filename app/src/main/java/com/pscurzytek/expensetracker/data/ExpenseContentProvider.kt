@@ -94,6 +94,15 @@ class ExpenseContentProvider: ContentProvider() {
                         null)
                 cursor?.moveToFirst()
             }
+            EXPENSE_ENTRIES -> {
+                cursor = db.query(ExpenseContract.ExpenseEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder)
+            }
             else -> throw UnsupportedOperationException("Unknown operation URI: $uri")
         }
 

@@ -98,7 +98,7 @@ class ExpenseContentProviderTests {
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
         val expectedUri = ExpenseContract.ExpenseCategory.CONTENT_URI.buildUpon().appendPath("1").build()
-        val actualUri = insertCategory(contentResolver, uri, "name", "type", "YYYY-MM-DD", "description")
+        val actualUri = insertCategory(contentResolver, uri, "name", CategoryTypes.EXPENSE, "YYYY-MM-DD", "description")
 
         assertEquals("Unable to insert item through provider", expectedUri, actualUri)
 
@@ -116,9 +116,9 @@ class ExpenseContentProviderTests {
         val expectedUri_2 = ExpenseContract.ExpenseCategory.CONTENT_URI.buildUpon().appendPath("2").build()
         val expectedUri_3 = ExpenseContract.ExpenseCategory.CONTENT_URI.buildUpon().appendPath("3").build()
 
-        val actualUri_1 = insertCategory(contentResolver, uri, "name", "type", "YYYY-MM-DD", "description")
-        val actualUri_2 = insertCategory(contentResolver, uri, "name", "otherType", "YYYY-MM-DD", "description")
-        val actualUri_3 = insertCategory(contentResolver, uri, "otherName", "type", "YYYY-MM-DD", "description")
+        val actualUri_1 = insertCategory(contentResolver, uri, "name", CategoryTypes.EXPENSE, "YYYY-MM-DD", "description")
+        val actualUri_2 = insertCategory(contentResolver, uri, "name", CategoryTypes.INCOME, "YYYY-MM-DD", "description")
+        val actualUri_3 = insertCategory(contentResolver, uri, "otherName", CategoryTypes.EXPENSE, "YYYY-MM-DD", "description")
 
         assertEquals("Unable to insert item through provider", expectedUri_1, actualUri_1)
         assertEquals("Unable to insert item through provider", expectedUri_2, actualUri_2)
@@ -136,8 +136,8 @@ class ExpenseContentProviderTests {
 
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
-        insertCategory(contentResolver, uri, "name", "type", "2000-10-10", "description one")
-        insertCategory(contentResolver, uri, "name", "type", "1900-10-10", "description two")
+        insertCategory(contentResolver, uri, "name", CategoryTypes.EXPENSE, "2000-10-10", "description one")
+        insertCategory(contentResolver, uri, "name", CategoryTypes.EXPENSE, "1900-10-10", "description two")
     }
     @Test fun insert_to_categories_with_invalid_parameters_should_throw_sql_exception() {
         thrown.expect(SQLException::class.java)
@@ -201,10 +201,10 @@ class ExpenseContentProviderTests {
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
         for (i in 0..2) {
-            insertCategory(contentResolver, uri, "income_$i", "${CategoryTypes.INCOME}")
+            insertCategory(contentResolver, uri, "income_$i", CategoryTypes.INCOME)
         }
         for (i in 2 downTo 0) {
-            insertCategory(contentResolver, uri, "expense_$i", "${CategoryTypes.EXPENSE}")
+            insertCategory(contentResolver, uri, "expense_$i", CategoryTypes.EXPENSE)
         }
 
         // when
@@ -231,7 +231,7 @@ class ExpenseContentProviderTests {
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
         for (i in 0..9) {
-            insertCategory(contentResolver, uri, "category $i", "${CategoryTypes.INCOME}", description = "desc $i")
+            insertCategory(contentResolver, uri, "category $i", CategoryTypes.INCOME, description = "desc $i")
         }
 
         // when
@@ -242,11 +242,37 @@ class ExpenseContentProviderTests {
         assertEquals(1, category.count)
         assertEquals(3, category.getInt(category.getColumnIndex(ExpenseContract.ExpenseCategory.ID)))
     }
-    @Test fun query_with_expenses_content_uri_returns_all_categories() {
+    @Test fun query_with_expenses_content_uri_returns_all_expenses() {
+        // given
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseEntry.CONTENT_URI
 
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        for (i in 0..2) {
+            insertExpense(contentResolver, uri, "income_$i", CategoryTypes.EXPENSE, "category", i * 1000, "YYYY-MM-DD")
+        }
+        for (i in 2 downTo 0) {
+            insertExpense(contentResolver, uri, "expense_$i", CategoryTypes.INCOME, "category", i * 1000, "YYYY-MM-DD")
+        }
+
+        // when
+        val expenses = contentResolver.query(uri, null, null, null, null)
+
+        // then
+        val nameIndex = expenses.getColumnIndex(ExpenseContract.ExpenseEntry.COLUMN_NAME)
+
+        assertEquals("Unexpected number of categories", expenses.count, 6)
+        expenses.moveToFirst()
+        assertEquals("income_0", expenses.getString(nameIndex))
+        expenses.moveToPosition(3)
+        assertEquals("expense_2", expenses.getString(nameIndex))
+
+        expenses.close()
     }
-    @Test fun query_with_expense_content_by_id_uri_returns_category_with_given_id() {
-
+    @Test fun query_with_expense_content_by_id_uri_returns_expense_with_given_id() {
+        // TODO:
     }
 
     @Test fun update_with_uknown_uri_should_throw_unsupported_operation_exception() {
@@ -266,10 +292,10 @@ class ExpenseContentProviderTests {
 
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
-        val existingUri = insertCategory(contentResolver, uri, "category before", "${CategoryTypes.INCOME}", description = "desc")
+        val existingUri = insertCategory(contentResolver, uri, "category before", CategoryTypes.INCOME, description = "desc")
 
         // when
-        val updated = updateCategory(contentResolver, existingUri, "category after", "${CategoryTypes.EXPENSE}", description = "desc after")
+        val updated = updateCategory(contentResolver, existingUri, "category after", CategoryTypes.EXPENSE, description = "desc after")
 
         // then
         val updatedCategory = contentResolver.query(existingUri, null, null, null)
@@ -300,7 +326,7 @@ class ExpenseContentProviderTests {
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
         for (i in 0..5) {
-            insertCategory(contentResolver, uri, "category $i", "${CategoryTypes.INCOME}", description = "desc $i")
+            insertCategory(contentResolver, uri, "category $i", CategoryTypes.INCOME, description = "desc $i")
         }
 
         // when
@@ -325,11 +351,11 @@ class ExpenseContentProviderTests {
                 contentObserver)
     }
 
-    private fun insertCategory(contentResolver: ContentResolver, uri: Uri, name: String, type: String, date: String = "", description: String? = ""): Uri {
+    private fun insertCategory(contentResolver: ContentResolver, uri: Uri, name: String, type: CategoryTypes, date: String = "", description: String? = ""): Uri {
         val contentValues = ContentValues()
         contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_NAME, name)
         contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION, description)
-        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_TYPE, type)
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_TYPE, type.name)
         contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_CREATED, date)
 
         return contentResolver.insert(uri, contentValues)
@@ -345,11 +371,11 @@ class ExpenseContentProviderTests {
         return contentResolver.insert(uri, contentValues)
     }
 
-    private fun updateCategory(contentResolver: ContentResolver, uri: Uri, name: String, type: String, date: String = "", description: String? =""): Int {
+    private fun updateCategory(contentResolver: ContentResolver, uri: Uri, name: String, type: CategoryTypes, date: String = "", description: String? =""): Int {
         val contentValues = ContentValues()
         contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_NAME, name)
         contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION, description)
-        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_TYPE, type)
+        contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_TYPE, type.name)
         contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_CREATED, date)
 
         return contentResolver.update(uri, contentValues, null, null)
