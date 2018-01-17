@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
     fun onExpenseClicked(view: View) {
         val id = (view.parent.parent as FrameLayout).tag.toString()
-        // TODO:
+        openExpenseDetails(id)
     }
 
     private fun setUpNavigationView() {
@@ -109,6 +109,23 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(Constants.CategoryProperties.Name, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_NAME))
         intent.putExtra(Constants.CategoryProperties.Description, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION))
         intent.putExtra(Constants.CategoryProperties.Type, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_TYPE))
+
+        details.close()
+
+        startActivity(intent)
+    }
+
+    private fun openExpenseDetails(id: String) {
+        val details = contentResolver.query(ExpenseContract.ExpenseEntry.CONTENT_URI.buildUpon().appendPath(id).build(),
+                null,
+                null,
+                null,
+                null)
+
+        val intent = Intent(this, ExpenseDetailsActivity::class.java)
+
+        intent.putExtra("id", id)
+        // TODO: fill other details
 
         details.close()
 
