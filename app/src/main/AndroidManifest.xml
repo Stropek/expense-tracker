@@ -28,7 +28,8 @@
             android:authorities="com.pscurzytek.expensetracker"
             android:exported="false" />
 
-        <activity android:name=".activities.ExpenseDetailsActivity"></activity>
+        <activity android:name=".activities.ExpenseDetailsActivity" />
+        <activity android:name=".activities.CategorySelectionActivity"></activity>
     </application>
 
 </manifest>

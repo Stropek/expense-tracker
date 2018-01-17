@@ -19,10 +19,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import com.pscurzytek.expensetracker.CategoryTypes
+import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.adapters.CategoryAdapter
 
 import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.activities.CategoryDetailsActivity
+import com.pscurzytek.expensetracker.activities.CategorySelectionActivity
 import com.pscurzytek.expensetracker.adapters.ExpenseAdapter
 import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.data.extensions.getCategory
@@ -51,8 +54,15 @@ class ExpenseListFragment : Fragment(),
 
         val addExpenseButton = view.findViewById<FloatingActionButton>(R.id.btn_add_expense)
         addExpenseButton.setOnClickListener {
-//            val categoryIntent = Intent(context, ExpenseDetailsActivity::class.java)
-//            startActivity(categoryIntent)
+            val categoryIntent = Intent(context, CategorySelectionActivity::class.java)
+            categoryIntent.putExtra(Constants.CategoryProperties.Type, CategoryTypes.EXPENSE)
+            startActivity(categoryIntent)
+        }
+        val addIncomeButton = view.findViewById<FloatingActionButton>(R.id.btn_add_income)
+        addIncomeButton.setOnClickListener {
+            val categoryIntent = Intent(context, CategorySelectionActivity::class.java)
+            categoryIntent.putExtra(Constants.CategoryProperties.Type, CategoryTypes.INCOME)
+            startActivity(categoryIntent)
         }
 
         mMainLayout = view.findViewById(R.id.lt_main)

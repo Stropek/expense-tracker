@@ -25,7 +25,7 @@
 
     <!-- List fragments -->
     <style name="ListFragments_RecyclerView">
-        <!--TODO: -->
+        <!-- TODO: common styles for fragment_category_list, fragment_expense_list & activity_category_selection -->
     </style>
 
     <style name="ListFragments_ImageView">
