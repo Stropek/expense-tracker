@@ -19,7 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
-import com.pscurzytek.expensetracker.adapters.CategoryAdapter
+import com.pscurzytek.expensetracker.adapters.CategoryListAdapter
 
 import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.activities.CategoryDetailsActivity
@@ -35,13 +35,13 @@ class CategoryListFragment : Fragment(),
 
     private lateinit var mMainLayout: FrameLayout
     private lateinit var mEmptyImageView: ImageView
-    private lateinit var mCategoriesAdapter: CategoryAdapter
+    private lateinit var mCategoriesListAdapter: CategoryListAdapter
     private lateinit var mCategoriesRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mCategoriesAdapter = CategoryAdapter(context)
+        mCategoriesListAdapter = CategoryListAdapter(context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -57,7 +57,7 @@ class CategoryListFragment : Fragment(),
         mEmptyImageView = view.findViewById(R.id.iv_empty)
 
         mCategoriesRecyclerView = view.findViewById(R.id.rv_categories)
-        mCategoriesRecyclerView.adapter = mCategoriesAdapter
+        mCategoriesRecyclerView.adapter = mCategoriesListAdapter
         mCategoriesRecyclerView.layoutManager = LinearLayoutManager(context)
         mCategoriesRecyclerView.itemAnimator = DefaultItemAnimator()
         mCategoriesRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -80,13 +80,13 @@ class CategoryListFragment : Fragment(),
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
-        mCategoriesAdapter.swapCursor(data)
+        mCategoriesListAdapter.swapCursor(data)
 
         toggleView(data)
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>?) {
-        mCategoriesAdapter.swapCursor(null)
+        mCategoriesListAdapter.swapCursor(null)
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {

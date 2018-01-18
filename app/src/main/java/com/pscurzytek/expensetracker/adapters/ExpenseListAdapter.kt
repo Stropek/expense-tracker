@@ -17,7 +17,7 @@ import com.pscurzytek.expensetracker.interfaces.ViewHolderWithForeground
 /**
  * Created by p.s.curzytek on 1/15/2018.
  */
-class ExpenseAdapter(context: Context?): RecyclerView.Adapter<ExpenseAdapter.ExpenseViewHolder>() {
+class ExpenseListAdapter(context: Context?): RecyclerView.Adapter<ExpenseListAdapter.ExpenseViewHolder>() {
     private var mCursor: Cursor? = null
     private var mContext = context
 

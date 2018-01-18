@@ -2,10 +2,8 @@ package com.pscurzytek.expensetracker.fragments
 
 import android.content.Intent
 import android.database.Cursor
-import android.graphics.Color
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.LoaderManager
 import android.support.v4.content.Loader
@@ -21,17 +19,11 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
-import com.pscurzytek.expensetracker.adapters.CategoryAdapter
 
 import com.pscurzytek.expensetracker.R
-import com.pscurzytek.expensetracker.activities.CategoryDetailsActivity
 import com.pscurzytek.expensetracker.activities.CategorySelectionActivity
-import com.pscurzytek.expensetracker.adapters.ExpenseAdapter
-import com.pscurzytek.expensetracker.data.ExpenseContract
-import com.pscurzytek.expensetracker.data.extensions.getCategory
-import com.pscurzytek.expensetracker.data.loaders.CategoryLoader
+import com.pscurzytek.expensetracker.adapters.ExpenseListAdapter
 import com.pscurzytek.expensetracker.data.loaders.ExpenseLoader
-import com.pscurzytek.expensetracker.helpers.RecyclerItemWithBackgroundTouchHelper
 import com.pscurzytek.expensetracker.interfaces.RecyclerItemTouchHelperListener
 
 class ExpenseListFragment : Fragment(),
@@ -40,13 +32,13 @@ class ExpenseListFragment : Fragment(),
 
     private lateinit var mMainLayout: FrameLayout
     private lateinit var mEmptyImageView: ImageView
-    private lateinit var mExpenseAdapter: ExpenseAdapter
+    private lateinit var mExpenseListAdapter: ExpenseListAdapter
     private lateinit var mExpenseRecyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mExpenseAdapter = ExpenseAdapter(context)
+        mExpenseListAdapter = ExpenseListAdapter(context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -70,7 +62,7 @@ class ExpenseListFragment : Fragment(),
         mEmptyImageView = view.findViewById(R.id.iv_empty)
 
         mExpenseRecyclerView = view.findViewById(R.id.rv_expenses)
-        mExpenseRecyclerView.adapter = mExpenseAdapter
+        mExpenseRecyclerView.adapter = mExpenseListAdapter
         mExpenseRecyclerView.layoutManager = LinearLayoutManager(context)
         mExpenseRecyclerView.itemAnimator = DefaultItemAnimator()
         mExpenseRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
@@ -94,18 +86,16 @@ class ExpenseListFragment : Fragment(),
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
-        mExpenseAdapter.swapCursor(data)
+        mExpenseListAdapter.swapCursor(data)
 
         toggleView(data)
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>?) {
-        mExpenseAdapter.swapCursor(null)
+        mExpenseListAdapter.swapCursor(null)
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
-        val id = viewHolder.itemView.tag.toString()
-
         when (direction) {
             ItemTouchHelper.LEFT -> {
 //                val categoryUri = ExpenseContract.ExpenseCategory.CONTENT_URI
