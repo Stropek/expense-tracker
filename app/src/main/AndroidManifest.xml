@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -18,18 +19,23 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".activities.CategoryDetailsActivity"
             android:label="@string/label_category"
             android:parentActivityName=".activities.MainActivity" />
+
+        <activity android:name=".activities.ExpenseDetailsActivity" />
+
+        <activity android:name=".activities.CategorySelectionActivity"
+            android:label="@string/label_categories"
+            android:parentActivityName=".activities.ExpenseDetailsActivity" />
 
         <provider
             android:name=".data.ExpenseContentProvider"
             android:authorities="com.pscurzytek.expensetracker"
             android:exported="false" />
 
-        <activity android:name=".activities.ExpenseDetailsActivity" />
-        <activity android:name=".activities.CategorySelectionActivity"></activity>
     </application>
 
 </manifest>

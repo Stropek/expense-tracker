@@ -10,6 +10,7 @@ class CategorySelectionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category_selection)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         // TODO: display list of categories - either income or expense, depending on passed Constants.CategoryProperties.Type extra value
     }
 }
