@@ -52,6 +52,7 @@ class ExpenseListFragment : Fragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_expense_list, container, false)
 
+        // TODO: FABs need to be disabled if there is no category of their type
         val addExpenseButton = view.findViewById<FloatingActionButton>(R.id.btn_add_expense)
         addExpenseButton.setOnClickListener {
             val categoryIntent = Intent(context, CategorySelectionActivity::class.java)
@@ -74,6 +75,7 @@ class ExpenseListFragment : Fragment(),
         mExpenseRecyclerView.itemAnimator = DefaultItemAnimator()
         mExpenseRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
+        //TODO: touch helper
 //        val touchHelper = RecyclerItemWithBackgroundTouchHelper(0, ItemTouchHelper.LEFT, this@ExpenseListFragment)
 //        ItemTouchHelper(touchHelper).attachToRecyclerView(mCategoriesRecyclerView)
 

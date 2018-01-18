@@ -9,7 +9,9 @@ import com.pscurzytek.expensetracker.data.ExpenseContract
 /**
  * Created by p.s.curzytek on 12/26/2017.
  */
-class CategoryLoader(context: Context): AsyncTaskLoader<Cursor>(context) {
+class CategoryLoader(context: Context, private var selection: String? = null, private var selectionArgs: Array<String>? = null)
+    : AsyncTaskLoader<Cursor>(context) {
+
     private var mCategories: Cursor? = null
 
     override fun onStartLoading() {
@@ -24,8 +26,8 @@ class CategoryLoader(context: Context): AsyncTaskLoader<Cursor>(context) {
             val sortOrder = "${ExpenseContract.ExpenseCategory.COLUMN_TYPE}, ${ExpenseContract.ExpenseCategory.COLUMN_NAME}"
             context.contentResolver.query(ExpenseContract.ExpenseCategory.CONTENT_URI,
                     null,
-                    null,
-                    null,
+                    selection,
+                    selectionArgs,
                     sortOrder)
         }
         catch (ex: Exception) {
