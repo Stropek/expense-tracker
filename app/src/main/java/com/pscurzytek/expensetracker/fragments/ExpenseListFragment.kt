@@ -24,6 +24,7 @@ import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.activities.CategorySelectionActivity
 import com.pscurzytek.expensetracker.adapters.ExpenseListAdapter
+import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.data.loaders.ExpenseLoader
 import com.pscurzytek.expensetracker.interfaces.RecyclerItemTouchHelperListener
 
@@ -46,6 +47,7 @@ class ExpenseListFragment : Fragment(),
         val view = inflater.inflate(R.layout.fragment_expense_list, container, false)
 
         // TODO: FABs need to be disabled if there is no category of their type
+
         val addExpenseButton = view.findViewById<FloatingActionButton>(R.id.btn_add_expense)
         addExpenseButton.setOnClickListener {
             val categoryIntent = Intent(context, CategorySelectionActivity::class.java)
@@ -65,6 +67,16 @@ class ExpenseListFragment : Fragment(),
             sharedPreferences.apply()
 
             startActivity(categoryIntent)
+        }
+
+        val incomeCategories = context?.contentResolver?.query(ExpenseContract.ExpenseCategory.CONTENT_URI,
+                null,
+                "${ExpenseContract.ExpenseCategory.COLUMN_TYPE}=?",
+                arrayOf(CategoryTypes.INCOME.name),
+                null)?.count ?: 0
+        if (incomeCategories <= 0) {
+            addIncomeButton.isEnabled = false
+            addIncomeButton.alpha = 0.5f
         }
 
         mMainLayout = view.findViewById(R.id.lt_main)
