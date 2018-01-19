@@ -1,13 +1,18 @@
 package com.pscurzytek.expensetracker.activities
 
 import android.content.Context
+import android.content.Intent
 import android.database.Cursor
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.v4.app.LoaderManager
 import android.support.v4.content.Loader
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.FrameLayout
+import android.widget.TextView
 import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.R
@@ -29,7 +34,9 @@ class CategorySelectionActivity : AppCompatActivity(),
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        mType = intent.extras.getSerializable(Constants.CategoryProperties.Type) as CategoryTypes
+        val type = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(Constants.CategoryProperties.Type, "")
+        mType = CategoryTypes.valueOf(type)
 
         mCategorySelectionAdapter = CategorySelectionAdapter(this)
         mCategoriesRecyclerView = findViewById(R.id.rv_categories)
@@ -59,11 +66,25 @@ class CategorySelectionActivity : AppCompatActivity(),
         mCategorySelectionAdapter.swapCursor(null)
     }
 
+    fun onCategoryClicked(view: View) {
+        val category = view.findViewById<TextView>(R.id.tv_category_name).text
+        newExpenseEntry(mType, category)
+    }
+
     // TODO: move to utility class; take grid width as parameter
     fun calculateNoOfColumns(context: Context): Int {
         val displayMetrics = context.resources.displayMetrics
         val dpWidth = displayMetrics.widthPixels / displayMetrics.density
         return (dpWidth / 170).toInt()
+    }
+
+    private fun newExpenseEntry(type: CategoryTypes, category: CharSequence) {
+        val intent = Intent(this, ExpenseDetailsActivity::class.java)
+
+        intent.putExtra(Constants.CategoryProperties.Type, type)
+        intent.putExtra(Constants.CategoryProperties.Name, category)
+
+        startActivity(intent)
     }
 
     companion object {

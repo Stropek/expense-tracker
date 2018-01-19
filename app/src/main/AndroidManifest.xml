@@ -10,8 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name=".activities.MainActivity"
+        <activity android:name=".activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,12 +19,13 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".activities.CategoryDetailsActivity"
+        <activity android:name=".activities.CategoryDetailsActivity"
             android:label="@string/label_category"
             android:parentActivityName=".activities.MainActivity" />
 
-        <activity android:name=".activities.ExpenseDetailsActivity" />
+        <activity android:name=".activities.ExpenseDetailsActivity"
+            android:label="@string/label_expense"
+            android:parentActivityName=".activities.CategorySelectionActivity" />
 
         <activity android:name=".activities.CategorySelectionActivity"
             android:label="@string/label_categories"

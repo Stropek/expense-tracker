@@ -17,7 +17,8 @@
         android:focusable="true"
         android:orientation="horizontal"
         android:padding="@dimen/list_item_padding"
-        android:background="@color/lightRed">
+        android:background="@color/lightRed"
+        android:onClick="onCategoryClicked">
 
         <TextView
             android:id="@+id/tv_category_name"

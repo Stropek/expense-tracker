@@ -3,6 +3,7 @@ package com.pscurzytek.expensetracker.fragments
 import android.content.Intent
 import android.database.Cursor
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.app.LoaderManager
@@ -48,13 +49,21 @@ class ExpenseListFragment : Fragment(),
         val addExpenseButton = view.findViewById<FloatingActionButton>(R.id.btn_add_expense)
         addExpenseButton.setOnClickListener {
             val categoryIntent = Intent(context, CategorySelectionActivity::class.java)
-            categoryIntent.putExtra(Constants.CategoryProperties.Type, CategoryTypes.EXPENSE)
+
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context).edit()
+            sharedPreferences.putString(Constants.CategoryProperties.Type, CategoryTypes.EXPENSE.name)
+            sharedPreferences.apply()
+
             startActivity(categoryIntent)
         }
         val addIncomeButton = view.findViewById<FloatingActionButton>(R.id.btn_add_income)
         addIncomeButton.setOnClickListener {
             val categoryIntent = Intent(context, CategorySelectionActivity::class.java)
-            categoryIntent.putExtra(Constants.CategoryProperties.Type, CategoryTypes.INCOME)
+
+            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context).edit()
+            sharedPreferences.putString(Constants.CategoryProperties.Type, CategoryTypes.INCOME.name)
+            sharedPreferences.apply()
+
             startActivity(categoryIntent)
         }
 
