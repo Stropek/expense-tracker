@@ -8,6 +8,8 @@
     <string name="edit_category_name">Category name...</string>
     <string name="edit_category_description">Category description...</string>
 
+    <string name="sample_category">general</string>
+
     <!-- General -->
     <string name="label_add">Add</string>
     <string name="label_save">Save</string>

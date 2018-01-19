@@ -14,16 +14,21 @@
         android:layout_margin="10dp"
         android:animateLayoutChanges="true"
         android:clickable="true"
+        android:focusable="true"
         android:orientation="horizontal"
         android:padding="@dimen/list_item_padding"
         android:background="@color/lightRed">
 
         <TextView
             android:id="@+id/tv_category_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="75sp"
+            android:layout_gravity="center_vertical|center_horizontal|fill_horizontal"
+            android:autoSizeTextType="uniform"
+            android:gravity="center_vertical|center_horizontal"
+            android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="@dimen/list_item_text_size" />
+            tools:text="@string/sample_category" />
 
     </LinearLayout>
 
