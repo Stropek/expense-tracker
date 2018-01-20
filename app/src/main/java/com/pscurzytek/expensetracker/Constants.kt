@@ -15,4 +15,10 @@ class Constants {
             val Type = "category_type"
         }
     }
+
+    class ExpenseProperties {
+        companion object {
+            val Name = "expense_name"
+        }
+    }
 }

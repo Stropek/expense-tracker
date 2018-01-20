@@ -20,10 +20,9 @@ import com.pscurzytek.expensetracker.fragments.CategoryListFragment
 import com.pscurzytek.expensetracker.fragments.ExpenseListFragment
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var mHandler: Handler
-
     private lateinit var mToolbar: Toolbar
-
     private lateinit var mDrawer: DrawerLayout
     private lateinit var mNavigation: NavigationView
 

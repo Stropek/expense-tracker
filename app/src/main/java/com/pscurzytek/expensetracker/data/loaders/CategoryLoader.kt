@@ -9,8 +9,8 @@ import com.pscurzytek.expensetracker.data.ExpenseContract
 /**
  * Created by p.s.curzytek on 12/26/2017.
  */
-class CategoryLoader(context: Context, private var selection: String? = null, private var selectionArgs: Array<String>? = null)
-    : AsyncTaskLoader<Cursor>(context) {
+class CategoryLoader(context: Context, private var selection: String? = null, private var selectionArgs: Array<String>? = null):
+        AsyncTaskLoader<Cursor>(context) {
 
     private var mCategories: Cursor? = null
 

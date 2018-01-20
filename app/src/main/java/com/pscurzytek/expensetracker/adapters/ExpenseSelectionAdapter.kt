@@ -15,34 +15,34 @@ import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 /**
  * Created by p.s.curzytek on 1/17/2018.
  */
-class CategorySelectionAdapter(context: Context): RecyclerView.Adapter<CategorySelectionAdapter.CategoryViewHolder>() {
+class ExpenseSelectionAdapter(context: Context): RecyclerView.Adapter<ExpenseSelectionAdapter.ExpenseViewHolder>() {
     private var mCursor: Cursor? = null
     private var mContext = context
 
-    override fun onCreateViewHolder(parent: ViewGroup?, position: Int): CategoryViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup?, position: Int): ExpenseViewHolder {
         val view = LayoutInflater.from(mContext)
                 .inflate(R.layout.item_select, parent, false)
 
-        return CategoryViewHolder(view)
+        return ExpenseViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int) {
         val cursor = mCursor
 
         if (cursor != null) {
             cursor.moveToPosition(position)
 
-            val id = cursor.getIntByColumn(ExpenseContract.ExpenseCategory.ID)
-            val name = cursor.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_NAME)
-//            val type = cursor.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_TYPE)
+            val id = cursor.getIntByColumn(ExpenseContract.ExpenseEntry.ID)
+            val name = cursor.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_NAME)
+//            val type = cursor.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_TYPE)
 //
             holder.itemView.tag = id
-            holder.tvCategoryName.text = name
+            holder.tvExpenseName.text = name
 //
 //            val expenseColor = ResourcesCompat.getColor(mContext!!.resources, R.color.materialRed, null)
 //            val incomeColor = ResourcesCompat.getColor(mContext!!.resources, R.color.materialGreen, null)
 //            val bckgColor = if (type.toLowerCase() == "income") incomeColor else expenseColor
-//            (holder.tvCategoryName.parent as LinearLayout).setBackgroundColor(bckgColor)
+//            (holder.tvExpenseName.parent as LinearLayout).setBackgroundColor(bckgColor)
         }
     }
 
@@ -63,7 +63,7 @@ class CategorySelectionAdapter(context: Context): RecyclerView.Adapter<CategoryS
         return temp
     }
 
-    class CategoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        val tvCategoryName: TextView = itemView.findViewById(R.id.tv_item_name)
+    class ExpenseViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        val tvExpenseName: TextView = itemView.findViewById(R.id.tv_item_name)
     }
 }

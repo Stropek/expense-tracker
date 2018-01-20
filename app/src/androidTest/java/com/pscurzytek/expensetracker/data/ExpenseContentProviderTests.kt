@@ -136,6 +136,7 @@ class ExpenseContentProviderTests {
 
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
+        // TODO: modify so that it's case insensitive
         insertCategory(contentResolver, uri, "name", CategoryTypes.EXPENSE, "2000-10-10", "description one")
         insertCategory(contentResolver, uri, "name", CategoryTypes.EXPENSE, "1900-10-10", "description two")
     }

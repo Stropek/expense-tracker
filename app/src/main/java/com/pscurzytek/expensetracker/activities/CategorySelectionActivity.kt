@@ -11,7 +11,6 @@ import android.support.v4.content.Loader
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.FrameLayout
 import android.widget.TextView
 import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
@@ -19,7 +18,7 @@ import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.adapters.CategorySelectionAdapter
 import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.data.loaders.CategoryLoader
-
+import com.pscurzytek.expensetracker.utils.LayoutUtils
 
 class CategorySelectionActivity : AppCompatActivity(),
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -41,7 +40,7 @@ class CategorySelectionActivity : AppCompatActivity(),
         mCategorySelectionAdapter = CategorySelectionAdapter(this)
         mCategoriesRecyclerView = findViewById(R.id.rv_categories)
         mCategoriesRecyclerView.adapter = mCategorySelectionAdapter
-        mCategoriesRecyclerView.layoutManager = GridLayoutManager(this, calculateNoOfColumns(this))
+        mCategoriesRecyclerView.layoutManager = GridLayoutManager(this, LayoutUtils.calculateNoOfColumns(this))
 
         supportLoaderManager.initLoader(CATEGORY_LOADER_ID, null, this)
     }
@@ -67,29 +66,13 @@ class CategorySelectionActivity : AppCompatActivity(),
     }
 
     fun onCategoryClicked(view: View) {
-        val category = view.findViewById<TextView>(R.id.tv_category_name).text
-        newExpenseEntry(mType, category)
-    }
+        val category = view.findViewById<TextView>(R.id.tv_item_name).text.toString()
 
-    // TODO: move to utility class; take grid width as parameter
-    fun calculateNoOfColumns(context: Context): Int {
-        val displayMetrics = context.resources.displayMetrics
-        val dpWidth = displayMetrics.widthPixels / displayMetrics.density
-        return (dpWidth / 170).toInt()
-    }
-
-    private fun newExpenseEntry(type: CategoryTypes, category: CharSequence) {
-        // TODO: open expense details from expenseSelectionActivity
-//        val intent = Intent(this, ExpenseDetailsActivity::class.java)
-//
-//        intent.putExtra(Constants.CategoryProperties.Type, type)
-//        intent.putExtra(Constants.CategoryProperties.Name, category)
-//
-//        startActivity(intent)
         val intent = Intent(this, ExpenseSelectionActivity::class.java)
 
-        intent.putExtra(Constants.CategoryProperties.Type, type)
-        intent.putExtra(Constants.CategoryProperties.Name, category)
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this).edit()
+        sharedPreferences.putString(Constants.CategoryProperties.Name, category)
+        sharedPreferences.apply()
 
         startActivity(intent)
     }

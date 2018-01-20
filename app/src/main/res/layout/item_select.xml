@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="@dimen/list_item_padding"
     android:orientation="vertical">
 
     <!-- TODO: work on item layout -->
@@ -11,17 +11,16 @@
     <LinearLayout
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_margin="10dp"
         android:animateLayoutChanges="true"
+        android:background="@color/lightRed"
         android:clickable="true"
         android:focusable="true"
+        android:onClick="onCategoryClicked"
         android:orientation="horizontal"
-        android:padding="@dimen/list_item_padding"
-        android:background="@color/lightRed"
-        android:onClick="onCategoryClicked">
+        android:padding="@dimen/list_item_padding">
 
         <TextView
-            android:id="@+id/tv_category_name"
+            android:id="@+id/tv_item_name"
             android:layout_width="match_parent"
             android:layout_height="75sp"
             android:layout_gravity="center_vertical|center_horizontal|fill_horizontal"

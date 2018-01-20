@@ -9,8 +9,9 @@ import com.pscurzytek.expensetracker.interfaces.ViewHolderWithForeground
 /**
  * Created by p.s.curzytek on 1/4/2018.
  */
-class RecyclerItemWithBackgroundTouchHelper(dragDirs: Int, swipeDirs: Int, listener: RecyclerItemTouchHelperListener)
-    : ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
+class RecyclerItemWithBackgroundTouchHelper(dragDirs: Int, swipeDirs: Int, listener: RecyclerItemTouchHelperListener):
+        ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
+
     private val mListener: RecyclerItemTouchHelperListener = listener
 
     override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
