@@ -46,38 +46,11 @@ class ExpenseListFragment : Fragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view = inflater.inflate(R.layout.fragment_expense_list, container, false)
 
-        // TODO: FABs need to be disabled if there is no category of their type
+        val addIncomeButton = view.findViewById<FloatingActionButton>(R.id.btn_add_income)
+        setupAddButton(addIncomeButton, CategoryTypes.INCOME)
 
         val addExpenseButton = view.findViewById<FloatingActionButton>(R.id.btn_add_expense)
-        addExpenseButton.setOnClickListener {
-            val categoryIntent = Intent(context, CategorySelectionActivity::class.java)
-
-            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context).edit()
-            sharedPreferences.putString(Constants.CategoryProperties.Type, CategoryTypes.EXPENSE.name)
-            sharedPreferences.apply()
-
-            startActivity(categoryIntent)
-        }
-        val addIncomeButton = view.findViewById<FloatingActionButton>(R.id.btn_add_income)
-        addIncomeButton.setOnClickListener {
-            val categoryIntent = Intent(context, CategorySelectionActivity::class.java)
-
-            val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context).edit()
-            sharedPreferences.putString(Constants.CategoryProperties.Type, CategoryTypes.INCOME.name)
-            sharedPreferences.apply()
-
-            startActivity(categoryIntent)
-        }
-
-        val incomeCategories = context?.contentResolver?.query(ExpenseContract.ExpenseCategory.CONTENT_URI,
-                null,
-                "${ExpenseContract.ExpenseCategory.COLUMN_TYPE}=?",
-                arrayOf(CategoryTypes.INCOME.name),
-                null)?.count ?: 0
-        if (incomeCategories <= 0) {
-            addIncomeButton.isEnabled = false
-            addIncomeButton.alpha = 0.5f
-        }
+        setupAddButton(addExpenseButton, CategoryTypes.EXPENSE)
 
         mMainLayout = view.findViewById(R.id.lt_main)
         mEmptyImageView = view.findViewById(R.id.iv_empty)
@@ -149,6 +122,30 @@ class ExpenseListFragment : Fragment(),
         } else {
             mEmptyImageView.visibility = View.GONE
             mExpenseRecyclerView.visibility = View.VISIBLE
+        }
+    }
+
+    private fun setupAddButton(button: FloatingActionButton, categoryType: CategoryTypes) {
+        val categories = context?.contentResolver?.query(ExpenseContract.ExpenseCategory.CONTENT_URI,
+                null,
+                "${ExpenseContract.ExpenseCategory.COLUMN_TYPE}=?",
+                arrayOf(categoryType.name),
+                null)?.count ?: 0
+
+        if (categories > 0) {
+            button.setOnClickListener {
+                val categoryIntent = Intent(context, CategorySelectionActivity::class.java)
+
+                val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context).edit()
+                sharedPreferences.putString(Constants.CategoryProperties.Type, categoryType.name)
+                sharedPreferences.apply()
+
+                startActivity(categoryIntent)
+            }
+        }
+        else {
+            button.isEnabled = false
+            button.alpha = 0.5f
         }
     }
 
