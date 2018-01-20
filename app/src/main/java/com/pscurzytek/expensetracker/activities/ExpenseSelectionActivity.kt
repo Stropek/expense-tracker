@@ -59,8 +59,9 @@ class ExpenseSelectionActivity : AppCompatActivity(),
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
         val selection = "${ExpenseContract.ExpenseEntry.COLUMN_CATEGORY}=?"
         val selectionArgs = arrayOf(mCategory)
+        val limit = 5
 
-        return ExpenseLoader(this, selection, selectionArgs)
+        return ExpenseLoader(this, selection, selectionArgs, limit)
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {
