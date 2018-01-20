@@ -23,7 +23,7 @@
             android:parentActivityName=".activities.MainActivity" />
         <activity android:name=".activities.ExpenseDetailsActivity"
             android:label="@string/label_expense"
-            android:parentActivityName=".activities.CategorySelectionActivity" />
+            android:parentActivityName=".activities.ExpenseSelectionActivity" />
         <activity android:name=".activities.CategorySelectionActivity"
             android:label="@string/label_category_selection"
             android:parentActivityName=".activities.ExpenseDetailsActivity" />

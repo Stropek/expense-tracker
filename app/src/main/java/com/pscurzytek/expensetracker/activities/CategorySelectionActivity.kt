@@ -65,7 +65,7 @@ class CategorySelectionActivity : AppCompatActivity(),
         mCategorySelectionAdapter.swapCursor(null)
     }
 
-    fun onCategoryClicked(view: View) {
+    fun onItemClicked(view: View) {
         val category = view.findViewById<TextView>(R.id.tv_item_name).text.toString()
 
         val intent = Intent(this, ExpenseSelectionActivity::class.java)

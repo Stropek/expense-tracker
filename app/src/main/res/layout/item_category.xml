@@ -32,7 +32,7 @@
             android:padding="@dimen/list_item_padding"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="onCategoryClicked">
+            android:onClick="onItemClicked">
 
             <TextView
                 android:id="@+id/tv_category_name"

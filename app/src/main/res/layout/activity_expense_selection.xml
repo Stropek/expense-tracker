@@ -9,7 +9,7 @@
     tools:context="com.pscurzytek.expensetracker.activities.ExpenseSelectionActivity">
 
     <EditText
-        android:id="@+id/tv_expense_name"
+        android:id="@+id/et_expense_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -28,10 +28,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:text="@string/nav_next"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_expense_name"
+        android:onClick="onNextClicked"
+        app:layout_constraintBottom_toBottomOf="@+id/et_expense_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_expense_name"
-        app:layout_constraintTop_toTopOf="@+id/tv_expense_name" />
+        app:layout_constraintStart_toEndOf="@+id/et_expense_name"
+        app:layout_constraintTop_toTopOf="@+id/et_expense_name" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_expenses"
@@ -40,7 +41,7 @@
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btn_next"
-        app:layout_constraintStart_toStartOf="@+id/tv_expense_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_expense_name" />
+        app:layout_constraintStart_toStartOf="@+id/et_expense_name"
+        app:layout_constraintTop_toBottomOf="@+id/et_expense_name" />
 
 </android.support.constraint.ConstraintLayout>

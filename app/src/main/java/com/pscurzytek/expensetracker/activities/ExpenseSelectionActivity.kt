@@ -1,5 +1,6 @@
 package com.pscurzytek.expensetracker.activities
 
+import android.content.Intent
 import android.database.Cursor
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +9,9 @@ import android.support.v4.app.LoaderManager
 import android.support.v4.content.Loader
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.R
@@ -43,14 +47,6 @@ class ExpenseSelectionActivity : AppCompatActivity(),
         supportLoaderManager.initLoader(EXPENSE_LOADER_ID, null, this)
     }
 
-    // TODO: open expense details from expenseSelectionActivity - either on click on 'NEXT' or on selection of any of expense tiles
-//        val intent = Intent(this, ExpenseDetailsActivity::class.java)
-//
-//        intent.putExtra(Constants.CategoryProperties.Type, mType.name)
-//        intent.putExtra(Constants.CategoryProperties.Name, mCategory)
-//
-//        startActivity(intent)
-
     override fun onResume() {
         super.onResume()
         supportLoaderManager.restartLoader(EXPENSE_LOADER_ID, null, this)
@@ -70,6 +66,29 @@ class ExpenseSelectionActivity : AppCompatActivity(),
 
     override fun onLoaderReset(loader: Loader<Cursor>?) {
         mExpenseSelectionAdapter.swapCursor(null)
+    }
+
+    fun onItemClicked(view: View) {
+        val name = view.findViewById<TextView>(R.id.tv_item_name).text.toString()
+
+        openExpenseDetails(name)
+    }
+
+    fun onNextClicked(view: View) {
+        // TODO: if text is empty - toast message and do nothing
+        val name = findViewById<EditText>(R.id.et_expense_name).text.toString()
+
+        openExpenseDetails(name)
+    }
+
+    private fun openExpenseDetails(name: String) {
+        val intent = Intent(this, ExpenseDetailsActivity::class.java)
+
+        intent.putExtra(Constants.CategoryProperties.Type, mType)
+        intent.putExtra(Constants.CategoryProperties.Name, mCategory)
+        intent.putExtra(Constants.ExpenseProperties.Name, name)
+
+        startActivity(intent)
     }
 
     companion object {

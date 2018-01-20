@@ -15,7 +15,7 @@
         android:background="@color/lightRed"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="onCategoryClicked"
+        android:onClick="onItemClicked"
         android:orientation="horizontal"
         android:padding="@dimen/list_item_padding">
 
