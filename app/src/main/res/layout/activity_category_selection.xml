@@ -10,16 +10,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <ImageView
-        android:id="@+id/iv_empty"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:scaleType="center"
-        android:scaleX="3.0"
-        android:scaleY="3.0"
-        android:alpha="0.5"
-        android:src="@drawable/ic_currencies"
-        android:visibility="gone" />
-
 </FrameLayout>

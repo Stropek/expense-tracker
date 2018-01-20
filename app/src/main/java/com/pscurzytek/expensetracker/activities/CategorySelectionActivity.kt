@@ -79,7 +79,14 @@ class CategorySelectionActivity : AppCompatActivity(),
     }
 
     private fun newExpenseEntry(type: CategoryTypes, category: CharSequence) {
-        val intent = Intent(this, ExpenseDetailsActivity::class.java)
+        // TODO: open expense details from expenseSelectionActivity
+//        val intent = Intent(this, ExpenseDetailsActivity::class.java)
+//
+//        intent.putExtra(Constants.CategoryProperties.Type, type)
+//        intent.putExtra(Constants.CategoryProperties.Name, category)
+//
+//        startActivity(intent)
+        val intent = Intent(this, ExpenseSelectionActivity::class.java)
 
         intent.putExtra(Constants.CategoryProperties.Type, type)
         intent.putExtra(Constants.CategoryProperties.Name, category)

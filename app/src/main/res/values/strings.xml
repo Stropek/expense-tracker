@@ -2,7 +2,7 @@
     <string name="app_name">Expense Tracker</string>
 
     <!-- Category -->
-    <string name="label_categories">Categories</string>
+    <string name="label_category_selection">Category selection</string>
     <string name="label_category">Category</string>
 
     <string name="edit_category_name">Category name...</string>
@@ -11,7 +11,11 @@
     <string name="sample_category">general</string>
 
     <!-- Expense -->
+    <string name="label_expense_selection">Expense name selection</string>
     <string name="label_expense">Expense</string>
+
+    <string name="expense_name">Expense name</string>
+    <string name="expense_hint">Expense name...</string>
 
     <!-- General -->
     <string name="label_add">Add</string>
@@ -23,6 +27,7 @@
     <!-- Navigation -->
     <string name="nav_expenses">Expenses</string>
     <string name="nav_categories">Categories</string>
+    <string name="nav_next">Next</string>
     <string name="label_menu">Expense tracker menu</string>
     <string name="open_drawer">open_drawer</string>
     <string name="close_drawer">close_drawer</string>
