@@ -22,7 +22,6 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-
     <!-- List fragments -->
     <style name="ListFragments_RecyclerView">
         <!-- TODO: common styles for fragment_category_list, fragment_expense_list & activity_category_selection -->
@@ -34,6 +33,13 @@
 
     <style name="ListFragments_FloatingActionButton">
 
+    </style>
+
+    <!-- Activities -->
+    <style name="LayoutActivity">
+        <item name="android:padding">16dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
     </style>
 
 </resources>
