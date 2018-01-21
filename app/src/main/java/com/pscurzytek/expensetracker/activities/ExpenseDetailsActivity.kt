@@ -1,5 +1,6 @@
 package com.pscurzytek.expensetracker.activities
 
+import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -8,16 +9,14 @@ import android.widget.TextView
 import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.R
+import com.pscurzytek.expensetracker.databinding.ActivityExpenseDetailsBinding
 import com.pscurzytek.expensetracker.fragments.DatePickerFragment
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ExpenseDetailsActivity : AppCompatActivity() {
 
-    private lateinit var mType: CategoryTypes
-    private lateinit var mCategory: String
-    private lateinit var mExpenseNameTextView: TextView
-    private lateinit var mDateEditText: EditText
+    private lateinit var mBinding: ActivityExpenseDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,15 +24,11 @@ class ExpenseDetailsActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        mType = intent.extras.getSerializable(Constants.CategoryProperties.Type) as CategoryTypes
-        mCategory = intent.extras.getString(Constants.CategoryProperties.Name)
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_expense_details)
 
-        // TODO: data binding
-        mExpenseNameTextView = findViewById(R.id.tv_name)
-        mDateEditText = findViewById(R.id.et_date)
-
-        val name = intent.getStringExtra(Constants.ExpenseProperties.Name)
-        mExpenseNameTextView.text = name
+        mBinding.tvName.text = intent.getStringExtra(Constants.ExpenseProperties.Name)
+        mBinding.tvCategory.text = intent.extras.getString(Constants.CategoryProperties.Name)
+        mBinding.tvType.text = (intent.extras.getSerializable(Constants.CategoryProperties.Type) as CategoryTypes).name
 
         setCurrentDate()
     }
@@ -42,7 +37,7 @@ class ExpenseDetailsActivity : AppCompatActivity() {
         val datePicker = DatePickerFragment()
 
         datePicker.arguments = Bundle()
-        datePicker.arguments.putString(Constants.ExpenseProperties.Date, mDateEditText.text.toString())
+        datePicker.arguments.putString(Constants.ExpenseProperties.Date, mBinding.etDate.text.toString())
 
         datePicker.show(fragmentManager, "datePicker")
     }
@@ -58,6 +53,6 @@ class ExpenseDetailsActivity : AppCompatActivity() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        mDateEditText.setText("$day / ${month + 1} / $year")
+        mBinding.etDate.setText("$day / ${month + 1} / $year")
     }
 }
