@@ -32,7 +32,6 @@ class ExpenseListFragment : Fragment(),
         LoaderManager.LoaderCallbacks<Cursor>,
         RecyclerItemTouchHelperListener {
 
-    // TODO: fix bug with opening category details
     private lateinit var mMainLayout: FrameLayout
     private lateinit var mEmptyImageView: ImageView
     private lateinit var mExpenseListAdapter: ExpenseListAdapter
