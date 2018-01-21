@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper
 class ExpenseTrackerDbHelper(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, VERSION) {
     companion object {
         val DATABASE_NAME = "expenseTrackerDb.db"
-        val VERSION = 7
+        val VERSION = 1
     }
 
     override fun onCreate(sqLiteDatabase: SQLiteDatabase?) {
@@ -36,9 +36,14 @@ class ExpenseTrackerDbHelper(context: Context): SQLiteOpenHelper(context, DATABA
     }
 
     override fun onUpgrade(sqlLiteDatabase: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        // TODO: https://thebhwgroup.com/blog/how-android-sqlite-onupgrade
         sqlLiteDatabase?.execSQL("DROP TABLE IF EXISTS ${ExpenseContract.ExpenseEntry.TABLE_NAME}")
         sqlLiteDatabase?.execSQL("DROP TABLE IF EXISTS ${ExpenseContract.ExpenseCategory.TABLE_NAME}")
 
         onCreate(sqlLiteDatabase)
+    }
+
+    override fun onDowngrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        onUpgrade(db, oldVersion, newVersion)
     }
 }
