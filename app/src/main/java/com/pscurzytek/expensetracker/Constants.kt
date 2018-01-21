@@ -19,6 +19,7 @@ class Constants {
     class ExpenseProperties {
         companion object {
             val Name = "expense_name"
+            val Date = "expense_date"
         }
     }
 }
