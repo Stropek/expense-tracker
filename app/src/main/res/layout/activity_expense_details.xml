@@ -2,17 +2,23 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.pscurzytek.expensetracker.activities.ExpenseDetailsActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pscurzytek.expensetracker.activities.ExpenseDetailsActivity">
+    android:paddingBottom="16dp"
+    android:paddingEnd="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingStart="16dp"
+    android:paddingTop="16dp">
 
     <TextView
         android:id="@+id/tv_name_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="@string/label_expense"
         app:layout_constraintEnd_toStartOf="@+id/tv_name"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +28,7 @@
         android:id="@+id/tv_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_name_label"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,5 +100,35 @@
         app:layout_constraintEnd_toEndOf="@+id/tv_type"
         app:layout_constraintStart_toStartOf="@+id/tv_type"
         app:layout_constraintTop_toTopOf="@+id/tv_date_label" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_date"
+        tools:text="@string/sample_amount" />
+
+    <Button
+        android:id="@+id/button"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:onClick="onExpenseSave"
+        android:text="@string/label_save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 
 </android.support.constraint.ConstraintLayout>

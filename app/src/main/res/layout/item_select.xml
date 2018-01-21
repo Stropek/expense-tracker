@@ -26,6 +26,7 @@
             android:layout_gravity="center_vertical|center_horizontal|fill_horizontal"
             android:autoSizeTextType="uniform"
             android:gravity="center_vertical|center_horizontal"
+            android:maxLines="1"
             android:textAllCaps="true"
             android:textColor="@color/white"
             tools:text="@string/sample_category" />

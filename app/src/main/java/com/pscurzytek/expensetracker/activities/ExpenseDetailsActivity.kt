@@ -38,6 +38,19 @@ class ExpenseDetailsActivity : AppCompatActivity() {
         setCurrentDate()
     }
 
+    fun showDatePickerDialog(view: View) {
+        val datePicker = DatePickerFragment()
+
+        datePicker.arguments = Bundle()
+        datePicker.arguments.putString(Constants.ExpenseProperties.Date, mDateEditText.text.toString())
+
+        datePicker.show(fragmentManager, "datePicker")
+    }
+
+    fun onExpenseSave(view: View) {
+        //TODO: save
+    }
+
     private fun setCurrentDate() {
         val calendar = Calendar.getInstance()
 
@@ -46,14 +59,5 @@ class ExpenseDetailsActivity : AppCompatActivity() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         mDateEditText.setText("$day / ${month + 1} / $year")
-    }
-
-    fun showDatePickerDialog(view: View) {
-        val datePicker = DatePickerFragment()
-
-        datePicker.arguments = Bundle()
-        datePicker.arguments.putString(Constants.ExpenseProperties.Date, mDateEditText.text.toString())
-
-        datePicker.show(fragmentManager, "datePicker")
     }
 }

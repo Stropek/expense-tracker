@@ -21,6 +21,7 @@
     <string name="sample_category">general</string>
     <string name="sample_expense">general</string>
     <string name="sample_type">EXPENSE</string>
+    <string name="sample_amount">100.00</string>
 
     <!-- Labels -->
     <string name="label_add">Add</string>
