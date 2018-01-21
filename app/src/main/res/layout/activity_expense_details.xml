@@ -4,19 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.pscurzytek.expensetracker.activities.ExpenseDetailsActivity">
 
-    <android.support.constraint.ConstraintLayout style="@style/LayoutActivity">
+    <android.support.constraint.ConstraintLayout style="@style/Activity_Layout">
 
         <TextView
             android:id="@+id/tv_name_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
             android:text="@string/label_expense"
-            app:layout_constraintEnd_toStartOf="@+id/tv_name"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toStartOf="@+id/tv_name"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/Details_Label"/>
 
         <TextView
             android:id="@+id/tv_name"
@@ -32,13 +28,11 @@
 
         <TextView
             android:id="@+id/tv_category_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/label_category"
-            app:layout_constraintEnd_toEndOf="@+id/tv_name_label"
-            app:layout_constraintStart_toStartOf="@+id/tv_name_label"
-            app:layout_constraintTop_toBottomOf="@+id/tv_name_label" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_category"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name_label"
+            style="@style/Details_Label" />
 
         <TextView
             android:id="@+id/tv_category"
@@ -52,13 +46,11 @@
 
         <TextView
             android:id="@+id/tv_type_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/label_type"
-            app:layout_constraintEnd_toEndOf="@+id/tv_category_label"
-            app:layout_constraintStart_toStartOf="@+id/tv_category_label"
-            app:layout_constraintTop_toBottomOf="@+id/tv_category_label" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_type"
+            app:layout_constraintTop_toBottomOf="@+id/tv_category_label"
+            style="@style/Details_Label" />
 
         <TextView
             android:id="@+id/tv_type"
@@ -72,13 +64,11 @@
 
         <TextView
             android:id="@+id/tv_date_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:text="@string/label_date"
-            app:layout_constraintEnd_toEndOf="@+id/tv_type_label"
-            app:layout_constraintStart_toStartOf="@+id/tv_type_label"
-            app:layout_constraintTop_toBottomOf="@+id/tv_type_label" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/et_date"
+            app:layout_constraintTop_toBottomOf="@+id/tv_type_label"
+            style="@style/Details_Label" />
 
         <EditText
             android:id="@+id/et_date"

@@ -23,23 +23,34 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!-- List fragments -->
-    <style name="ListFragments_RecyclerView">
+    <style name="Fragment_List_RecyclerView">
         <!-- TODO: common styles for fragment_category_list, fragment_expense_list & activity_category_selection -->
     </style>
 
-    <style name="ListFragments_ImageView">
+    <style name="Fragment_List_ImageView">
 
     </style>
 
-    <style name="ListFragments_FloatingActionButton">
+    <style name="Fragment_List_FloatingActionButton">
 
     </style>
 
     <!-- Activities -->
-    <style name="LayoutActivity">
+    <style name="Activity_Layout">
         <item name="android:padding">16dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
+
+    <!-- Details -->
+    <style name="Details_Label">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">32dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="app:layout_constraintStart_toStartOf">parent</item>
+    </style>
+
 
 </resources>

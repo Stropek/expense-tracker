@@ -5,7 +5,7 @@
     tools:context="com.pscurzytek.expensetracker.activities.ExpenseSelectionActivity"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    style="@style/LayoutActivity">
+    style="@style/Activity_Layout">
 
     <EditText
         android:id="@+id/et_expense_name"

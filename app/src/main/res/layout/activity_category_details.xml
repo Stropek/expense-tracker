@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.pscurzytek.expensetracker.activities.CategoryDetailsActivity"
-    style="@style/LayoutActivity">
+    style="@style/Activity_Layout">
 
     <!-- TODO: add color and icon selectors -->
 
