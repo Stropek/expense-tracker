@@ -17,6 +17,9 @@
     <string name="open_drawer">open_drawer</string>
     <string name="close_drawer">close_drawer</string>
 
+    <!-- Hints -->
+    <string name="hint_amount">0.00</string>
+
     <!-- Sample values -->
     <string name="sample_category">general</string>
     <string name="sample_expense">general</string>

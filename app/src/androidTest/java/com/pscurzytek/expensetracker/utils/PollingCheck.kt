@@ -14,7 +14,7 @@
 * limitations under the License.
 */
 
-package com.pscurzytek.expensetracker.Utils
+package com.pscurzytek.expensetracker.utils
 
 import junit.framework.Assert
 

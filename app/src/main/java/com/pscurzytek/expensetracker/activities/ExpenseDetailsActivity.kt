@@ -4,14 +4,12 @@ import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.databinding.ActivityExpenseDetailsBinding
 import com.pscurzytek.expensetracker.fragments.DatePickerFragment
-import java.text.SimpleDateFormat
+import com.pscurzytek.expensetracker.helpers.DecimalTextWatcher
 import java.util.*
 
 class ExpenseDetailsActivity : AppCompatActivity() {
@@ -29,6 +27,8 @@ class ExpenseDetailsActivity : AppCompatActivity() {
         mBinding.tvName.text = intent.getStringExtra(Constants.ExpenseProperties.Name)
         mBinding.tvCategory.text = intent.extras.getString(Constants.CategoryProperties.Name)
         mBinding.tvType.text = (intent.extras.getSerializable(Constants.CategoryProperties.Type) as CategoryTypes).name
+
+        mBinding.etAmount.addTextChangedListener(DecimalTextWatcher(mBinding.etAmount))
 
         setCurrentDate()
     }

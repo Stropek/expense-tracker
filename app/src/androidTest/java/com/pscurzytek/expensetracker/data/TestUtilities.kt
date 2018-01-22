@@ -20,7 +20,7 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.os.Handler
 import android.os.HandlerThread
-import com.pscurzytek.expensetracker.Utils.PollingCheck
+import com.pscurzytek.expensetracker.utils.PollingCheck
 
 
 internal object TestUtilities {
