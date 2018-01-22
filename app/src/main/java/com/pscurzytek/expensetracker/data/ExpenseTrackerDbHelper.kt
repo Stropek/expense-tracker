@@ -31,7 +31,7 @@ class ExpenseTrackerDbHelper(context: Context): SQLiteOpenHelper(context, DATABA
                 "${ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION} TEXT NULL," +
                 "${ExpenseContract.ExpenseCategory.COLUMN_TYPE} TEXT NOT NULL," +
                 "${ExpenseContract.ExpenseCategory.COLUMN_CREATED} TEXT NOT NULL," +
-                "UNIQUE (${ExpenseContract.ExpenseCategory.COLUMN_NAME}, ${ExpenseContract.ExpenseCategory.COLUMN_TYPE}) ON CONFLICT FAIL);"
+                "UNIQUE (${ExpenseContract.ExpenseCategory.COLUMN_NAME} COLLATE NOCASE, ${ExpenseContract.ExpenseCategory.COLUMN_TYPE}) ON CONFLICT FAIL);"
 
         sqLiteDatabase?.execSQL(createExpenseEntriesTable)
         sqLiteDatabase?.execSQL(createExpenseCategoriesTable)

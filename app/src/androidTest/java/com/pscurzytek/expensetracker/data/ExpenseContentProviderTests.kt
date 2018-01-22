@@ -136,9 +136,8 @@ class ExpenseContentProviderTests {
 
         setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
 
-        // TODO: modify so that it's case insensitive
         insertCategory(contentResolver, uri, "name", CategoryTypes.EXPENSE, "2000-10-10", "description one")
-        insertCategory(contentResolver, uri, "name", CategoryTypes.EXPENSE, "1900-10-10", "description two")
+        insertCategory(contentResolver, uri, "NAME", CategoryTypes.EXPENSE, "1900-10-10", "description two")
     }
     @Test fun insert_to_categories_with_invalid_parameters_should_throw_sql_exception() {
         thrown.expect(SQLException::class.java)
