@@ -68,6 +68,12 @@ class ExpenseSelectionActivity : AppCompatActivity(),
         mExpenseSelectionAdapter.swapCursor(null)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == ACTIVITY_EXPENSE_DETAILS_ID) {
+            finish()
+        }
+    }
+
     fun onItemClicked(view: View) {
         val name = view.findViewById<TextView>(R.id.tv_item_name).text.toString()
 
@@ -88,10 +94,12 @@ class ExpenseSelectionActivity : AppCompatActivity(),
         intent.putExtra(Constants.CategoryProperties.Name, mCategory)
         intent.putExtra(Constants.ExpenseProperties.Name, name)
 
-        startActivity(intent)
+        startActivityForResult(intent, ACTIVITY_EXPENSE_DETAILS_ID)
     }
 
     companion object {
         private val EXPENSE_LOADER_ID = 3
+
+        private val ACTIVITY_EXPENSE_DETAILS_ID = 1
     }
 }

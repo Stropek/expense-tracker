@@ -14,6 +14,8 @@ class ExpenseTrackerDbHelper(context: Context): SQLiteOpenHelper(context, DATABA
     }
 
     override fun onCreate(sqLiteDatabase: SQLiteDatabase?) {
+
+        // TODO: add column for date of the expense and use COLUMN_CREATED for date of record creation
         val createExpenseEntriesTable = "CREATE TABLE ${ExpenseContract.ExpenseEntry.TABLE_NAME} (" +
                 "${ExpenseContract.ExpenseEntry.ID} INTEGER PRIMARY KEY," +
                 "${ExpenseContract.ExpenseEntry.COLUMN_NAME} TEXT NOT NULL," +

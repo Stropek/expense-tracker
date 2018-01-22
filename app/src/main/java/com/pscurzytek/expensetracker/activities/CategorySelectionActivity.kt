@@ -1,6 +1,5 @@
 package com.pscurzytek.expensetracker.activities
 
-import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.support.v7.app.AppCompatActivity
@@ -65,6 +64,12 @@ class CategorySelectionActivity : AppCompatActivity(),
         mCategorySelectionAdapter.swapCursor(null)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == ACTIVITY_EXPENSE_SELECTION_ID) {
+            finish()
+        }
+    }
+
     fun onItemClicked(view: View) {
         val category = view.findViewById<TextView>(R.id.tv_item_name).text.toString()
 
@@ -74,10 +79,12 @@ class CategorySelectionActivity : AppCompatActivity(),
         sharedPreferences.putString(Constants.CategoryProperties.Name, category)
         sharedPreferences.apply()
 
-        startActivity(intent)
+        startActivityForResult(intent, ACTIVITY_EXPENSE_SELECTION_ID)
     }
 
     companion object {
         private val CATEGORY_LOADER_ID = 2
+
+        private val ACTIVITY_EXPENSE_SELECTION_ID = 1
     }
 }

@@ -54,7 +54,7 @@ class CategoryDetailsActivity : AppCompatActivity() {
     fun onCategorySave(view: View) {
         val name = mNameEditText.text.toString()
         if (name.isEmpty()) {
-            Toast.makeText(this@CategoryDetailsActivity, "Name is required", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Name is required", Toast.LENGTH_SHORT).show()
             return
         }
 

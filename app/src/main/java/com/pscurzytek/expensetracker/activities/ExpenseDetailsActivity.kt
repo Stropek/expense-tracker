@@ -1,12 +1,16 @@
 package com.pscurzytek.expensetracker.activities
 
+import android.content.ContentValues
 import android.databinding.DataBindingUtil
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.R
+import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.databinding.ActivityExpenseDetailsBinding
 import com.pscurzytek.expensetracker.fragments.DatePickerFragment
 import com.pscurzytek.expensetracker.helpers.DecimalTextWatcher
@@ -43,7 +47,33 @@ class ExpenseDetailsActivity : AppCompatActivity() {
     }
 
     fun onExpenseSave(view: View) {
-        //TODO: save
+        val amount = mBinding.etAmount.text.toString()
+        if (amount.isEmpty()) {
+            Toast.makeText(this, "Amount is required", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (amount.toDouble() == 0.0) {
+            Toast.makeText(this, "Amount must be positive", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val values = ContentValues()
+        values.put(ExpenseContract.ExpenseEntry.COLUMN_NAME, mBinding.tvName.text.toString())
+        values.put(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY, mBinding.tvCategory.text.toString())
+        values.put(ExpenseContract.ExpenseEntry.COLUMN_TYPE, mBinding.tvType.text.toString())
+        values.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, mBinding.etDate.text.toString())
+        values.put(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT, mBinding.etAmount.text.toString())
+
+        try {
+            // TODO: wrap up saving
+            contentResolver.insert(ExpenseContract.ExpenseEntry.CONTENT_URI, values)
+
+            // finish activity and return all the way back to main activity
+            finish()
+        } catch (ex: Exception) {
+            Log.e(TAG, "Failed to insert expenses")
+            ex.printStackTrace()
+        }
     }
 
     private fun setCurrentDate() {
@@ -54,5 +84,9 @@ class ExpenseDetailsActivity : AppCompatActivity() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         mBinding.etDate.setText("$day / ${month + 1} / $year")
+    }
+
+    companion object {
+        val TAG = ExpenseDetailsActivity::class.java.simpleName
     }
 }
