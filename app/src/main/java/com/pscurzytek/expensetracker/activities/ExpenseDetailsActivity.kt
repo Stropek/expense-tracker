@@ -57,15 +57,14 @@ class ExpenseDetailsActivity : AppCompatActivity() {
             return
         }
 
-        val values = ContentValues()
-        values.put(ExpenseContract.ExpenseEntry.COLUMN_NAME, mBinding.tvName.text.toString())
-        values.put(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY, mBinding.tvCategory.text.toString())
-        values.put(ExpenseContract.ExpenseEntry.COLUMN_TYPE, mBinding.tvType.text.toString())
-        values.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, mBinding.etDate.text.toString())
-        values.put(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT, mBinding.etAmount.text.toString())
-
         try {
-            // TODO: wrap up saving
+            val values = ContentValues()
+            values.put(ExpenseContract.ExpenseEntry.COLUMN_NAME, mBinding.tvName.text.toString())
+            values.put(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY, mBinding.tvCategory.text.toString())
+            values.put(ExpenseContract.ExpenseEntry.COLUMN_TYPE, mBinding.tvType.text.toString())
+            values.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, mBinding.etDate.text.toString())
+            values.put(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT, mBinding.etAmount.text.toString())
+
             contentResolver.insert(ExpenseContract.ExpenseEntry.CONTENT_URI, values)
 
             // finish activity and return all the way back to main activity
