@@ -1,9 +1,12 @@
 package com.pscurzytek.expensetracker.activities
 
 import android.content.ContentValues
+import android.content.DialogInterface
 import android.databinding.DataBindingUtil
+import android.nfc.Tag
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -11,6 +14,7 @@ import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.data.ExpenseContract
+import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 import com.pscurzytek.expensetracker.databinding.ActivityExpenseDetailsBinding
 import com.pscurzytek.expensetracker.fragments.DatePickerFragment
 import com.pscurzytek.expensetracker.helpers.DecimalTextWatcher
@@ -19,6 +23,7 @@ import java.util.*
 class ExpenseDetailsActivity : AppCompatActivity() {
 
     private lateinit var mBinding: ActivityExpenseDetailsBinding
+    private lateinit var mCategories: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,11 +35,14 @@ class ExpenseDetailsActivity : AppCompatActivity() {
 
         mBinding.tvName.setText(intent.getStringExtra(Constants.ExpenseProperties.Name))
         mBinding.tvCategory.text = intent.extras.getString(Constants.ExpenseProperties.Category)
-        mBinding.tvType.text = (intent.extras.getSerializable(Constants.ExpenseProperties.Type) as CategoryTypes).name
+        val type = intent.extras.getSerializable(Constants.ExpenseProperties.Type) as CategoryTypes
+        mBinding.tvType.text = type.name
 
         mBinding.etAmount.addTextChangedListener(DecimalTextWatcher(mBinding.etAmount))
 
         setCurrentDate()
+
+        mCategories = getCategories(type)
     }
 
     fun showDatePickerDialog(view: View) {
@@ -47,7 +55,13 @@ class ExpenseDetailsActivity : AppCompatActivity() {
     }
 
     fun showCategoryDialog(view: View) {
+        val builder = AlertDialog.Builder(this)
+                .setTitle(R.string.label_category)
+                .setItems(mCategories) { dialog, which ->
+                    mBinding.tvCategory.text = mCategories[which]
+                }
 
+        builder.show()
     }
 
     fun onExpenseSave(view: View) {
@@ -88,6 +102,22 @@ class ExpenseDetailsActivity : AppCompatActivity() {
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
         mBinding.etDate.setText("$day / ${month + 1} / $year")
+    }
+
+    private fun getCategories(type: CategoryTypes): Array<String> {
+        var categories: Array<String> = arrayOf()
+
+        val cursor = contentResolver.query(ExpenseContract.ExpenseCategory.CONTENT_URI,
+                null,
+                "${ExpenseContract.ExpenseCategory.COLUMN_TYPE}=?",
+                arrayOf(type.name),
+                null)
+
+        while (cursor.moveToNext()) {
+            categories = categories.plus(cursor.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_NAME))
+        }
+
+        return categories
     }
 
     companion object {
