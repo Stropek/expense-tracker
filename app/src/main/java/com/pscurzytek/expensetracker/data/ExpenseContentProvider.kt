@@ -132,6 +132,12 @@ class ExpenseContentProvider: ContentProvider() {
                         "${ExpenseContract.ExpenseCategory.ID}=?",
                         arrayOf(id))
             }
+            EXPENSE_ENTRY_WITH_ID -> {
+                val id = uri.lastPathSegment
+                return db.update(ExpenseContract.ExpenseEntry.TABLE_NAME, values,
+                        "${ExpenseContract.ExpenseEntry.ID}=?",
+                        arrayOf(id))
+            }
             else -> throw UnsupportedOperationException("Unknown operation URI: $uri")
         }
     }

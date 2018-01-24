@@ -10,6 +10,7 @@ import android.net.Uri
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
 import com.pscurzytek.expensetracker.CategoryTypes
+import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 
 import junit.framework.Assert.fail
 import junit.framework.Assert.assertEquals
@@ -19,7 +20,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
-import java.time.temporal.TemporalAmount
 
 /**
  * Created by p.s.curzytek on 12/10/2017.
@@ -320,9 +320,29 @@ class ExpenseContentProviderTests {
         updatedCategory.moveToFirst()
         assertEquals(1, updated)
         assertEquals(1, updatedCategory.count)
+        assertEquals("category after", updatedCategory.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_NAME))
     }
     @Test fun update_with_expense_content_by_id_uri_updates_exsiting_category() {
+        // given
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseEntry.CONTENT_URI
 
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        val existingUri = insertExpense(contentResolver, uri, "expense before", CategoryTypes.INCOME,
+                "category before", 10, "date before")
+
+        // when
+        val updated = updateExpense(contentResolver, existingUri, "expense after", CategoryTypes.EXPENSE,
+                "category after", 100, "date after")
+
+        // then
+        val updatedExpense = contentResolver.query(existingUri, null, null, null)
+        updatedExpense.moveToFirst()
+        assertEquals(1, updated)
+        assertEquals(1, updatedExpense.count)
+        assertEquals("expense after", updatedExpense.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_NAME))
     }
 
     @Test fun delete_with_uknown_uri_should_throw_unsupported_operation_exception() {
@@ -395,6 +415,16 @@ class ExpenseContentProviderTests {
         contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION, description)
         contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_TYPE, type.name)
         contentValues.put(ExpenseContract.ExpenseCategory.COLUMN_CREATED, date)
+
+        return contentResolver.update(uri, contentValues, null, null)
+    }
+    private fun updateExpense(contentResolver: ContentResolver, uri: Uri, name: String, type: CategoryTypes, category: String, amount: Int, date: String = ""): Int {
+        val contentValues = ContentValues()
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_NAME, name)
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_TYPE, type.name)
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY, category)
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT, amount)
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, date)
 
         return contentResolver.update(uri, contentValues, null, null)
     }

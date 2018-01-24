@@ -84,8 +84,14 @@ class ExpenseDetailsActivity : AppCompatActivity() {
             values.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, mBinding.etDate.text.toString())
             values.put(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT, mBinding.etAmount.text.toString())
 
-            // TODO: insert or update
-            contentResolver.insert(ExpenseContract.ExpenseEntry.CONTENT_URI, values)
+            if (intent.extras != null && intent.extras.containsKey(Constants.ID)) {
+                val id = intent.extras.getString(Constants.ID)
+                val updateUri = ExpenseContract.ExpenseEntry.CONTENT_URI
+                        .buildUpon().appendPath(id).build()
+                contentResolver.update(updateUri, values, null, null)
+            } else {
+                contentResolver.insert(ExpenseContract.ExpenseEntry.CONTENT_URI, values)
+            }
 
             // finish activity and return all the way back to main activity
             finish()
