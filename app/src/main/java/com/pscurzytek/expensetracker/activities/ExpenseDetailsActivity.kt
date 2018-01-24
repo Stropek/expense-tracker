@@ -29,8 +29,8 @@ class ExpenseDetailsActivity : AppCompatActivity() {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_expense_details)
 
         mBinding.tvName.text = intent.getStringExtra(Constants.ExpenseProperties.Name)
-        mBinding.tvCategory.text = intent.extras.getString(Constants.CategoryProperties.Name)
-        mBinding.tvType.text = (intent.extras.getSerializable(Constants.CategoryProperties.Type) as CategoryTypes).name
+        mBinding.tvCategory.text = intent.extras.getString(Constants.ExpenseProperties.Category)
+        mBinding.tvType.text = (intent.extras.getSerializable(Constants.ExpenseProperties.Type) as CategoryTypes).name
 
         mBinding.etAmount.addTextChangedListener(DecimalTextWatcher(mBinding.etAmount))
 

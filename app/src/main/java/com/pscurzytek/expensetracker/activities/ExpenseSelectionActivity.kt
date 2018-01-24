@@ -90,8 +90,8 @@ class ExpenseSelectionActivity : AppCompatActivity(),
     private fun openExpenseDetails(name: String) {
         val intent = Intent(this, ExpenseDetailsActivity::class.java)
 
-        intent.putExtra(Constants.CategoryProperties.Type, mType)
-        intent.putExtra(Constants.CategoryProperties.Name, mCategory)
+        intent.putExtra(Constants.ExpenseProperties.Type, mType)
+        intent.putExtra(Constants.ExpenseProperties.Category, mCategory)
         intent.putExtra(Constants.ExpenseProperties.Name, name)
 
         startActivityForResult(intent, ACTIVITY_EXPENSE_DETAILS_ID)

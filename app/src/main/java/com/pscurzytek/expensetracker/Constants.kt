@@ -20,6 +20,8 @@ class Constants {
         companion object {
             val Name = "expense_name"
             val Date = "expense_date"
+            val Category = "expense_category"
+            val Type = "expense_type"
         }
     }
 }

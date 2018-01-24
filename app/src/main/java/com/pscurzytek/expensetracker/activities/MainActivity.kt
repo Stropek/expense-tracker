@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
+import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.data.ExpenseContract
@@ -104,7 +105,7 @@ class MainActivity : AppCompatActivity() {
 
         val intent = Intent(this, CategoryDetailsActivity::class.java)
 
-        intent.putExtra("id", id)
+        intent.putExtra(Constants.ID, id)
         intent.putExtra(Constants.CategoryProperties.Name, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_NAME))
         intent.putExtra(Constants.CategoryProperties.Description, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION))
         intent.putExtra(Constants.CategoryProperties.Type, details.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_TYPE))
@@ -123,8 +124,10 @@ class MainActivity : AppCompatActivity() {
 
         val intent = Intent(this, ExpenseDetailsActivity::class.java)
 
-        intent.putExtra("id", id)
-        // TODO: fill other details
+        intent.putExtra(Constants.ID, id)
+        intent.putExtra(Constants.ExpenseProperties.Name, details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_NAME))
+        intent.putExtra(Constants.ExpenseProperties.Category, details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY))
+        intent.putExtra(Constants.ExpenseProperties.Type, CategoryTypes.valueOf(details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_TYPE)))
 
         details.close()
 
