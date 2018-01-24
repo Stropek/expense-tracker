@@ -128,6 +128,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(Constants.ExpenseProperties.Name, details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_NAME))
         intent.putExtra(Constants.ExpenseProperties.Category, details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY))
         intent.putExtra(Constants.ExpenseProperties.Type, CategoryTypes.valueOf(details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_TYPE)))
+        intent.putExtra(Constants.ExpenseProperties.Amount, details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT))
 
         details.close()
 

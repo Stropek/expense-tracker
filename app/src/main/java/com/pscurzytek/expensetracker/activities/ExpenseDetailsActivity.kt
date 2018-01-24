@@ -37,6 +37,7 @@ class ExpenseDetailsActivity : AppCompatActivity() {
         mBinding.tvCategory.text = intent.extras.getString(Constants.ExpenseProperties.Category)
         val type = intent.extras.getSerializable(Constants.ExpenseProperties.Type) as CategoryTypes
         mBinding.tvType.text = type.name
+        mBinding.etAmount.setText(intent.extras.getString(Constants.ExpenseProperties.Amount))
 
         mBinding.etAmount.addTextChangedListener(DecimalTextWatcher(mBinding.etAmount))
 

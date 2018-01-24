@@ -22,6 +22,7 @@ class Constants {
             val Date = "expense_date"
             val Category = "expense_category"
             val Type = "expense_type"
+            val Amount = "expense_amount"
         }
     }
 }
