@@ -17,9 +17,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <EditText
             android:id="@+id/tv_name"
             style="@style/Details_Edit"
+            android:maxLines="1"
+            android:background="@null"
             android:layout_marginStart="48dp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_name_label"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,10 +40,19 @@
             android:id="@+id/tv_category"
             style="@style/Details_Edit"
             app:layout_constraintBottom_toBottomOf="@+id/tv_category_label"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ib_category"
             app:layout_constraintStart_toStartOf="@+id/tv_name"
             app:layout_constraintTop_toTopOf="@+id/tv_category_label"
             tools:text="@string/sample_category" />
+
+        <ImageButton
+            android:id="@+id/ib_category"
+            style="@style/Details_ImageButton"
+            android:onClick="showCategoryDialog"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_category"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tv_category"
+            app:srcCompat="@drawable/ic_categories" />
 
         <TextView
             android:id="@+id/tv_type_label"
@@ -73,17 +84,14 @@
             android:layout_marginEnd="16dp"
             android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="@+id/tv_date_label"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton"
+            app:layout_constraintEnd_toStartOf="@+id/ib_date"
             app:layout_constraintStart_toStartOf="@+id/tv_type"
             app:layout_constraintTop_toTopOf="@+id/tv_date_label"
             tools:text="@string/sample_date" />
 
         <ImageButton
-            android:id="@+id/imageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="48dp"
-            android:background="@color/white"
+            android:id="@+id/ib_date"
+            style="@style/Details_ImageButton"
             android:onClick="showDatePickerDialog"
             app:layout_constraintBottom_toBottomOf="@+id/et_date"
             app:layout_constraintEnd_toEndOf="parent"

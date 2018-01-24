@@ -28,7 +28,7 @@ class ExpenseDetailsActivity : AppCompatActivity() {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_expense_details)
 
-        mBinding.tvName.text = intent.getStringExtra(Constants.ExpenseProperties.Name)
+        mBinding.tvName.setText(intent.getStringExtra(Constants.ExpenseProperties.Name))
         mBinding.tvCategory.text = intent.extras.getString(Constants.ExpenseProperties.Category)
         mBinding.tvType.text = (intent.extras.getSerializable(Constants.ExpenseProperties.Type) as CategoryTypes).name
 
@@ -44,6 +44,10 @@ class ExpenseDetailsActivity : AppCompatActivity() {
         datePicker.arguments.putString(Constants.ExpenseProperties.Date, mBinding.etDate.text.toString())
 
         datePicker.show(fragmentManager, "datePicker")
+    }
+
+    fun showCategoryDialog(view: View) {
+
     }
 
     fun onExpenseSave(view: View) {
@@ -65,6 +69,7 @@ class ExpenseDetailsActivity : AppCompatActivity() {
             values.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, mBinding.etDate.text.toString())
             values.put(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT, mBinding.etAmount.text.toString())
 
+            // TODO: insert or update
             contentResolver.insert(ExpenseContract.ExpenseEntry.CONTENT_URI, values)
 
             // finish activity and return all the way back to main activity
