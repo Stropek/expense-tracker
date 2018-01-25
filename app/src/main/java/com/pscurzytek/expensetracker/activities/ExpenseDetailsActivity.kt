@@ -37,7 +37,7 @@ class ExpenseDetailsActivity : AppCompatActivity() {
         mBinding.tvCategory.text = intent.extras.getString(Constants.ExpenseProperties.Category)
         val type = intent.extras.getSerializable(Constants.ExpenseProperties.Type) as CategoryTypes
         mBinding.tvType.text = type.name
-        mBinding.etAmount.setText(intent.extras.getString(Constants.ExpenseProperties.Amount))
+        mBinding.etAmount.setText(intent.extras.getDouble(Constants.ExpenseProperties.Amount).toString())
 
         mBinding.etAmount.addTextChangedListener(DecimalTextWatcher(mBinding.etAmount))
 
@@ -82,7 +82,8 @@ class ExpenseDetailsActivity : AppCompatActivity() {
             values.put(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY, mBinding.tvCategory.text.toString())
             values.put(ExpenseContract.ExpenseEntry.COLUMN_TYPE, mBinding.tvType.text.toString())
             values.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, mBinding.etDate.text.toString())
-            values.put(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT, mBinding.etAmount.text.toString())
+            // TODO: extract this conversion to INT to some helper class
+            values.put(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT, (mBinding.etAmount.text.toString().toDouble() * 100).toInt())
 
             if (intent.extras != null && intent.extras.containsKey(Constants.ID)) {
                 val id = intent.extras.getString(Constants.ID)

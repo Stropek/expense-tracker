@@ -16,6 +16,7 @@ import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.data.ExpenseContract
+import com.pscurzytek.expensetracker.data.extensions.getIntByColumn
 import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 import com.pscurzytek.expensetracker.fragments.CategoryListFragment
 import com.pscurzytek.expensetracker.fragments.ExpenseListFragment
@@ -128,7 +129,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(Constants.ExpenseProperties.Name, details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_NAME))
         intent.putExtra(Constants.ExpenseProperties.Category, details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY))
         intent.putExtra(Constants.ExpenseProperties.Type, CategoryTypes.valueOf(details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_TYPE)))
-        intent.putExtra(Constants.ExpenseProperties.Amount, details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT))
+        intent.putExtra(Constants.ExpenseProperties.Amount, details.getIntByColumn(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT) / 100.0)
 
         details.close()
 

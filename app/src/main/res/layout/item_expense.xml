@@ -38,10 +38,23 @@
 
             <TextView
                 android:id="@+id/tv_expense_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="@dimen/list_item_text_size" />
+                style="@style/Fragment_List_Label"
+                android:layout_weight="2"
+                tools:text="@string/sample_expense" />
+
+            <TextView
+                android:id="@+id/tv_expense_category"
+                style="@style/Fragment_List_Label"
+                android:layout_weight="1"
+                android:textAllCaps="true"
+                tools:text="@string/sample_category_abbr" />
+
+            <TextView
+                android:id="@+id/tv_expense_amount"
+                style="@style/Fragment_List_Label"
+                android:layout_weight="1"
+                android:textAlignment="viewEnd"
+                tools:text="@string/sample_amount" />
 
         </LinearLayout>
 

@@ -35,6 +35,14 @@
 
     </style>
 
+    <style name="Fragment_List_Label">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/list_item_text_size</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
     <!-- Activities -->
     <style name="Activity_Layout">
         <item name="android:padding">16dp</item>

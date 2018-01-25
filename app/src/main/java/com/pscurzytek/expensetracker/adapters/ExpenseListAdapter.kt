@@ -29,9 +29,13 @@ class ExpenseListAdapter(context: Context?): RecyclerView.Adapter<ExpenseListAda
 
             val id = cursor.getIntByColumn(ExpenseContract.ExpenseEntry.ID)
             val name = cursor.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_NAME)
+            val category = cursor.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY)
+            val amount = cursor.getIntByColumn(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT)
 
             holder.itemView.tag = id
             holder.tvExpenseName.text = name
+            holder.tvCategoryName.text = category.take(1)
+            holder.tvAmount.text = (amount / 100.0).toString()
         }
     }
 
@@ -61,6 +65,9 @@ class ExpenseListAdapter(context: Context?): RecyclerView.Adapter<ExpenseListAda
 
     class ExpenseViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), ViewHolderWithForeground {
         var tvExpenseName: TextView = itemView.findViewById(R.id.tv_expense_name)
+        var tvCategoryName: TextView = itemView.findViewById(R.id.tv_expense_category)
+        var tvAmount: TextView = itemView.findViewById(R.id.tv_expense_amount)
+
         override var viewForeground = itemView.findViewById<RelativeLayout>(R.id.rl_foreground)
     }
 }

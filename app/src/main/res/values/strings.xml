@@ -22,6 +22,7 @@
 
     <!-- Sample values -->
     <string name="sample_category">general</string>
+    <string name="sample_category_abbr">R</string>
     <string name="sample_expense">general</string>
     <string name="sample_type">EXPENSE</string>
     <string name="sample_date">10 / 10 / 2010</string>
