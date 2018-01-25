@@ -2,9 +2,11 @@ package com.pscurzytek.expensetracker.fragments
 
 import android.content.Intent
 import android.database.Cursor
+import android.graphics.Color
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.support.design.widget.FloatingActionButton
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.app.LoaderManager
 import android.support.v4.content.Loader
@@ -25,7 +27,9 @@ import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.activities.CategorySelectionActivity
 import com.pscurzytek.expensetracker.adapters.ExpenseListAdapter
 import com.pscurzytek.expensetracker.data.ExpenseContract
+import com.pscurzytek.expensetracker.data.extensions.getExpense
 import com.pscurzytek.expensetracker.data.loaders.ExpenseLoader
+import com.pscurzytek.expensetracker.helpers.RecyclerItemWithBackgroundTouchHelper
 import com.pscurzytek.expensetracker.interfaces.RecyclerItemTouchHelperListener
 
 class ExpenseListFragment : Fragment(),
@@ -61,9 +65,8 @@ class ExpenseListFragment : Fragment(),
         mExpenseRecyclerView.itemAnimator = DefaultItemAnimator()
         mExpenseRecyclerView.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
-        //TODO: touch helper
-//        val touchHelper = RecyclerItemWithBackgroundTouchHelper(0, ItemTouchHelper.LEFT, this@ExpenseListFragment)
-//        ItemTouchHelper(touchHelper).attachToRecyclerView(mCategoriesRecyclerView)
+        val touchHelper = RecyclerItemWithBackgroundTouchHelper(0, ItemTouchHelper.LEFT, this)
+        ItemTouchHelper(touchHelper).attachToRecyclerView(mExpenseRecyclerView)
 
         loaderManager.initLoader(EXPENSE_LOADER_ID, null, this)
 
@@ -90,27 +93,29 @@ class ExpenseListFragment : Fragment(),
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
+        val id = viewHolder.itemView.tag.toString()
+
         when (direction) {
             ItemTouchHelper.LEFT -> {
-//                val categoryUri = ExpenseContract.ExpenseCategory.CONTENT_URI
-//                        .buildUpon().appendPath(id).build()
-//
-//                val item = context!!.contentResolver.query(categoryUri, null, null, null, null)
-//                item.moveToFirst()
-//                val deletedItem = item.getCategory()
-//
-//                context!!.contentResolver.delete(categoryUri, null, null)
-//                loaderManager.restartLoader(EXPENSE_LOADER_ID, null, this@ExpenseListFragment)
-//
-//                val snackbar = Snackbar.make(mMainLayout, deletedItem.name + " removed from cart!", Snackbar.LENGTH_LONG)
-//                snackbar.setAction("UNDO", {
-//                    context!!.contentResolver.insert(ExpenseContract.ExpenseCategory.CONTENT_URI, deletedItem.getContentValues())
-//                    loaderManager.restartLoader(EXPENSE_LOADER_ID, null, this@ExpenseListFragment)
-//                })
-//                snackbar.setActionTextColor(Color.YELLOW)
-//                snackbar.show()
-//
-//                item.close()
+                val expenseUri = ExpenseContract.ExpenseEntry.CONTENT_URI
+                        .buildUpon().appendPath(id).build()
+
+                val item = context!!.contentResolver.query(expenseUri, null, null, null, null)
+                item.moveToFirst()
+                val deletedItem = item.getExpense()
+
+                context!!.contentResolver.delete(expenseUri, null, null)
+                loaderManager.restartLoader(EXPENSE_LOADER_ID, null, this)
+
+                val snackbar = Snackbar.make(mMainLayout, deletedItem.name + " removed from cart!", Snackbar.LENGTH_LONG)
+                snackbar.setAction("UNDO", {
+                    context!!.contentResolver.insert(ExpenseContract.ExpenseEntry.CONTENT_URI, deletedItem.getContentValues())
+                    loaderManager.restartLoader(EXPENSE_LOADER_ID, null, this)
+                })
+                snackbar.setActionTextColor(Color.YELLOW)
+                snackbar.show()
+
+                item.close()
             }
         }
     }

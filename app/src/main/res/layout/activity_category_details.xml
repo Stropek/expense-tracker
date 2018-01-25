@@ -6,6 +6,7 @@
     style="@style/Activity_Layout">
 
     <!-- TODO: add color and icon selectors -->
+    <!-- TODO: add cancel & delete buttons -->
 
     <EditText
         android:id="@+id/et_category_name"

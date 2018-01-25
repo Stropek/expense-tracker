@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.pscurzytek.expensetracker.activities.ExpenseDetailsActivity">
 
+    <!-- TODO: add cancel & delete buttons -->
+
     <android.support.constraint.ConstraintLayout
         style="@style/Activity_Layout"
         android:backgroundTint="@color/transparent"

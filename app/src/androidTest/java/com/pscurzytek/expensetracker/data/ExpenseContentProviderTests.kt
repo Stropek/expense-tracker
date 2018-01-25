@@ -376,7 +376,25 @@ class ExpenseContentProviderTests {
         assertEquals(5, categories.count)
     }
     @Test fun delete_with_existing_id_removes_expense_from_the_database() {
+        // given
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseEntry.CONTENT_URI
+        val existingUri = uri.buildUpon().appendPath("2").build()
 
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        for (i in 0..5) {
+            insertExpense(contentResolver, uri, "expense $i", CategoryTypes.INCOME, "category", i * 10)
+        }
+
+        // when
+        val deleted = contentResolver.delete(existingUri, null, null)
+
+        // then
+        val expenses = contentResolver.query(uri, null, null, null, null)
+        assertEquals(1, deleted)
+        assertEquals(5, expenses.count)
     }
 
     private fun setObservedUriOnContentResolver(contentResolver: ContentResolver, uri: Uri?, contentObserver: ContentObserver) {

@@ -3,6 +3,7 @@ package com.pscurzytek.expensetracker.data.extensions
 import android.database.Cursor
 import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.data.models.Category
+import com.pscurzytek.expensetracker.data.models.Expense
 
 /**
  * Created by p.s.curzytek on 12/29/2017.
@@ -24,3 +25,12 @@ fun Cursor.getCategory(): Category {
     return Category(name, desc, type, created)
 }
 
+fun Cursor.getExpense(): Expense {
+    val name = this.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_NAME)
+    val type = this.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_TYPE)
+    val category = this.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY)
+    val amount = this.getIntByColumn(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT)
+    val created = this.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_CREATED)
+
+    return Expense(name, type, category, amount, created)
+}

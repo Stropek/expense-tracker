@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -28,18 +29,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
-            android:orientation="horizontal"
-            android:padding="@dimen/list_item_padding"
+            android:background="@android:color/darker_gray"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="onExpenseClicked">
+            android:onClick="onExpenseClicked"
+            android:orientation="horizontal"
+            android:padding="@dimen/list_item_padding">
 
             <TextView
                 android:id="@+id/tv_expense_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="@dimen/list_item_text_size"/>
+                android:textSize="@dimen/list_item_text_size" />
 
         </LinearLayout>
 
