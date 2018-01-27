@@ -33,8 +33,7 @@
             android:clickable="true"
             android:focusable="true"
             android:onClick="onExpenseClicked"
-            android:orientation="horizontal"
-            android:padding="@dimen/list_item_padding">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_expense_name"
@@ -42,29 +41,48 @@
                 android:layout_weight="1"
                 tools:text="@string/sample_expense" />
 
-            <TextView
-                android:id="@+id/tv_expense_date"
-                style="@style/Fragment_List_Label"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:singleLine="false"
-                tools:text="@string/sample_date" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_expense_dayAndMonth"
+                    style="@style/Fragment_List_Label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="0dp"
+                    android:textAlignment="center"
+                    android:textSize="22sp"
+                    tools:text="@string/sample_dateDayAndMonth" />
+
+                <TextView
+                    android:id="@+id/tv_expense_year"
+                    style="@style/Fragment_List_Label"
+                    android:layout_width="wrap_content"
+                    android:layout_marginVertical="0dp"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    tools:text="@string/sample_dateYear" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_expense_category"
                 style="@style/Fragment_List_Label"
+                android:layout_marginVertical="0dp"
                 android:layout_weight="0.5"
                 android:textAlignment="center"
                 android:textAllCaps="true"
+                android:textSize="32sp"
                 tools:text="@string/sample_category_abbr" />
 
             <TextView
                 android:id="@+id/tv_expense_amount"
                 style="@style/Fragment_List_Label"
-                android:textAlignment="viewEnd"
                 android:layout_weight="1"
-                tools:text="@string/sample_amount" />
+                tools:text="@string/sample_amountWithCurrency" />
 
         </LinearLayout>
 

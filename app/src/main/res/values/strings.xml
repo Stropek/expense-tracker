@@ -26,7 +26,10 @@
     <string name="sample_expense">general</string>
     <string name="sample_type">EXPENSE</string>
     <string name="sample_date">10 / 10 / 2010</string>
+    <string name="sample_dateDayAndMonth">10 / 10</string>
+    <string name="sample_dateYear">2010</string>
     <string name="sample_amount">100.00</string>
+    <string name="sample_amountWithCurrency">$100.00</string>
 
     <!-- Labels -->
     <string name="label_add">Add</string>
