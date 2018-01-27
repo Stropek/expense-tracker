@@ -17,20 +17,22 @@ fun Cursor.getStringByColumn(columnName: String): String {
 }
 
 fun Cursor.getCategory(): Category {
+    val id = this.getIntByColumn(ExpenseContract.ExpenseCategory.ID)
     val name = this.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_NAME)
     val desc = this.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_DESCRIPTION)
     val type = this.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_TYPE)
     val created = this.getStringByColumn(ExpenseContract.ExpenseCategory.COLUMN_CREATED)
 
-    return Category(name, desc, type, created)
+    return Category(id, name, desc, type, created)
 }
 
 fun Cursor.getExpense(): Expense {
+    val id = this.getIntByColumn(ExpenseContract.ExpenseEntry.ID)
     val name = this.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_NAME)
     val type = this.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_TYPE)
     val category = this.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY)
     val amount = this.getIntByColumn(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT)
     val created = this.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_CREATED)
 
-    return Expense(name, type, category, amount, created)
+    return Expense(id, name, type, category, amount, created)
 }
