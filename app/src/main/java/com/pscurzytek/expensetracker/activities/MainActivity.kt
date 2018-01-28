@@ -23,6 +23,10 @@ import com.pscurzytek.expensetracker.data.extensions.getIntByColumn
 import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 import com.pscurzytek.expensetracker.fragments.CategoryListFragment
 import com.pscurzytek.expensetracker.fragments.ExpenseListFragment
+import android.support.v7.view.menu.MenuBuilder
+import android.support.v7.view.menu.MenuPopupHelper
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -64,12 +68,16 @@ class MainActivity : AppCompatActivity() {
     fun onCategoryMenuClicked(view: View) {
         val popup = PopupMenu(this, view)
         popup.inflate(R.menu.actions_category)
-        popup.setOnMenuItemClickListener(object: PopupMenu.OnMenuItemClickListener {
-            override fun onMenuItemClick(item: MenuItem?): Boolean {
-                Toast.makeText(this@MainActivity, "clicked", Toast.LENGTH_LONG).show()
-                return true
-            }
-        })
+
+        val fieldMenuHelper = PopupMenu::class.java.getDeclaredField("mPopup")
+        fieldMenuHelper.isAccessible = true
+        val menuHelper = fieldMenuHelper.get(popup)
+        menuHelper.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java).invoke(menuHelper, true)
+
+        popup.setOnMenuItemClickListener {
+            Toast.makeText(this@MainActivity, "clicked", Toast.LENGTH_LONG).show()
+            true
+        }
         popup.show()
     }
 

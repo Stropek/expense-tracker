@@ -2,9 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/category_copy"
-        app:showAsAction="never"
+    <item
+        android:id="@+id/category_copy"
+        android:icon="?android:attr/actionModeCopyDrawable"
         android:orderInCategory="1"
-        android:title="@string/action_copy" />
+        android:title="@string/action_copy"
+        app:showAsAction="never" />
 
 </menu>
