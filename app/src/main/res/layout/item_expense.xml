@@ -39,12 +39,15 @@
                 android:id="@+id/tv_expense_name"
                 style="@style/Fragment_List_Label"
                 android:layout_weight="1"
-                tools:text="@string/sample_expense" />
+                android:layout_marginVertical="0dp"
+                android:textSize="18sp"
+                android:maxLines="2"
+                tools:text="@string/sample_expense_long" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.7"
                 android:orientation="vertical">
 
                 <TextView
@@ -72,16 +75,17 @@
                 android:id="@+id/tv_expense_category"
                 style="@style/Fragment_List_Label"
                 android:layout_marginVertical="0dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.4"
                 android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textSize="32sp"
+                android:textStyle="bold"
                 tools:text="@string/sample_category_abbr" />
 
             <TextView
                 android:id="@+id/tv_expense_amount"
                 style="@style/Fragment_List_Label"
-                android:layout_weight="1"
+                android:layout_weight="0.8"
                 tools:text="@string/sample_amountWithCurrency" />
 
         </LinearLayout>

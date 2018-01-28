@@ -34,7 +34,7 @@ class ExpenseListAdapter(context: Context?): RecyclerView.Adapter<ExpenseListAda
             holder.tvDayAndMonth.text = expense.created?.getDayAndMonth()
             holder.tvYear.text = expense.created?.getYear()
             holder.tvCategoryName.text = expense.category.take(1)
-            holder.tvAmount.text = (expense.amount / 100.0).toString()
+            holder.tvAmount.text = "$${(expense.amount / 100.0)}"
         }
     }
 
