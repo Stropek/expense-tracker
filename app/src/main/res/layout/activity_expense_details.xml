@@ -20,7 +20,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/tv_name"
+            android:id="@+id/et_name"
             style="@style/Details_Edit"
             android:maxLines="1"
             android:background="@null"
@@ -43,7 +43,7 @@
             style="@style/Details_Edit"
             app:layout_constraintBottom_toBottomOf="@+id/tv_category_label"
             app:layout_constraintEnd_toStartOf="@+id/ib_category"
-            app:layout_constraintStart_toStartOf="@+id/tv_name"
+            app:layout_constraintStart_toStartOf="@+id/et_name"
             app:layout_constraintTop_toTopOf="@+id/tv_category_label"
             tools:text="@string/sample_category" />
 

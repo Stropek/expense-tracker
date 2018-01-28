@@ -9,12 +9,10 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.pscurzytek.expensetracker.R
-import com.pscurzytek.expensetracker.data.ExpenseContract
+import com.pscurzytek.expensetracker.data.extensions.getDayAndMonth
 import com.pscurzytek.expensetracker.data.extensions.getExpense
-import com.pscurzytek.expensetracker.data.extensions.getIntByColumn
-import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
+import com.pscurzytek.expensetracker.data.extensions.getYear
 import com.pscurzytek.expensetracker.interfaces.ViewHolderWithForeground
-import kotlin.math.exp
 
 /**
  * Created by p.s.curzytek on 1/15/2018.
@@ -33,7 +31,8 @@ class ExpenseListAdapter(context: Context?): RecyclerView.Adapter<ExpenseListAda
 
             holder.itemView.tag = expense.id
             holder.tvExpenseName.text = expense.name
-            holder.tvDate.text = expense.created
+            holder.tvDayAndMonth.text = expense.created?.getDayAndMonth()
+            holder.tvYear.text = expense.created?.getYear()
             holder.tvCategoryName.text = expense.category.take(1)
             holder.tvAmount.text = (expense.amount / 100.0).toString()
         }
@@ -65,7 +64,8 @@ class ExpenseListAdapter(context: Context?): RecyclerView.Adapter<ExpenseListAda
 
     class ExpenseViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), ViewHolderWithForeground {
         var tvExpenseName: TextView = itemView.findViewById(R.id.tv_expense_name)
-        var tvDate: TextView = itemView.findViewById(R.id.tv_expense_date)
+        var tvDayAndMonth: TextView = itemView.findViewById(R.id.tv_expense_dayAndMonth)
+        var tvYear: TextView = itemView.findViewById(R.id.tv_expense_year)
         var tvCategoryName: TextView = itemView.findViewById(R.id.tv_expense_category)
         var tvAmount: TextView = itemView.findViewById(R.id.tv_expense_amount)
 

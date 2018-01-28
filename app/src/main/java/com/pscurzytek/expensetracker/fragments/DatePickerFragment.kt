@@ -8,7 +8,9 @@ import android.widget.DatePicker
 import android.widget.EditText
 import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.R
-import java.text.SimpleDateFormat
+import com.pscurzytek.expensetracker.data.extensions.getDate
+import com.pscurzytek.expensetracker.data.extensions.getString
+import java.time.LocalDate
 import java.util.*
 
 /**
@@ -20,7 +22,8 @@ class DatePickerFragment: DialogFragment(), DatePickerDialog.OnDateSetListener {
         val calendar = GregorianCalendar.getInstance()
 
         if (arguments?.containsKey(Constants.ExpenseProperties.Date) == true) {
-            calendar.time = SimpleDateFormat("dd / MM / yyyy").parse(arguments.getString(Constants.ExpenseProperties.Date))
+            val dateString = arguments.getString(Constants.ExpenseProperties.Date)
+            calendar.time = dateString.getDate()
         }
 
         val year = calendar.get(Calendar.YEAR)
@@ -32,6 +35,7 @@ class DatePickerFragment: DialogFragment(), DatePickerDialog.OnDateSetListener {
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
         val dateEditText = activity.findViewById<EditText>(R.id.et_date)
-        dateEditText.setText("$dayOfMonth / ${month + 1} / $year")
+        val date = LocalDate.of(year, month + 1, dayOfMonth)
+        dateEditText.setText(date.getString())
     }
 }
