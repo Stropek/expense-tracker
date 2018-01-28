@@ -46,9 +46,12 @@
     <string name="label_type_income">Income</string>
 
     <!-- Actions -->
+    <string name="action_copy">copy</string>
     <string name="action_filter">filter</string>
     <string name="action_sort">sort</string>
     <string name="action_sort_alphabetically">A-Z</string>
     <string name="action_sort_alphabetically_desc">Z-A</string>
+
+    <string name="menu_icon">&#8942;</string>
 
 </resources>

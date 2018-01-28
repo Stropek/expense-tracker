@@ -13,6 +13,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.PopupMenu
 import android.widget.Toast
 import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
@@ -58,6 +59,18 @@ class MainActivity : AppCompatActivity() {
     fun onCategoryClicked(view: View) {
         val id = (view.parent.parent as FrameLayout).tag.toString()
         openCategoryDetails(id)
+    }
+
+    fun onCategoryMenuClicked(view: View) {
+        val popup = PopupMenu(this, view)
+        popup.inflate(R.menu.actions_category)
+        popup.setOnMenuItemClickListener(object: PopupMenu.OnMenuItemClickListener {
+            override fun onMenuItemClick(item: MenuItem?): Boolean {
+                Toast.makeText(this@MainActivity, "clicked", Toast.LENGTH_LONG).show()
+                return true
+            }
+        })
+        popup.show()
     }
 
     fun onExpenseClicked(view: View) {

@@ -2,6 +2,7 @@ package com.pscurzytek.expensetracker.adapters
 
 import android.content.Context
 import android.database.Cursor
+import android.support.constraint.ConstraintLayout
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -47,7 +48,7 @@ class CategoryListAdapter(context: Context?): RecyclerView.Adapter<CategoryListA
             val expenseColor = ResourcesCompat.getColor(mContext!!.resources, R.color.materialRed, null)
             val incomeColor = ResourcesCompat.getColor(mContext!!.resources, R.color.materialGreen, null)
             val bckgColor = if (category.type.toLowerCase() == "income") incomeColor else expenseColor
-            (holder.tvCategoryName.parent as LinearLayout).setBackgroundColor(bckgColor)
+            (holder.tvCategoryName.parent as ConstraintLayout).setBackgroundColor(bckgColor)
         }
     }
 
