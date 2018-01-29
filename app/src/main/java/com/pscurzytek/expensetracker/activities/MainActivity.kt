@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
+import android.support.v4.app.LoaderManager
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -19,11 +21,11 @@ import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.data.ExpenseContract
+import com.pscurzytek.expensetracker.data.extensions.getExpense
 import com.pscurzytek.expensetracker.data.extensions.getIntByColumn
 import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 import com.pscurzytek.expensetracker.fragments.CategoryListFragment
 import com.pscurzytek.expensetracker.fragments.ExpenseListFragment
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -72,7 +74,16 @@ class MainActivity : AppCompatActivity() {
         menuHelper.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java).invoke(menuHelper, true)
 
         popup.setOnMenuItemClickListener {
-            Toast.makeText(this@MainActivity, "clicked", Toast.LENGTH_LONG).show()
+            val id = (view.parent.parent.parent as FrameLayout).tag.toString()
+
+            when(it.itemId) {
+                R.id.action_quick_copy -> {
+                    quickCopyExpense(id)
+                }
+                R.id.action_copy-> {
+                    copyExpense()
+                }
+            }
             true
         }
         popup.show()
@@ -100,8 +111,8 @@ class MainActivity : AppCompatActivity() {
         actionBarDrawerToggle.syncState()
     }
 
-    private fun loadHomeFragment() {
-        if (supportFragmentManager.findFragmentByTag(CURRENT_TAG) == null) {
+    private fun loadHomeFragment(force: Boolean = false) {
+        if (supportFragmentManager.findFragmentByTag(CURRENT_TAG) == null || force) {
             val mPendingRunnable = Runnable {
                 // update the main content by replacing fragments
                 val fragment = getHomeFragment()
@@ -165,10 +176,39 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun copyExpense() {
+        Toast.makeText(this@MainActivity, "Copy...", Toast.LENGTH_LONG).show()
+    }
+
+    private fun quickCopyExpense(id: String) {
+        // TODO: consider using DI and putting all contentResolver interactions in a repo or service
+        try {
+            val expenseUri = ExpenseContract.ExpenseEntry.CONTENT_URI
+                    .buildUpon().appendPath(id).build()
+
+            val item = contentResolver.query(expenseUri, null, null, null, null)
+            item.moveToFirst()
+            val toCopy = item.getExpense()
+            val values = toCopy.getContentValues()
+
+            values.remove(ExpenseContract.ExpenseEntry.ID)
+            contentResolver.insert(ExpenseContract.ExpenseEntry.CONTENT_URI, values)
+
+            item.close()
+            loadHomeFragment(true)
+        }
+        catch (ex: Exception) {
+            Log.e(TAG, "Failed to quick-copy expenses")
+            ex.printStackTrace()
+        }
+    }
+
     companion object {
         private val TAG_EXPENSES = "expenses"
         private val TAG_CATEGORIES = "categories"
 
         var CURRENT_TAG = TAG_EXPENSES
+
+        val TAG = MainActivity::class.java.name
     }
 }
