@@ -23,9 +23,6 @@ import com.pscurzytek.expensetracker.data.extensions.getIntByColumn
 import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 import com.pscurzytek.expensetracker.fragments.CategoryListFragment
 import com.pscurzytek.expensetracker.fragments.ExpenseListFragment
-import android.support.v7.view.menu.MenuBuilder
-import android.support.v7.view.menu.MenuPopupHelper
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -65,9 +62,9 @@ class MainActivity : AppCompatActivity() {
         openCategoryDetails(id)
     }
 
-    fun onCategoryMenuClicked(view: View) {
+    fun onExpenseMenuClicked(view: View) {
         val popup = PopupMenu(this, view)
-        popup.inflate(R.menu.actions_category)
+        popup.inflate(R.menu.actions_expense)
 
         val fieldMenuHelper = PopupMenu::class.java.getDeclaredField("mPopup")
         fieldMenuHelper.isAccessible = true
