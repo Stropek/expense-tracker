@@ -5,24 +5,25 @@ package com.pscurzytek.expensetracker
  */
 class Constants {
     companion object {
-        val ID = "id"
+        const val ID = "id"
+        const val SortOrder = "sortOrder"
     }
 
     class CategoryProperties {
         companion object {
-            val Name = "category_name"
-            val Description = "category_desc"
-            val Type = "category_type"
+            const val Name = "category_name"
+            const val Description = "category_desc"
+            const val Type = "category_type"
         }
     }
 
     class ExpenseProperties {
         companion object {
-            val Name = "expense_name"
-            val Date = "expense_date"
-            val Category = "expense_category"
-            val Type = "expense_type"
-            val Amount = "expense_amount"
+            const val Name = "expense_name"
+            const val Date = "expense_date"
+            const val Category = "expense_category"
+            const val Type = "expense_type"
+            const val Amount = "expense_amount"
         }
     }
 }

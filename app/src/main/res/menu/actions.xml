@@ -17,7 +17,7 @@
 
     <item android:id="@+id/action_filter"
         android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="never"
+        app:showAsAction="ifRoom"
         android:orderInCategory="2"
         android:title="@string/action_filter"/>
 

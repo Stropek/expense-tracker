@@ -79,7 +79,8 @@ class ExpenseListFragment : Fragment(),
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
-        return ExpenseLoader(context!!)
+        val sortOrder = arguments?.getString(Constants.SortOrder)
+        return ExpenseLoader(context!!, sortOrder = sortOrder)
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {

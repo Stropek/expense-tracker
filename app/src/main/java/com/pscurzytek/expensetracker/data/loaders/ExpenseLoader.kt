@@ -10,10 +10,11 @@ import com.pscurzytek.expensetracker.data.ExpenseContract
  * Created by p.s.curzytek on 1/15/2018.
  */
 class ExpenseLoader(context: Context, private var selection: String? = null, private var selectionArgs: Array<String>? = null,
-                    private val limit: Int = 10):
+                    private val limit: Int = 100, private var sortOrder: String? = null):
         AsyncTaskLoader<Cursor>(context) {
 
     private var mExpenses: Cursor? = null
+    private val mDefaultSortOrder = ExpenseContract.ExpenseEntry.COLUMN_DATE
 
     override fun onStartLoading() {
         if (mExpenses!= null)
@@ -24,12 +25,11 @@ class ExpenseLoader(context: Context, private var selection: String? = null, pri
 
     override fun loadInBackground(): Cursor? {
         return try {
-            val sortOrder = "${ExpenseContract.ExpenseEntry.COLUMN_DATE} LIMIT $limit"
             context.contentResolver.query(ExpenseContract.ExpenseEntry.CONTENT_URI,
                     null,
                     selection,
                     selectionArgs,
-                    sortOrder)
+                    (sortOrder ?: mDefaultSortOrder) + " LIMIT $limit")
         }
         catch (ex: Exception) {
             Log.e(TAG, "Failed to load expenses")

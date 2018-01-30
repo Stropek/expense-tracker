@@ -15,7 +15,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.PopupMenu
-import android.widget.Toast
 import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.R
@@ -35,6 +34,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mDrawer: DrawerLayout
     private lateinit var mNavigation: NavigationView
 
+    private var mSortOrder: String = ExpenseContract.ExpenseEntry.COLUMN_DATE
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -52,12 +53,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.actions, menu)
+        when(CURRENT_TAG) {
+            TAG_EXPENSES -> {
+                menuInflater.inflate(R.menu.actions, menu)
+            }
+        }
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return super.onOptionsItemSelected(item)
+        var force = true
+        when(item.itemId) {
+            R.id.action_sort_alphabetically -> mSortOrder = ExpenseContract.ExpenseEntry.COLUMN_DATE
+            R.id.action_sort_alphabetically_desc -> mSortOrder = ExpenseContract.ExpenseEntry.COLUMN_DATE + " DESC"
+            else -> force = false
+        }
+
+        loadHomeFragment(force)
+        return true
     }
 
     fun onCategoryClicked(view: View) {
@@ -131,11 +144,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getHomeFragment(): Fragment {
-        return when(CURRENT_TAG) {
+        val fragment: Fragment = when(CURRENT_TAG) {
             TAG_EXPENSES -> ExpenseListFragment()
             TAG_CATEGORIES -> CategoryListFragment()
             else -> throw UnsupportedOperationException("Unsupported fragment: $CURRENT_TAG")
         }
+
+        val bundle = Bundle()
+        bundle.putString(Constants.SortOrder, mSortOrder)
+        fragment.arguments = bundle
+
+        return fragment
     }
 
     private fun openCategoryDetails(id: String) {
