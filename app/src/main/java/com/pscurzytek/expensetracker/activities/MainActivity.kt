@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
-import android.support.v4.app.LoaderManager
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -23,9 +22,11 @@ import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.data.extensions.getExpense
 import com.pscurzytek.expensetracker.data.extensions.getIntByColumn
+import com.pscurzytek.expensetracker.data.extensions.getString
 import com.pscurzytek.expensetracker.data.extensions.getStringByColumn
 import com.pscurzytek.expensetracker.fragments.CategoryListFragment
 import com.pscurzytek.expensetracker.fragments.ExpenseListFragment
+import java.time.LocalDate
 
 class MainActivity : AppCompatActivity() {
 
@@ -81,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                     quickCopyExpense(id)
                 }
                 R.id.action_copy-> {
-                    copyExpense()
+                    copyExpense(id)
                 }
             }
             true
@@ -157,6 +158,42 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openExpenseDetails(id: String) {
+        val intent = getExpenseDetailsIntent(id)
+        startActivity(intent)
+    }
+
+    private fun copyExpense(id: String) {
+        val intent = getExpenseDetailsIntent(id)
+        intent.removeExtra(Constants.ID)
+        startActivity(intent)
+    }
+
+    private fun quickCopyExpense(id: String) {
+        // TODO: consider using DI and putting all contentResolver interactions in a repo or service
+        try {
+            val expenseUri = ExpenseContract.ExpenseEntry.CONTENT_URI
+                    .buildUpon().appendPath(id).build()
+
+            val item = contentResolver.query(expenseUri, null, null, null, null)
+            item.moveToFirst()
+            val toCopy = item.getExpense()
+            val values = toCopy.getContentValues()
+
+            values.remove(ExpenseContract.ExpenseEntry.ID)
+            values.put(ExpenseContract.ExpenseEntry.COLUMN_DATE, LocalDate.now().getString())
+
+            contentResolver.insert(ExpenseContract.ExpenseEntry.CONTENT_URI, values)
+
+            item.close()
+            loadHomeFragment(true)
+        }
+        catch (ex: Exception) {
+            Log.e(TAG, "Failed to quick-copy expenses")
+            ex.printStackTrace()
+        }
+    }
+
+    private fun getExpenseDetailsIntent(id: String): Intent {
         val details = contentResolver.query(ExpenseContract.ExpenseEntry.CONTENT_URI.buildUpon().appendPath(id).build(),
                 null,
                 null,
@@ -174,35 +211,7 @@ class MainActivity : AppCompatActivity() {
 
         details.close()
 
-        startActivity(intent)
-    }
-
-    private fun copyExpense() {
-        Toast.makeText(this@MainActivity, "Copy...", Toast.LENGTH_LONG).show()
-    }
-
-    private fun quickCopyExpense(id: String) {
-        // TODO: consider using DI and putting all contentResolver interactions in a repo or service
-        try {
-            val expenseUri = ExpenseContract.ExpenseEntry.CONTENT_URI
-                    .buildUpon().appendPath(id).build()
-
-            val item = contentResolver.query(expenseUri, null, null, null, null)
-            item.moveToFirst()
-            val toCopy = item.getExpense()
-            val values = toCopy.getContentValues()
-
-            values.remove(ExpenseContract.ExpenseEntry.ID)
-
-            contentResolver.insert(ExpenseContract.ExpenseEntry.CONTENT_URI, values)
-
-            item.close()
-            loadHomeFragment(true)
-        }
-        catch (ex: Exception) {
-            Log.e(TAG, "Failed to quick-copy expenses")
-            ex.printStackTrace()
-        }
+        return intent
     }
 
     companion object {
