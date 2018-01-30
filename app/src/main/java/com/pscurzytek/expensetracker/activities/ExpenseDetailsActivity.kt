@@ -33,13 +33,18 @@ class ExpenseDetailsActivity : AppCompatActivity() {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_expense_details)
 
         mBinding.etName.setText(intent.getStringExtra(Constants.ExpenseProperties.Name))
-        mBinding.etDate.setText(LocalDate.now().getString())
         mBinding.tvCategory.text = intent.extras.getString(Constants.ExpenseProperties.Category)
         val type = intent.extras.getSerializable(Constants.ExpenseProperties.Type) as CategoryTypes
         mBinding.tvType.text = type.name
         val amount = intent.extras.getDouble(Constants.ExpenseProperties.Amount)
         if (amount > 0.0) {
             mBinding.etAmount.setText(amount.toString())
+        }
+        if (intent.extras.containsKey(Constants.ExpenseProperties.Date)) {
+            mBinding.etDate.setText(intent.extras.getString(Constants.ExpenseProperties.Date))
+        }
+        else {
+            mBinding.etDate.setText(LocalDate.now().getString())
         }
 
         mBinding.etAmount.addTextChangedListener(DecimalTextWatcher(mBinding.etAmount))
@@ -82,7 +87,7 @@ class ExpenseDetailsActivity : AppCompatActivity() {
             values.put(ExpenseContract.ExpenseEntry.COLUMN_NAME, mBinding.etName.text.toString())
             values.put(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY, mBinding.tvCategory.text.toString())
             values.put(ExpenseContract.ExpenseEntry.COLUMN_TYPE, mBinding.tvType.text.toString())
-            values.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, mBinding.etDate.text.toString())
+            values.put(ExpenseContract.ExpenseEntry.COLUMN_DATE, mBinding.etDate.text.toString())
             // TODO: extract this conversion to INT to some helper class
             values.put(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT, (mBinding.etAmount.text.toString().toDouble() * 100).toInt())
 
@@ -92,6 +97,7 @@ class ExpenseDetailsActivity : AppCompatActivity() {
                         .buildUpon().appendPath(id).build()
                 contentResolver.update(updateUri, values, null, null)
             } else {
+                values.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, LocalDate.now().getString())
                 contentResolver.insert(ExpenseContract.ExpenseEntry.CONTENT_URI, values)
             }
 

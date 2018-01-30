@@ -170,6 +170,7 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(Constants.ExpenseProperties.Category, details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY))
         intent.putExtra(Constants.ExpenseProperties.Type, CategoryTypes.valueOf(details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_TYPE)))
         intent.putExtra(Constants.ExpenseProperties.Amount, details.getIntByColumn(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT) / 100.0)
+        intent.putExtra(Constants.ExpenseProperties.Date, details.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_DATE))
 
         details.close()
 
@@ -192,6 +193,7 @@ class MainActivity : AppCompatActivity() {
             val values = toCopy.getContentValues()
 
             values.remove(ExpenseContract.ExpenseEntry.ID)
+
             contentResolver.insert(ExpenseContract.ExpenseEntry.CONTENT_URI, values)
 
             item.close()

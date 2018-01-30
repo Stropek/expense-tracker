@@ -416,13 +416,14 @@ class ExpenseContentProviderTests {
 
         return contentResolver.insert(uri, contentValues)
     }
-    private fun insertExpense(contentResolver: ContentResolver, uri: Uri, name: String, type: CategoryTypes, category: String, amount: Int, date: String = ""): Uri {
+    private fun insertExpense(contentResolver: ContentResolver, uri: Uri, name: String, type: CategoryTypes, category: String, amount: Int, date: String = "", created: String = ""): Uri {
         val contentValues = ContentValues()
         contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_NAME, name)
         contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_TYPE, type.name)
         contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY, category)
         contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT, amount)
-        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, date)
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_DATE, date)
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, created)
 
         return contentResolver.insert(uri, contentValues)
     }
@@ -436,13 +437,14 @@ class ExpenseContentProviderTests {
 
         return contentResolver.update(uri, contentValues, null, null)
     }
-    private fun updateExpense(contentResolver: ContentResolver, uri: Uri, name: String, type: CategoryTypes, category: String, amount: Int, date: String = ""): Int {
+    private fun updateExpense(contentResolver: ContentResolver, uri: Uri, name: String, type: CategoryTypes, category: String, amount: Int, date: String = "", created: String = ""): Int {
         val contentValues = ContentValues()
         contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_NAME, name)
         contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_TYPE, type.name)
         contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY, category)
         contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT, amount)
-        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, date)
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_DATE, date)
+        contentValues.put(ExpenseContract.ExpenseEntry.COLUMN_CREATED, created)
 
         return contentResolver.update(uri, contentValues, null, null)
     }

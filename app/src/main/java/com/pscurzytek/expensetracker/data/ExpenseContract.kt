@@ -28,6 +28,7 @@ class ExpenseContract {
             val COLUMN_TYPE = "type"
             val COLUMN_CATEGORY = "category"
             val COLUMN_AMOUNT = "amount"
+            val COLUMN_DATE = "date"
             val COLUMN_CREATED = "created"
         }
     }

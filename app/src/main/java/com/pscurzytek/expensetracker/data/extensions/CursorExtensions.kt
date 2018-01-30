@@ -32,7 +32,8 @@ fun Cursor.getExpense(): Expense {
     val type = this.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_TYPE)
     val category = this.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_CATEGORY)
     val amount = this.getIntByColumn(ExpenseContract.ExpenseEntry.COLUMN_AMOUNT)
+    val date = this.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_DATE)
     val created = this.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_CREATED)
 
-    return Expense(id, name, type, category, amount, created)
+    return Expense(id, name, type, category, amount, date, created)
 }

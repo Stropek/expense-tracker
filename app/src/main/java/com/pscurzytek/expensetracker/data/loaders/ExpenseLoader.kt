@@ -24,7 +24,7 @@ class ExpenseLoader(context: Context, private var selection: String? = null, pri
 
     override fun loadInBackground(): Cursor? {
         return try {
-            val sortOrder = "${ExpenseContract.ExpenseEntry.COLUMN_CREATED} LIMIT $limit"
+            val sortOrder = "${ExpenseContract.ExpenseEntry.COLUMN_DATE} LIMIT $limit"
             context.contentResolver.query(ExpenseContract.ExpenseEntry.CONTENT_URI,
                     null,
                     selection,
