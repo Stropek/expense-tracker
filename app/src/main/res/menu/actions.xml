@@ -9,9 +9,17 @@
         android:title="@string/action_sort">
         <menu>
             <item android:id="@+id/action_sort_alphabetically"
-                android:title="@string/action_sort_alphabetically"/>
+                android:title="@string/action_sort_alphabetically" />
             <item android:id="@+id/action_sort_alphabetically_desc"
-                android:title="@string/action_sort_alphabetically_desc"/>
+                android:title="@string/action_sort_alphabetically_desc" />
+            <item android:id="@+id/action_sort_date"
+                android:title="@string/action_sort_date" />
+            <item android:id="@+id/action_sort_date_desc"
+                android:title="@string/action_sort_date_desc" />
+            <item android:id="@+id/action_sort_category"
+                android:title="@string/action_sort_category" />
+            <item android:id="@+id/action_sort_category_desc"
+                android:title="@string/action_sort_category_desc" />
         </menu>
     </item>
 

@@ -64,8 +64,12 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         var force = true
         when(item.itemId) {
-            R.id.action_sort_alphabetically -> mSortOrder = ExpenseContract.ExpenseEntry.COLUMN_DATE
-            R.id.action_sort_alphabetically_desc -> mSortOrder = ExpenseContract.ExpenseEntry.COLUMN_DATE + " DESC"
+            R.id.action_sort_alphabetically -> mSortOrder = ExpenseContract.ExpenseEntry.COLUMN_NAME + " COLLATE NOCASE"
+            R.id.action_sort_alphabetically_desc -> mSortOrder = ExpenseContract.ExpenseEntry.COLUMN_NAME + " COLLATE NOCASE DESC"
+            R.id.action_sort_date -> mSortOrder = ExpenseContract.ExpenseEntry.COLUMN_DATE
+            R.id.action_sort_date_desc -> mSortOrder = ExpenseContract.ExpenseEntry.COLUMN_DATE
+            R.id.action_sort_category -> mSortOrder = ExpenseContract.ExpenseEntry.COLUMN_CATEGORY + " COLLATE NOCASE"
+            R.id.action_sort_category_desc -> mSortOrder = ExpenseContract.ExpenseEntry.COLUMN_CATEGORY + " COLLATE NOCASE DESC"
             else -> force = false
         }
 

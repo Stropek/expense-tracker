@@ -52,6 +52,10 @@
     <string name="action_sort">sort</string>
     <string name="action_sort_alphabetically">A-Z</string>
     <string name="action_sort_alphabetically_desc">Z-A</string>
+    <string name="action_sort_date">Date</string>
+    <string name="action_sort_date_desc">Date descending</string>
+    <string name="action_sort_category">Category</string>
+    <string name="action_sort_category_desc">Category descending</string>
 
     <string name="menu_icon">&#8942;</string>
 
