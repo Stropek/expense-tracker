@@ -32,11 +32,11 @@ class ExpenseSelectionAdapter(context: Context): RecyclerView.Adapter<ExpenseSel
         if (cursor != null) {
             cursor.moveToPosition(position)
 
-            val id = cursor.getIntByColumn(ExpenseContract.ExpenseEntry.ID)
+//            val id = cursor.getIntByColumn(ExpenseContract.ExpenseEntry.ID)
             val name = cursor.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_NAME)
 //            val type = cursor.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_TYPE)
 //
-            holder.itemView.tag = id
+//            holder.itemView.tag = id
             holder.tvExpenseName.text = name
 //
 //            val expenseColor = ResourcesCompat.getColor(mContext!!.resources, R.color.materialRed, null)

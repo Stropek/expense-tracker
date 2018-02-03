@@ -18,6 +18,7 @@ import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.adapters.ExpenseSelectionAdapter
 import com.pscurzytek.expensetracker.data.ExpenseContract
 import com.pscurzytek.expensetracker.data.loaders.ExpenseLoader
+import com.pscurzytek.expensetracker.data.loaders.ExpenseSelectionLoader
 import com.pscurzytek.expensetracker.utils.LayoutUtils
 
 class ExpenseSelectionActivity : AppCompatActivity(),
@@ -53,11 +54,7 @@ class ExpenseSelectionActivity : AppCompatActivity(),
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
-        val selection = "${ExpenseContract.ExpenseEntry.COLUMN_CATEGORY}=?"
-        val selectionArgs = arrayOf(mCategory)
-        val limit = 6
-
-        return ExpenseLoader(this, selection, selectionArgs, limit)
+        return ExpenseSelectionLoader(this, mCategory)
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>?, data: Cursor?) {

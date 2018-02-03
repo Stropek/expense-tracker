@@ -68,6 +68,10 @@ class ExpenseContentProviderTests {
         assertEquals("ERROR: The expense entry URI with ID was matched incorrectly",
                 ExpenseContentProvider.EXPENSE_ENTRY_WITH_ID,
                 uriMatcher.match(ExpenseContract.ExpenseEntry.CONTENT_URI.buildUpon().appendPath("1").build()))
+
+        assertEquals("ERROR: The expense entries names URI was matched incorrectly",
+                ExpenseContentProvider.EXPENSE_ENTRIES_NAMES_IN_CATEGORY,
+                uriMatcher.match(ExpenseContract.ExpenseEntry.CONTENT_URI.buildUpon().appendPath("names").appendPath("cat").build()))
     }
     @Test fun uri_matcher_categories_uris_are_configured_correctly() {
         val uriMatcher = ExpenseContentProvider.buildUriMatcher()
@@ -291,6 +295,32 @@ class ExpenseContentProviderTests {
         expense.moveToFirst()
         assertEquals(1, expense.count)
         assertEquals(3, expense.getInt(expense.getColumnIndex(ExpenseContract.ExpenseEntry.ID)))
+    }
+    @Test fun query_with_expense_content_names_in_category_uri_returns_unique_expense_names() {
+        // given
+        val contentResolver = mContext.contentResolver
+        val contentObserver = TestUtilities.testContentObserver
+        val uri = ExpenseContract.ExpenseEntry.CONTENT_URI
+        val namesUri = uri.buildUpon().appendPath("names").appendPath("general").build()
+
+        setObservedUriOnContentResolver(contentResolver, uri, contentObserver)
+
+        for (i in 0..9) {
+            insertExpense(contentResolver, uri, "expense_${i%2}", CategoryTypes.EXPENSE, "general", i * 100)
+        }
+        for (i in 0..9) {
+            insertExpense(contentResolver, uri, "expense_other_${i%2}", CategoryTypes.EXPENSE, "other", i * 100)
+        }
+
+        // when
+        val expense = contentResolver.query(namesUri, null, null, null, null)
+
+        // then
+        assertEquals(2, expense.count)
+        expense.moveToFirst()
+        assertEquals("expense_0", expense.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_NAME))
+        expense.moveToNext()
+        assertEquals("expense_1", expense.getStringByColumn(ExpenseContract.ExpenseEntry.COLUMN_NAME))
     }
 
     @Test fun update_with_uknown_uri_should_throw_unsupported_operation_exception() {

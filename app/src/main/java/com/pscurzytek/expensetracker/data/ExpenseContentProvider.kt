@@ -16,6 +16,7 @@ class ExpenseContentProvider: ContentProvider() {
     companion object {
         val EXPENSE_ENTRIES = 100
         val EXPENSE_ENTRY_WITH_ID = 101
+        val EXPENSE_ENTRIES_NAMES_IN_CATEGORY = 102
 
         val EXPENSE_CATEGORIES = 200
         val EXPENSE_CATEGORY_WITH_ID = 201
@@ -27,6 +28,7 @@ class ExpenseContentProvider: ContentProvider() {
 
             uriMatcher.addURI(ExpenseContract.AUTHORITY, ExpenseContract.PATH_EXPENSE_ENTRIES, EXPENSE_ENTRIES)
             uriMatcher.addURI(ExpenseContract.AUTHORITY, "${ExpenseContract.PATH_EXPENSE_ENTRIES}/#", EXPENSE_ENTRY_WITH_ID)
+            uriMatcher.addURI(ExpenseContract.AUTHORITY, "${ExpenseContract.PATH_EXPENSE_ENTRIES}/names/*", EXPENSE_ENTRIES_NAMES_IN_CATEGORY)
 
             uriMatcher.addURI(ExpenseContract.AUTHORITY, ExpenseContract.PATH_EXPENSE_CATEGORIES, EXPENSE_CATEGORIES)
             uriMatcher.addURI(ExpenseContract.AUTHORITY, "${ExpenseContract.PATH_EXPENSE_CATEGORIES}/#", EXPENSE_CATEGORY_WITH_ID)
@@ -114,6 +116,17 @@ class ExpenseContentProvider: ContentProvider() {
                         null,
                         null)
                 cursor?.moveToFirst()
+            }
+            EXPENSE_ENTRIES_NAMES_IN_CATEGORY -> {
+                val category = uri.lastPathSegment
+
+                cursor = db.query(ExpenseContract.ExpenseEntry.TABLE_NAME,
+                        arrayOf("MAX(${ExpenseContract.ExpenseEntry.COLUMN_DATE})", ExpenseContract.ExpenseEntry.COLUMN_NAME),
+                        "${ExpenseContract.ExpenseEntry.COLUMN_CATEGORY}=?",
+                        arrayOf(category),
+                        ExpenseContract.ExpenseEntry.COLUMN_NAME,
+                        null,
+                        "MAX(${ExpenseContract.ExpenseEntry.COLUMN_DATE}) DESC")
             }
             else -> throw UnsupportedOperationException("Unknown operation URI: $uri")
         }
