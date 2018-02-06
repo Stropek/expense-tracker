@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mDrawer: DrawerLayout
     private lateinit var mNavigation: NavigationView
 
-    private var mSortOrder: String = ExpenseContract.ExpenseEntry.COLUMN_DATE
+    private var mSortOrder: String = ExpenseContract.ExpenseEntry.COLUMN_DATE + " DESC"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
