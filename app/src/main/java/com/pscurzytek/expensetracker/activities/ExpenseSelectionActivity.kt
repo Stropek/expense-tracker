@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.Constants
 import com.pscurzytek.expensetracker.R
@@ -78,10 +79,12 @@ class ExpenseSelectionActivity : AppCompatActivity(),
     }
 
     fun onNextClicked(view: View) {
-        // TODO: if text is empty - toast message and do nothing
         val name = findViewById<EditText>(R.id.et_expense_name).text.toString()
 
-        openExpenseDetails(name)
+        if (name.isBlank())
+            Toast.makeText(this, "Expense name is required!", Toast.LENGTH_LONG).show()
+        else
+            openExpenseDetails(name)
     }
 
     private fun openExpenseDetails(name: String) {
