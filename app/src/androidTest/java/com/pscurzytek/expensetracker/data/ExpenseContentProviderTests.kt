@@ -346,7 +346,7 @@ class ExpenseContentProviderTests {
         val updated = updateCategory(contentResolver, existingUri, "category after", CategoryTypes.EXPENSE, description = "desc after")
 
         // then
-        val updatedCategory = contentResolver.query(existingUri, null, null, null)
+        val updatedCategory = contentResolver.query(existingUri, null, null, null, null)
         updatedCategory.moveToFirst()
         assertEquals(1, updated)
         assertEquals(1, updatedCategory.count)
@@ -368,7 +368,7 @@ class ExpenseContentProviderTests {
                 "category after", 100, "date after")
 
         // then
-        val updatedExpense = contentResolver.query(existingUri, null, null, null)
+        val updatedExpense = contentResolver.query(existingUri, null,null, null, null)
         updatedExpense.moveToFirst()
         assertEquals(1, updated)
         assertEquals(1, updatedExpense.count)
