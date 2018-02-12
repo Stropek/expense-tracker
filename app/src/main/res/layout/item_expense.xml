@@ -87,6 +87,7 @@
                 android:id="@+id/tv_expense_amount"
                 style="@style/Fragment_List_Label"
                 android:layout_weight="0.8"
+                android:alpha="0.6"
                 tools:text="@string/sample_amountWithCurrency" />
 
             <TextView

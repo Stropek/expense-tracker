@@ -45,6 +45,7 @@ class CategoryListAdapter(context: Context?): RecyclerView.Adapter<CategoryListA
             holder.itemView.tag = category.id
             holder.tvCategoryName.text = category.name
 
+            // TODO: move this and similar method from ExpenseListAdapter to an extension method
             val expenseColor = ResourcesCompat.getColor(mContext!!.resources, R.color.materialRed, null)
             val incomeColor = ResourcesCompat.getColor(mContext!!.resources, R.color.materialGreen, null)
             val bckgColor = if (category.type.toLowerCase() == "income") incomeColor else expenseColor

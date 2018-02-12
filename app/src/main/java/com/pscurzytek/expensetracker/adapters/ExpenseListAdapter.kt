@@ -2,12 +2,15 @@ package com.pscurzytek.expensetracker.adapters
 
 import android.content.Context
 import android.database.Cursor
+import android.graphics.Color
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.pscurzytek.expensetracker.CategoryTypes
 import com.pscurzytek.expensetracker.R
 import com.pscurzytek.expensetracker.data.extensions.getDayAndMonth
 import com.pscurzytek.expensetracker.data.extensions.getExpense
@@ -35,6 +38,12 @@ class ExpenseListAdapter(context: Context?): RecyclerView.Adapter<ExpenseListAda
             holder.tvYear.text = expense.date?.getYear()
             holder.tvCategoryName.text = expense.category.take(1)
             holder.tvAmount.text = "$${(expense.amount / 100.0)}"
+
+            val expenseColor = ResourcesCompat.getColor(mContext!!.resources, R.color.materialRed, null)
+            val incomeColor = ResourcesCompat.getColor(mContext!!.resources, R.color.materialGreen, null)
+            val textColor = if (expense.type == CategoryTypes.EXPENSE.toString()) expenseColor else incomeColor
+
+            holder.tvAmount.setTextColor(textColor)
         }
     }
 
